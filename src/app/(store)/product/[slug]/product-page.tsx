@@ -334,9 +334,9 @@ export default function ProductPage() {
         </div>
 
         {/* Specifications & Reviews Tab container */}
-        <div className="bg-white p-5 sm:p-7 rounded-2xl border border-outline-variant/30 shadow-soft">
-          <Tabs defaultValue="specifications">
-            <TabsList className="w-full justify-start border-b rounded-none bg-transparent h-fit p-0 gap-6">
+        <div className="bg-white p-5 sm:p-7 rounded-2xl border border-outline-variant/30 shadow-soft overflow-hidden">
+          <Tabs defaultValue="specifications" className="w-full">
+            <TabsList className="w-full justify-start border-b rounded-none bg-transparent h-fit p-0 gap-4 sm:gap-6 overflow-x-auto max-w-full scrollbar-none flex-nowrap shrink-0">
               <TabsTrigger
                 value="specifications"
                 className="border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary rounded-none px-0 py-2.5 text-sm font-bold bg-transparent shadow-none"

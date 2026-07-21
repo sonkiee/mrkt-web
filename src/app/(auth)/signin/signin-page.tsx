@@ -45,11 +45,12 @@ export default function SigninPage() {
     },
     onError(error) {
       toast.error(error.error.serverError);
+      console.log(error);
     },
   });
 
   return (
-    <main className="flex min-h-screen w-full bg-[#f8f9ff]">
+    <div className="flex min-h-screen w-full bg-[#f8f9ff]">
       {/* ── Left Panel: Hero Image (desktop only) ── */}
       <section className="hidden md:flex w-1/2 relative overflow-hidden">
         {/* Background image with gradient fallback */}
@@ -141,10 +142,7 @@ export default function SigninPage() {
 
           {/* Form */}
           <Form {...form}>
-            <form
-              className="space-y-4"
-              onSubmit={form.handleSubmit(execute)}
-            >
+            <form className="space-y-4" onSubmit={form.handleSubmit(execute)}>
               {/* Email */}
               <FormField
                 control={form.control}
@@ -291,7 +289,10 @@ export default function SigninPage() {
           {/* Footer */}
           <p className="mt-8 text-center text-[14px] text-[#3d4947]">
             Don&apos;t have an account?{" "}
-            <Link href="/signup" className="text-primary font-semibold hover:underline">
+            <Link
+              href="/signup"
+              className="text-primary font-semibold hover:underline"
+            >
               Sign up
             </Link>
           </p>
@@ -322,6 +323,6 @@ export default function SigninPage() {
           }
         }
       `}</style>
-    </main>
+    </div>
   );
 }

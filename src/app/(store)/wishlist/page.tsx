@@ -7,8 +7,6 @@ import { useCartStore } from "@/store/cart";
 import { Trash2, ShoppingCart, Share2, Heart, PlusCircle, ArrowLeft } from "lucide-react";
 import { naira } from "@/utils/naira";
 import { toast } from "sonner";
-import { SiteHeader } from "@/components/site-header";
-import SiteFooter from "@/components/site-footer";
 
 export default function WishlistPage() {
   const { items, remove, clear } = useWishlistStore();
@@ -43,9 +41,7 @@ export default function WishlistPage() {
   };
 
   return (
-    <div className="min-h-screen bg-surface-background flex flex-col">
-      <SiteHeader />
-
+    <>
       <main className="flex-1 max-w-7xl mx-auto px-4 md:px-6 py-8 w-full space-y-6">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-on-surface-variant/80">
@@ -205,8 +201,6 @@ export default function WishlistPage() {
           </div>
         )}
       </main>
-
-      <SiteFooter />
-    </div>
+    </>
   );
 }

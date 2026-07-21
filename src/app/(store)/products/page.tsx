@@ -6,8 +6,6 @@ import Link from "next/link";
 import { ChevronRight, Star, SlidersHorizontal, Search } from "lucide-react";
 
 import ProductCard from "@/components/product-card";
-import { SiteHeader } from "@/components/site-header";
-import SiteFooter from "@/components/site-footer";
 import { useListProducts, useFetchCategory } from "@/queries";
 import { defaultCategories } from "@/constants/dummy-data";
 import type { Product } from "@/types";
@@ -145,9 +143,7 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-surface-background flex flex-col">
-      <SiteHeader />
-
+    <>
       <main className="flex-1 max-w-7xl mx-auto px-4 md:px-6 py-8 w-full">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-on-surface-variant/80 mb-6">
@@ -444,8 +440,6 @@ export default function ProductsPage() {
           </div>
         </div>
       </main>
-
-      <SiteFooter />
-    </div>
+    </>
   );
 }

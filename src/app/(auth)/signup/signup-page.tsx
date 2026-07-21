@@ -53,7 +53,7 @@ export default function SignupPage() {
   });
 
   return (
-    <main className="flex min-h-screen w-full bg-[#f8f9ff]">
+    <div className="flex min-h-screen w-full bg-[#f8f9ff]">
       {/* ── Left Panel: Hero Image (desktop only) ── */}
       <section className="hidden md:flex w-1/2 relative overflow-hidden">
         {/* Background image with gradient fallback */}
@@ -430,6 +430,6 @@ export default function SignupPage() {
           }
         }
       `}</style>
-    </main>
+    </div>
   );
 }

@@ -6,11 +6,16 @@ import {
   signupSchema,
 } from "@/schema";
 import { api } from "@/lib/axios";
+import { setAuthToken, removeAuthToken } from "@/utils/cookies";
 
 export const signin = actionClient
   .inputSchema(signinSchema)
   .action(async ({ parsedInput }) => {
     const response = await api.post("/auth/signin", parsedInput);
+    const token = response.data?.token || response.data?.accessToken;
+    if (token) {
+      await setAuthToken(token);
+    }
     return response.data;
   });
 
@@ -18,6 +23,10 @@ export const signup = actionClient
   .inputSchema(signupSchema)
   .action(async ({ parsedInput }) => {
     const response = await api.post("/auth/signup", parsedInput);
+    const token = response.data?.token || response.data?.accessToken;
+    if (token) {
+      await setAuthToken(token);
+    }
     return response.data;
   });
 
@@ -37,6 +46,11 @@ export const placeOrder = actionClient
   });
 
 export const logout = actionClient.action(async () => {
-  const response = await api.post("/auth/logout");
-  return response.data;
+  try {
+    await api.post("/auth/logout");
+  } catch {
+    // Continue deleting cookie even if server request fails
+  }
+  await removeAuthToken();
+  return { success: true };
 });

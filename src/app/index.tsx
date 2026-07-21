@@ -270,7 +270,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5">
-            {flashSaleProducts.map((p) => {
+            {flashSaleProducts.map((p, idx) => {
               const discountedPrice = Math.round((p.minPrice ?? 0) * (1 - p.discount / 100));
               return (
                 <Link
@@ -287,6 +287,7 @@ export default function Home() {
                       alt={p.title}
                       width={100}
                       height={100}
+                      priority={idx < 4}
                       className="object-contain max-h-full group-hover:scale-[1.02] transition-transform duration-200 p-1"
                     />
                   </div>

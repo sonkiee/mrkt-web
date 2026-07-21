@@ -7,9 +7,10 @@ import { naira } from "@/utils/naira";
 
 interface ProductCardProps {
   product: Product;
+  priority?: boolean;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, priority = false }: ProductCardProps) {
   const imageSrc = product?.images?.[0]?.url || `https://placehold.co/400x400/e5eeff/00685f?text=${encodeURIComponent(product.title?.slice(0, 10) || "Product")}`;
 
   const hasDiscount = product.discount > 0;
@@ -27,6 +28,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             src={imageSrc}
             alt={product?.title ?? "Product image"}
             fill
+            priority={priority}
             className="object-contain p-2 group-hover:scale-[1.02] transition-transform duration-200"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
           />

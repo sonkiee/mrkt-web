@@ -6,7 +6,7 @@ export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const token = req.cookies.get("access_token")?.value;
   const role = token ? getUserRoleFromToken(token) : null;
-  console.log("Middleware: ", { pathname, token, role });
+  // console.log("Middleware: ", { pathname, token, role });
 
   // 1. Guard Admin Routes: Only 'admin' role allowed
   if (pathname.startsWith("/admin")) {

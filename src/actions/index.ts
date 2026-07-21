@@ -4,9 +4,17 @@ import {
   initPaymentSchema,
   signinSchema,
   signupSchema,
+  vendorOnboardingSchema,
 } from "@/schema";
 import { api } from "@/lib/axios";
 import { setAuthToken, removeAuthToken } from "@/utils/cookies";
+
+export const submitVendorOnboarding = actionClient
+  .inputSchema(vendorOnboardingSchema)
+  .action(async ({ parsedInput }) => {
+    const response = await api.post("/vendor/onboarding", parsedInput);
+    return response.data;
+  });
 
 export const signin = actionClient
   .inputSchema(signinSchema)

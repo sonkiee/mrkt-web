@@ -294,6 +294,13 @@ export default function SigninPage() {
               className="text-primary font-semibold hover:underline"
             >
               Sign up
+            </Link>{" "}
+            or{" "}
+            <Link
+              href="/vendor-onboarding"
+              className="text-primary font-bold hover:underline"
+            >
+              Become a Vendor
             </Link>
           </p>
 

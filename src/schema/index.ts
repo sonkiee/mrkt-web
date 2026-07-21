@@ -156,6 +156,32 @@ export const updatePasswordSchema = z.object({
   newPassword: z.string().min(6, "New password must be at least 6 characters"),
 });
 
+export const vendorOnboardingSchema = z.object({
+  // Step 1: Account Info
+  fullName: z.string().min(2, "Full name is required"),
+  email: z.email("Invalid email address"),
+  phone: z.string().min(10, "Valid phone number is required"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+
+  // Step 2: Storefront Details
+  storeName: z.string().min(2, "Storefront name is required"),
+  category: z.string().min(1, "Primary business category is required"),
+  storeBio: z.string().min(10, "Store bio must be at least 10 characters"),
+  address: z.string().min(5, "Store address is required"),
+  city: z.string().min(2, "City is required"),
+  state: z.string().min(2, "State is required"),
+
+  // Step 3: Settlement Bank & Identity Verification
+  bankName: z.string().min(2, "Bank name is required"),
+  accountNumber: z.string().length(10, "Account number must be 10 digits"),
+  accountName: z.string().min(2, "Account name is required"),
+  businessType: z.enum(["individual", "corporate"]),
+  cacNumber: z.string().optional(),
+  idNumber: z.string().min(5, "Government ID or NIN is required"),
+});
+
+export type VendorOnboardingData = z.infer<typeof vendorOnboardingSchema>;
+
 export type ProfileData = z.infer<typeof profileSchema>;
 export type UpdatePasswordData = z.infer<typeof updatePasswordSchema>;
 

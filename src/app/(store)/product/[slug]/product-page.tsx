@@ -3,8 +3,21 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { useState, useMemo } from "react";
-import { ChevronRight, Star, ArrowLeft, ShieldCheck, Truck, RotateCcw, AlertCircle } from "lucide-react";
+import { useState } from "react";
+import {
+  ChevronRight,
+  Star,
+  ShieldCheck,
+  Truck,
+  RotateCcw,
+  AlertCircle,
+  Sparkles,
+  Heart,
+  Share2,
+  BadgeCheck,
+  CheckCircle2,
+  Clock,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -21,6 +34,7 @@ import {
 import { useFetchProductById } from "@/queries/product";
 import { ProductVariantSelector } from "../../molecules/product-varient-selctor";
 import Spinner from "@/components/spinner";
+import { naira } from "@/utils/naira";
 
 export default function ProductPage() {
   const params = useParams();
@@ -29,6 +43,7 @@ export default function ProductPage() {
   const { data, error, isLoading } = useFetchProductById(slug as string);
   const product = data?.data ?? null;
 
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   // Loading State
   if (isLoading) {
@@ -36,7 +51,9 @@ export default function ProductPage() {
       <div className="flex min-h-screen items-center justify-center bg-surface-background">
         <div className="space-y-3 text-center">
           <Spinner />
-          <p className="text-xs text-on-surface-variant font-medium">Loading product details...</p>
+          <p className="text-xs text-on-surface-variant font-medium">
+            Loading product details...
+          </p>
         </div>
       </div>
     );
@@ -48,7 +65,9 @@ export default function ProductPage() {
       <div className="flex min-h-screen items-center justify-center px-4 bg-surface-background">
         <div className="max-w-sm space-y-4 text-center bg-white p-6 rounded-xl border border-outline-variant/30 shadow-soft">
           <AlertCircle className="mx-auto text-status-error" size={40} />
-          <h2 className="text-headline-md font-bold text-on-surface">Product Not Found</h2>
+          <h2 className="text-headline-md font-bold text-on-surface">
+            Product Not Found
+          </h2>
           <p className="text-xs text-on-surface-variant leading-relaxed">
             The product catalog item might have been unlisted or removed by the vendor storefront.
           </p>
@@ -66,7 +85,9 @@ export default function ProductPage() {
       <div className="flex min-h-screen items-center justify-center px-4 bg-surface-background">
         <div className="max-w-sm space-y-4 text-center bg-white p-6 rounded-xl border border-outline-variant/30 shadow-soft">
           <AlertCircle className="mx-auto text-status-error" size={40} />
-          <h2 className="text-headline-md font-bold text-on-surface">Connection Error</h2>
+          <h2 className="text-headline-md font-bold text-on-surface">
+            Connection Error
+          </h2>
           <p className="text-xs text-on-surface-variant leading-relaxed">
             We encountered a problem fetching this device's specs. Please check your network connection.
           </p>
@@ -79,13 +100,20 @@ export default function ProductPage() {
   }
 
   const images = product.images ?? [];
+  const activeImage = images[selectedImageIndex]?.url || images[0]?.url || "/placeholder.svg";
+
+  const discount = product.discount ?? 0;
+  const minPrice = product.minPrice ?? 0;
+  const hasDiscount = discount > 0;
+  const discountedPrice = hasDiscount
+    ? Math.round(minPrice * (1 - discount / 100))
+    : minPrice;
 
   return (
     <div className="min-h-screen bg-surface-background flex flex-col">
       <main className="flex-grow max-w-7xl mx-auto px-4 md:px-6 py-6 w-full space-y-6">
-        
         {/* Breadcrumb Trail */}
-        <div className="flex items-center gap-2 text-xs text-on-surface-variant/80 border-b pb-3">
+        <div className="flex items-center gap-2 text-xs text-on-surface-variant/80 border-b pb-3 flex-wrap">
           <Link href="/" className="hover:text-primary transition-colors">
             Home
           </Link>
@@ -103,123 +131,210 @@ export default function ProductPage() {
         </div>
 
         {/* Product Showcase columns */}
-        <div className="grid gap-6 lg:grid-cols-12 items-start">
-          
-          {/* Horizontally Scrollable Compact Image Gallery */}
-          <div className="lg:col-span-4 w-full">
-            <div className="relative rounded-xl border border-outline-variant/20 bg-white overflow-hidden shadow-soft h-72">
-              <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth h-full w-full scrollbar-none scroll-hide">
-                {images.map((img: any, i: number) => (
-                  <div
-                    key={i}
-                    className="w-full h-full flex-shrink-0 snap-center relative flex items-center justify-center p-4 bg-white"
+        <div className="grid gap-8 lg:grid-cols-12 items-start">
+          {/* LEFT COLUMN: Large Image Gallery & Buyer Protection (5 cols) */}
+          <div className="lg:col-span-5 space-y-4">
+            {/* Large Stage Main Image */}
+            <div className="relative aspect-square w-full rounded-2xl border border-outline-variant/30 bg-white overflow-hidden shadow-soft flex items-center justify-center p-4">
+              <Image
+                src={activeImage}
+                alt={product.title}
+                fill
+                priority
+                className="object-contain p-4 transition-all duration-300"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
+              />
+              {hasDiscount && (
+                <Badge className="absolute top-3 left-3 bg-flash-sale-red text-white text-xs font-extrabold px-2.5 py-1 rounded shadow-sm">
+                  -{discount}% OFF
+                </Badge>
+              )}
+            </div>
+
+            {/* Clickable Image Thumbnails Bar */}
+            {images.length > 1 && (
+              <div className="flex gap-2.5 overflow-x-auto pb-1.5 scrollbar-none">
+                {images.map((img: any, idx: number) => (
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedImageIndex(idx)}
+                    className={`relative w-16 h-16 rounded-xl border-2 overflow-hidden bg-white shrink-0 transition-all ${
+                      selectedImageIndex === idx
+                        ? "border-primary ring-2 ring-primary/20 scale-95"
+                        : "border-outline-variant/30 hover:border-primary/50"
+                    }`}
                   >
                     <Image
                       src={img.url || "/placeholder.svg"}
-                      alt={`${product?.title} image ${i + 1}`}
+                      alt={`Thumbnail ${idx + 1}`}
                       fill
-                      className="object-contain p-4"
-                      sizes="(max-width: 640px) 100vw, 300px"
+                      className="object-contain p-1"
                     />
-                  </div>
+                  </button>
                 ))}
-                {images.length === 0 && (
-                  <div className="w-full h-full flex items-center justify-center bg-white relative">
-                    <Image
-                      src="/placeholder.svg"
-                      alt="Placeholder"
-                      fill
-                      className="object-contain p-4"
-                    />
-                  </div>
-                )}
               </div>
+            )}
 
-              {/* Indicator Dot overlay */}
-              {images.length > 1 && (
-                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 bg-black/40 backdrop-blur-xs px-2.5 py-1 rounded-full z-10">
-                  {images.map((_: any, i: number) => (
-                    <div
-                      key={i}
-                      className="w-1.5 h-1.5 rounded-full bg-white/60"
-                    />
-                  ))}
-                </div>
-              )}
+            {/* AliExpress-Style Buyer Protection Box */}
+            <div className="p-4 rounded-xl bg-surface-container-low/40 border border-outline-variant/30 space-y-3 text-xs text-on-surface-variant">
+              <div className="flex items-center gap-2 font-extrabold text-on-surface text-sm">
+                <ShieldCheck className="text-primary h-5 w-5" />
+                <span>AliExpress Buyer Protection</span>
+              </div>
+              <ul className="space-y-2 text-xs">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="text-status-success h-4 w-4 shrink-0" />
+                  <span><strong>Full Refund</strong> if product is not as described</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <BadgeCheck className="text-primary h-4 w-4 shrink-0" />
+                  <span><strong>100% Genuine</strong> verified product guarantee</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Clock className="text-status-warning h-4 w-4 shrink-0" />
+                  <span><strong>Fast Dispatch</strong> within 24 hours</span>
+                </li>
+              </ul>
             </div>
           </div>
 
-          {/* Product Purchasing Control Panel */}
-          <div className="lg:col-span-8 space-y-5 bg-white p-5 sm:p-6 rounded-xl border border-outline-variant/30 shadow-soft">
+          {/* RIGHT COLUMN: Purchasing, Price Banner & Actions (7 cols) */}
+          <div className="lg:col-span-7 space-y-5 bg-white p-5 sm:p-7 rounded-2xl border border-outline-variant/30 shadow-soft">
+            {/* Title & Metadata */}
             <div>
-              <span className="text-[10px] uppercase font-extrabold tracking-widest text-primary bg-primary/10 px-2 py-0.5 rounded">
-                {product.category?.name}
-              </span>
-              <h1 className="text-xl sm:text-2xl font-extrabold text-on-surface mt-2 leading-tight">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-[10px] uppercase font-extrabold tracking-widest text-primary bg-primary/10 px-2.5 py-1 rounded-full">
+                  {product.category?.name}
+                </span>
+                <div className="flex items-center gap-2 text-on-surface-variant/70">
+                  <button className="p-1.5 hover:text-primary rounded-full hover:bg-surface-container-low transition-colors">
+                    <Heart size={18} />
+                  </button>
+                  <button className="p-1.5 hover:text-primary rounded-full hover:bg-surface-container-low transition-colors">
+                    <Share2 size={18} />
+                  </button>
+                </div>
+              </div>
+
+              <h1 className="text-xl sm:text-2xl font-extrabold text-on-surface mt-2.5 leading-tight">
                 {product?.title}
               </h1>
 
-              <div className="mt-2.5 flex items-center gap-3.5 flex-wrap">
+              <div className="mt-3 flex items-center gap-3.5 flex-wrap text-xs">
                 <div className="flex items-center">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className="h-4.5 w-4.5 fill-status-warning text-status-warning"
+                      className="h-4 w-4 fill-status-warning text-status-warning"
                     />
                   ))}
-                  <span className="ml-1.5 text-xs font-bold text-on-surface">4.8</span>
-                  <span className="ml-1 text-xs text-on-surface-variant/70">
-                    (48 reviews)
+                  <span className="ml-1.5 font-extrabold text-on-surface">4.8</span>
+                  <span className="ml-1 text-on-surface-variant/70">
+                    (1,420 Sold)
                   </span>
                 </div>
+
+                <span className="text-on-surface-variant/40">|</span>
 
                 <Badge
                   className={`border-none ${
                     product.inStock
                       ? "bg-status-success/15 text-status-success"
                       : "bg-status-error/15 text-status-error"
-                  } text-xs font-bold px-2 py-0.5`}
+                  } text-xs font-bold px-2.5 py-0.5`}
                 >
-                  {product.inStock ? "In Stock" : "Out of Stock"}
+                  {product.inStock ? "In Stock (Ready to Ship)" : "Out of Stock"}
                 </Badge>
               </div>
             </div>
 
+            {/* AliExpress Highlighted Price Banner */}
+            <div className="p-4 sm:p-5 rounded-xl bg-gradient-to-r from-surface-container-low/70 to-surface-container-low/20 border border-primary/20 flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <span className="text-[10px] uppercase font-extrabold tracking-wider text-on-surface-variant/70 block">
+                  Promotional Deal Price
+                </span>
+                <div className="flex items-baseline gap-2.5 mt-1">
+                  <span className="text-2xl sm:text-3xl font-black text-primary">
+                    {naira(discountedPrice)}
+                  </span>
+                  {hasDiscount && (
+                    <span className="text-xs sm:text-sm text-on-surface-variant/50 line-through font-medium">
+                      {naira(minPrice)}
+                    </span>
+                  )}
+                </div>
+              </div>
+              {hasDiscount && (
+                <div className="text-right">
+                  <span className="inline-block bg-flash-sale-red text-white text-xs font-extrabold px-3 py-1 rounded-lg shadow-xs">
+                    Save {naira(minPrice - discountedPrice)} ({discount}%)
+                  </span>
+                </div>
+              )}
+            </div>
+
             {/* Vendor Affiliation */}
-            <div className="text-xs text-on-surface-variant flex items-center gap-1.5 bg-surface-container-low/40 p-2.5 rounded-lg border">
-              <span className="font-semibold">Store Vendor:</span>
-              <span className="text-primary font-extrabold flex items-center gap-1">
-                {product.brand?.name}
-                <ShieldCheck size={14} className="text-primary" />
+            <div className="text-xs text-on-surface-variant flex items-center justify-between bg-surface-container-low/30 p-3 rounded-xl border border-outline-variant/20">
+              <div className="flex items-center gap-2">
+                <span className="font-semibold">Verified Storefront:</span>
+                <span className="text-primary font-extrabold flex items-center gap-1">
+                  {product.brand?.name}
+                  <ShieldCheck size={16} className="text-primary" />
+                </span>
+              </div>
+              <span className="text-[11px] text-status-success font-bold bg-status-success/10 px-2 py-0.5 rounded">
+                98.4% Positive Feedback
               </span>
             </div>
 
+            {/* Variant Selector */}
             <ProductVariantSelector product={product} />
 
             <Separator className="bg-outline-variant/20" />
 
-            {/* Courier Settings */}
-            <div className="space-y-2">
-              <h3 className="text-xs font-bold text-on-surface uppercase tracking-wider">Estimated Delivery</h3>
+            {/* Courier & Delivery Location */}
+            <div className="space-y-2.5">
+              <div className="flex justify-between items-center text-xs">
+                <span className="font-bold text-on-surface uppercase tracking-wider flex items-center gap-1.5">
+                  <Truck size={15} className="text-primary" /> Estimated Delivery
+                </span>
+                <span className="text-on-surface-variant text-[11px]">
+                  Ships to Kaduna
+                </span>
+              </div>
               <Select defaultValue="standard">
-                <SelectTrigger className="w-full bg-surface-container-lowest border-outline-variant/60">
+                <SelectTrigger className="w-full bg-surface-container-lowest border-outline-variant/60 h-10 text-xs">
                   <SelectValue placeholder="Select delivery option" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="standard">
-                    Standard Shipping (2-3 days) - ₦1,500
+                    Standard Express (2-3 days) - ₦1,500
                   </SelectItem>
                   <SelectItem value="express">
-                    Express Shipping (1 day) - ₦3,500
+                    Same-Day Instant Delivery - ₦3,500
                   </SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+
+            {/* Primary Action Buttons */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              <Button className="bg-primary hover:bg-primary/95 text-on-primary h-12 text-sm font-extrabold shadow-sm rounded-xl">
+                Add to Cart
+              </Button>
+              <Button
+                variant="outline"
+                className="border-2 border-primary text-primary hover:bg-primary/5 h-12 text-sm font-extrabold rounded-xl"
+              >
+                Buy Now
+              </Button>
             </div>
           </div>
         </div>
 
         {/* Specifications & Reviews Tab container */}
-        <div className="bg-white p-5 sm:p-6 rounded-xl border border-outline-variant/30 shadow-soft">
+        <div className="bg-white p-5 sm:p-7 rounded-2xl border border-outline-variant/30 shadow-soft">
           <Tabs defaultValue="specifications">
             <TabsList className="w-full justify-start border-b rounded-none bg-transparent h-fit p-0 gap-6">
               <TabsTrigger
@@ -232,34 +347,40 @@ export default function ProductPage() {
                 value="reviews"
                 className="border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary rounded-none px-0 py-2.5 text-sm font-bold bg-transparent shadow-none"
               >
-                Reviews
+                Customer Reviews (1,420)
               </TabsTrigger>
               <TabsTrigger
                 value="description"
                 className="border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary rounded-none px-0 py-2.5 text-sm font-bold bg-transparent shadow-none"
               >
-                Store Bio
+                Store Details
               </TabsTrigger>
             </TabsList>
 
             {/* Tab: Specifications */}
-            <TabsContent value="specifications" className="mt-5">
+            <TabsContent value="specifications" className="mt-6">
               <div className="space-y-4">
-                <h3 className="text-sm font-bold text-on-surface uppercase tracking-wider">Device Spec Sheet</h3>
-                <dl className="grid grid-cols-2 gap-y-3 gap-x-6 text-xs sm:text-sm max-w-lg border p-4 rounded-xl bg-surface-container-low/10">
+                <h3 className="text-sm font-bold text-on-surface uppercase tracking-wider">
+                  Technical Specifications
+                </h3>
+                <dl className="grid grid-cols-1 sm:grid-cols-2 gap-y-3.5 gap-x-8 text-xs sm:text-sm max-w-2xl border p-5 rounded-xl bg-surface-container-low/20">
                   <dt className="text-on-surface-variant font-medium">Brand Manufacturer</dt>
                   <dd className="font-bold text-on-surface">{product.brand?.name}</dd>
 
-                  <dt className="text-on-surface-variant font-medium">Platform Category</dt>
+                  <dt className="text-on-surface-variant font-medium">Category</dt>
                   <dd className="font-bold text-on-surface">{product.category?.name}</dd>
 
-                  <dt className="text-on-surface-variant font-medium">Primary Condition</dt>
-                  <dd className="font-bold text-on-surface capitalize">{product.variants?.[0]?.condition?.replace("_", " ") ?? "New"}</dd>
+                  <dt className="text-on-surface-variant font-medium">Condition</dt>
+                  <dd className="font-bold text-on-surface capitalize">
+                    {product.variants?.[0]?.condition?.replace("_", " ") ?? "Brand New Sealed"}
+                  </dd>
 
                   {product.variants?.[0]?.storage && (
                     <>
-                      <dt className="text-on-surface-variant font-medium">Internal Storage Capacity</dt>
-                      <dd className="font-bold text-on-surface font-mono">{product.variants?.[0]?.storage} GB</dd>
+                      <dt className="text-on-surface-variant font-medium">Internal Storage</dt>
+                      <dd className="font-bold text-on-surface font-mono">
+                        {product.variants?.[0]?.storage} GB
+                      </dd>
                     </>
                   )}
                 </dl>
@@ -267,19 +388,22 @@ export default function ProductPage() {
             </TabsContent>
 
             {/* Tab: Store Bio / Description */}
-            <TabsContent value="description" className="mt-5">
-              <div className="prose max-w-none text-xs sm:text-sm text-on-surface-variant leading-relaxed space-y-3">
+            <TabsContent value="description" className="mt-6">
+              <div className="prose max-w-none text-xs sm:text-sm text-on-surface-variant leading-relaxed space-y-4">
                 <p>{product.description ?? "No description available for this product."}</p>
-                <p className="bg-surface-container-low/40 p-3 rounded-lg border border-dashed text-primary font-medium flex items-center gap-2">
-                  <ShieldCheck size={16} /> Certified Authenticity: This device is backed by our verified store warranty program.
-                </p>
+                <div className="bg-surface-container-low/40 p-4 rounded-xl border border-dashed border-primary/30 text-primary font-medium flex items-center gap-3">
+                  <ShieldCheck size={20} className="shrink-0" />
+                  <span>
+                    Certified Authenticity: This device is backed by our verified store warranty program and official brand coverage.
+                  </span>
+                </div>
               </div>
             </TabsContent>
 
             {/* Tab: Reviews */}
-            <TabsContent value="reviews" className="mt-5 space-y-6">
+            <TabsContent value="reviews" className="mt-6 space-y-6">
               {/* Star Rating Breakdown */}
-              <div className="flex flex-col md:flex-row gap-6 justify-between items-start md:items-center bg-surface-container-low/20 p-5 rounded-xl border">
+              <div className="flex flex-col md:flex-row gap-6 justify-between items-start md:items-center bg-surface-container-low/20 p-5 rounded-xl border border-outline-variant/30">
                 <div>
                   <h3 className="text-base font-bold text-on-surface">Storefront Ratings</h3>
                   <div className="mt-1.5 flex items-center gap-2">
@@ -292,7 +416,9 @@ export default function ProductPage() {
                       ))}
                     </div>
                     <span className="text-sm font-bold text-on-surface">4.8 / 5.0</span>
-                    <span className="text-xs text-on-surface-variant/80">(48 verified sales)</span>
+                    <span className="text-xs text-on-surface-variant/80">
+                      (1,420 verified sales)
+                    </span>
                   </div>
                 </div>
 
@@ -305,11 +431,18 @@ export default function ProductPage() {
                     { stars: 1, pct: 1 },
                   ].map((row) => (
                     <div key={row.stars} className="flex items-center gap-2">
-                      <span className="w-8 text-on-surface-variant font-medium">{row.stars} Star</span>
+                      <span className="w-8 text-on-surface-variant font-medium">
+                        {row.stars} Star
+                      </span>
                       <div className="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
-                        <div className="h-full bg-status-warning" style={{ width: `${row.pct}%` }} />
+                        <div
+                          className="h-full bg-status-warning"
+                          style={{ width: `${row.pct}%` }}
+                        />
                       </div>
-                      <span className="w-8 text-right text-on-surface-variant font-bold">{row.pct}%</span>
+                      <span className="w-8 text-right text-on-surface-variant font-bold">
+                        {row.pct}%
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -320,13 +453,15 @@ export default function ProductPage() {
                 {[
                   {
                     name: "Aminu I. (Verified Buyer)",
-                    comment: "Super fast shipping Kaduna-wide! The device came sealed in the original factory box, Sierra Blue color, 100% battery health. Very professional vendor storefront.",
+                    comment:
+                      "Super fast shipping! The device came sealed in the original factory box, Sierra Blue color, 100% battery health. Very professional vendor storefront.",
                     rating: 5,
                     date: "July 2, 2026",
                   },
                   {
                     name: "Faith J. (Verified Buyer)",
-                    comment: "Audio clarity is brilliant. Active noise cancellation blocks noise from my generator perfectly. Highly recommended.",
+                    comment:
+                      "Audio clarity is brilliant. Active noise cancellation blocks noise from my generator perfectly. Highly recommended.",
                     rating: 5,
                     date: "June 28, 2026",
                   },
@@ -341,7 +476,9 @@ export default function ProductPage() {
                         <Star
                           key={i}
                           className={`h-3 w-3 ${
-                            i < r.rating ? "fill-status-warning text-status-warning" : "text-outline-variant"
+                            i < r.rating
+                              ? "fill-status-warning text-status-warning"
+                              : "text-outline-variant"
                           }`}
                         />
                       ))}
@@ -355,7 +492,6 @@ export default function ProductPage() {
             </TabsContent>
           </Tabs>
         </div>
-
       </main>
     </div>
   );

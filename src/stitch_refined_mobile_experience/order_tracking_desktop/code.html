@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lumina | Order Tracking</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#ffdbce",
+                        "primary-container": "#008378",
+                        "secondary-fixed": "#dae2fd",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#fffbff",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#5c647a",
+                        "on-background": "#0b1c30",
+                        "on-surface": "#0b1c30",
+                        "surface-tint": "#006a61",
+                        "surface-bright": "#f8f9ff",
+                        "surface": "#f8f9ff",
+                        "status-success": "#10B981",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#6d7a77",
+                        "on-tertiary-fixed": "#370e00",
+                        "on-tertiary-fixed-variant": "#773215",
+                        "inverse-on-surface": "#eaf1ff",
+                        "inverse-surface": "#213145",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary": "#565e74",
+                        "tertiary-container": "#b05e3d",
+                        "status-warning": "#F59E0B",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#bcc9c6",
+                        "on-tertiary": "#ffffff",
+                        "secondary-container": "#dae2fd",
+                        "status-error": "#DC2626",
+                        "surface-dim": "#cbdbf5",
+                        "on-primary-fixed-variant": "#005049",
+                        "surface-container-low": "#eff4ff",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#89f5e7",
+                        "background": "#f8f9ff",
+                        "surface-container": "#e5eeff",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "primary": "#00685f",
+                        "on-secondary-fixed": "#131b2e",
+                        "tertiary": "#924628",
+                        "flash-sale-red": "#DC2626",
+                        "primary-fixed-dim": "#6bd8cb",
+                        "on-primary-container": "#f4fffc",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "surface-background": "#F8FAFC",
+                        "inverse-primary": "#6bd8cb",
+                        "on-primary-fixed": "#00201d",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#3d4947",
+                        "surface-variant": "#d3e4fe",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ffb59a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "1rem",
+                        "gutter-grid": "0.75rem",
+                        "stack-lg": "1.5rem",
+                        "section-gap": "2rem",
+                        "stack-sm": "0.5rem",
+                        "margin-page": "1rem"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "headline-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-xl": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; color: #0b1c30; }
+        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); }
+        .shadow-soft { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); }
+        .step-active { color: #00685f; }
+        .step-inactive { color: #6d7a77; }
+        .line-active { background-color: #00685f; }
+        .line-inactive { background-color: #bcc9c6; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+    </style>
+</head>
+<body class="bg-surface-background">
+<!-- TopNavBar -->
+<header class="bg-surface/80 dark:bg-on-surface/80 backdrop-blur-md sticky top-0 z-50 border-b border-outline-variant/30 transition-all">
+<div class="flex justify-between items-center w-full px-margin-page py-4 max-w-7xl mx-auto">
+<div class="text-headline-xl font-headline-xl font-bold text-on-surface">Lumina</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Store</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">iPhone</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Samsung</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">iPad</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Accessories</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Repairs</a>
+</nav>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity">search</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity">shopping_bag</button>
+<button class="material-symbols-outlined text-primary font-bold">account_circle</button>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-margin-page py-section-gap">
+<!-- Search & Tracking Header -->
+<section class="mb-section-gap">
+<div class="flex flex-col md:flex-row justify-between items-end gap-stack-lg">
+<div class="w-full md:w-1/2">
+<h1 class="font-headline-xl text-headline-xl mb-stack-sm text-on-surface">Track Your Order</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Enter your order ID to get real-time delivery updates.</p>
+<div class="mt-stack-md relative max-w-md">
+<input class="w-full pl-12 pr-4 py-3 rounded-xl border border-outline-variant bg-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all shadow-soft font-body-md" placeholder="Order ID (e.g. LUM-882910)" type="text"/>
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-on-primary px-4 py-1.5 rounded-lg text-label-md font-label-md hover:opacity-90 transition-opacity">Track</button>
+</div>
+</div>
+<div class="flex flex-col items-end hidden md:flex">
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider">Expected Delivery</span>
+<span class="text-headline-lg font-headline-lg text-primary">Tomorrow, Oct 24</span>
+</div>
+</div>
+</section>
+<!-- Main Tracking Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Left Column: Stepper & Map -->
+<div class="lg:col-span-8 space-y-8">
+<!-- Visual Progress Stepper -->
+<div class="bg-white p-8 rounded-xl shadow-soft border border-outline-variant/10">
+<div class="relative flex justify-between items-center w-full">
+<!-- Progress Line Background -->
+<div class="absolute top-5 left-0 w-full h-1 bg-outline-variant/30 rounded-full z-0"></div>
+<!-- Progress Line Active -->
+<div class="absolute top-5 left-0 w-3/4 h-1 bg-primary rounded-full z-0"></div>
+<!-- Steps -->
+<div class="relative z-10 flex flex-col items-center gap-2 group">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined">check</span>
+</div>
+<span class="text-label-md font-label-md text-primary">Order Placed</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+<span class="text-label-md font-label-md text-primary">Processing</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<span class="text-label-md font-label-md text-primary">Shipped</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-lg border-4 border-white">
+<span class="material-symbols-outlined">hail</span>
+</div>
+<span class="text-label-md font-label-md text-primary">Out for Delivery</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2 opacity-40">
+<div class="w-10 h-10 rounded-full bg-outline-variant text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined">package_2</span>
+</div>
+<span class="text-label-md font-label-md text-on-surface-variant">Delivered</span>
+</div>
+</div>
+<div class="mt-8 flex items-start gap-4 p-4 bg-primary-container/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">info</span>
+<div>
+<p class="text-body-md font-body-md text-on-surface">Your package is currently with our delivery partner and is approximately 1.5 miles away from your location.</p>
+<p class="text-label-sm font-label-sm text-outline mt-1 italic">Last updated: 2 minutes ago</p>
+</div>
+</div>
+</div>
+<!-- Live Map View -->
+<div class="relative overflow-hidden rounded-xl shadow-soft border border-outline-variant/10 h-[400px] group">
+<img class="w-full h-full object-cover grayscale-[0.2] group-hover:scale-105 transition-transform duration-700" data-alt="A detailed, high-contrast digital map showing a sleek urban neighborhood in San Francisco. The map design uses a minimalist light-mode aesthetic with clean white and light teal streets. A pulsing primary teal icon represents a delivery van moving along a highlighted path towards a house icon. The lighting is bright and clear, reflecting a professional and reliable e-commerce brand identity." data-location="San Francisco, California" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRnFbsEkGY57FCZtRy2XAgC8NkxcPGSmNFGdA3EuHieoyqquyccciu9F2C_sT4NcV4slmOjUUGPLDPIz76xTbT46d7Y_1_BaISoXMDEdSykde8r9IVmc8-ZP3y730irahEu57Win0pcb-5a9pC1I_rKzww6Dsr8K2T5vOrcEoYADfH6Uqra3IyovXTq8q0UwN3oEHD_DNLb78EZgv3RV5snewNczqbzRWFijaGzREtdVxcae7L5YNxR3MULcKduupLKVCbiO69oPOG"/>
+<!-- Overlay Map UI -->
+<div class="absolute top-4 left-4 glass p-4 rounded-lg shadow-lg border border-white/40">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface">Driver: Marcus J.</p>
+<p class="text-label-sm font-label-sm text-outline">Lumina Express Courier</p>
+</div>
+</div>
+</div>
+<div class="absolute bottom-4 right-4 flex flex-col gap-2">
+<button class="bg-white p-2 rounded-full shadow-lg hover:bg-surface transition-colors">
+<span class="material-symbols-outlined text-on-surface">add</span>
+</button>
+<button class="bg-white p-2 rounded-full shadow-lg hover:bg-surface transition-colors">
+<span class="material-symbols-outlined text-on-surface">remove</span>
+</button>
+<button class="bg-primary p-2 rounded-full shadow-lg hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-on-primary">my_location</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Column: Sidebar -->
+<aside class="lg:col-span-4 space-y-gutter-grid">
+<!-- Order Details Card -->
+<div class="bg-white p-6 rounded-xl shadow-soft border border-outline-variant/10">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-stack-md">Order Summary</h3>
+<div class="space-y-stack-md">
+<!-- Item -->
+<div class="flex items-center gap-stack-md pb-stack-md border-b border-outline-variant/20">
+<img class="w-16 h-16 rounded-lg object-cover" data-alt="A professional studio product shot of a sleek, dark titanium iPhone 15 Pro on a clean, white minimalist surface. The lighting is soft and high-key, highlighting the premium metallic textures and the triple-lens camera system. The aesthetic is clean and modern, matching a luxury tech marketplace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSuRFpNdHtmJkJCPBacki1mk2fi3bSMtlG0ob00lTsKZYY-BIz4zIc9dFoY3RJEybD2s9BI29wirMICAeOpXCpMFxDW5snMbcs9SGu7v2szIlTh-0COjcIq9PLyPhZA3HkZFelwscXTKWoH6p3LX4dAs7xyTjV7ksSKlOTEEKrtjw0fRZttAoCL2k9FpNF9VTvneGGb2lNbDdaVCD-Xit3Nwapo2WhjgN3ksh-fxi22t-wjkJOwlILC0lZ8r-nxSRE2CMdFUhTyj6n"/>
+<div class="flex-1">
+<p class="text-body-md font-body-md font-semibold text-on-surface">iPhone 15 Pro, 256GB</p>
+<p class="text-label-sm font-label-sm text-outline">Space Black</p>
+<p class="text-label-md font-label-md text-primary mt-1">$1,099.00</p>
+</div>
+</div>
+<!-- Item -->
+<div class="flex items-center gap-stack-md pb-stack-md border-b border-outline-variant/20">
+<img class="w-16 h-16 rounded-lg object-cover" data-alt="A minimalist product photo of a transparent MagSafe phone case for an iPhone, displayed on a clean light gray backdrop. The lighting is diffuse and clear, showing the subtle magnetic ring and high-quality plastic material. Professional e-commerce photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjcWrxEu7X-KpYNRc7jj2YnSQDMBLJglDyPAGlKZaXN0tTG7zv1hrCTTbei_sH_vUn6cnSYaGJbs87thAF_q8ywslJYB2A1npRvXYtaOXmVr3RtwnR36WtX6YJMfdktzIB7ak_lURsHQSV1gMyOYurshbk21rNSGopOZ_miTRK8ALQvFdOArZVW-4lUss4YpsBgO7twu5EAvw5yY5DjYjfAV-b0ZqHoodY4GdoS75cy0Czf8MeJo81ETeIChLTu-m7mi00W2yzWGBM"/>
+<div class="flex-1">
+<p class="text-body-md font-body-md font-semibold text-on-surface">Clear MagSafe Case</p>
+<p class="text-label-sm font-label-sm text-outline">Protective Series</p>
+<p class="text-label-md font-label-md text-primary mt-1">$49.00</p>
+</div>
+</div>
+</div>
+<!-- Totals -->
+<div class="mt-stack-md space-y-2">
+<div class="flex justify-between text-body-md font-body-md text-on-surface-variant">
+<span>Subtotal</span>
+<span>$1,148.00</span>
+</div>
+<div class="flex justify-between text-body-md font-body-md text-on-surface-variant">
+<span>Shipping</span>
+<span class="text-status-success font-semibold">FREE</span>
+</div>
+<div class="flex justify-between text-headline-md font-headline-md text-on-surface pt-stack-sm border-t border-outline-variant/20">
+<span>Total</span>
+<span>$1,148.00</span>
+</div>
+</div>
+</div>
+<!-- Delivery Address Card -->
+<div class="bg-white p-6 rounded-xl shadow-soft border border-outline-variant/10">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-stack-md flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">location_on</span>
+                        Delivery Address
+                    </h3>
+<div class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+<p class="font-semibold text-on-surface">Alex Thompson</p>
+<p>1248 Market Street, Apt 4B</p>
+<p>San Francisco, CA 94103</p>
+<p>United States</p>
+<p class="mt-2 text-label-sm text-outline flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">call</span>
+                            +1 (555) 012-3456
+                        </p>
+</div>
+</div>
+<!-- Support Card -->
+<div class="bg-primary text-on-primary p-6 rounded-xl shadow-soft overflow-hidden relative group">
+<div class="relative z-10">
+<h3 class="font-headline-md text-headline-md mb-stack-sm">Need Help?</h3>
+<p class="font-body-md text-body-md mb-stack-md opacity-90">Our support team is available 24/7 for any questions regarding your delivery.</p>
+<div class="flex flex-col gap-2">
+<button class="bg-white text-primary w-full py-2.5 rounded-lg font-label-md text-label-md hover:bg-surface-bright transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">chat_bubble</span>
+                                Live Chat Support
+                            </button>
+<button class="bg-primary-container text-white border border-white/20 w-full py-2.5 rounded-lg font-label-md text-label-md hover:bg-primary/80 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">help</span>
+                                Help Center
+                            </button>
+</div>
+</div>
+<!-- Subtle background decoration -->
+<div class="absolute -bottom-4 -right-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low border-t border-outline-variant/20 mt-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-stack-lg px-margin-page py-section-gap max-w-7xl mx-auto">
+<div class="col-span-1 md:col-span-1">
+<div class="text-headline-md font-headline-md font-bold text-primary mb-stack-md">Lumina</div>
+<p class="text-body-md font-body-md text-on-surface-variant">Premium technology and professional repair services since 2012.</p>
+</div>
+<div>
+<h4 class="text-label-md font-label-md font-bold text-on-surface uppercase tracking-wider mb-stack-md">Shop</h4>
+<ul class="space-y-stack-sm">
+<li><a class="text-on-surface-variant hover:text-on-surface transition-colors hover:translate-x-1 inline-block duration-200 text-body-md font-body-md" href="#">Store Locator</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface transition-colors hover:translate-x-1 inline-block duration-200 text-body-md font-body-md" href="#">Latest Devices</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface transition-colors hover:translate-x-1 inline-block duration-200 text-body-md font-body-md" href="#">Refurbished Items</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-label-md font-label-md font-bold text-on-surface uppercase tracking-wider mb-stack-md">Support</h4>
+<ul class="space-y-stack-sm">
+<li><a class="text-on-surface-variant hover:text-on-surface transition-colors hover:translate-x-1 inline-block duration-200 text-body-md font-body-md" href="#">Contact Support</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface transition-colors hover:translate-x-1 inline-block duration-200 text-body-md font-body-md" href="#">Warranty Info</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface transition-colors hover:translate-x-1 inline-block duration-200 text-body-md font-body-md" href="#">Return Policy</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-label-md font-label-md font-bold text-on-surface uppercase tracking-wider mb-stack-md">Legal</h4>
+<ul class="space-y-stack-sm">
+<li><a class="text-on-surface-variant hover:text-on-surface transition-colors hover:translate-x-1 inline-block duration-200 text-body-md font-body-md" href="#">Privacy Policy</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface transition-colors hover:translate-x-1 inline-block duration-200 text-body-md font-body-md" href="#">Terms of Service</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-outline-variant/10 py-6 max-w-7xl mx-auto px-margin-page text-center md:text-left">
+<p class="text-label-sm font-label-sm text-outline">© 2024 Lumina Tech &amp; Repairs. All rights reserved.</p>
+</div>
+</footer>
+<script>
+        // Simple interactivity for demonstration
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => {
+                btn.style.transform = 'scale(0.96)';
+            });
+            btn.addEventListener('mouseup', () => {
+                btn.style.transform = 'scale(1)';
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simulating a real-time update pulse on the driver card
+        const updateIndicator = () => {
+            const timeElement = document.querySelector('.italic');
+            if(timeElement) {
+                const now = new Date();
+                timeElement.innerText = `Last updated: Just now`;
+                setTimeout(() => {
+                    timeElement.innerText = `Last updated: 1 minute ago`;
+                }, 60000);
+            }
+        };
+        setInterval(updateIndicator, 120000);
+    </script>
+</body></html>

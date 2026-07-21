@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lumina Vendor Dashboard - Store Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed": "#ffdbce",
+                      "primary-container": "#008378",
+                      "secondary-fixed": "#dae2fd",
+                      "surface-container-high": "#dce9ff",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary-container": "#fffbff",
+                      "on-error": "#ffffff",
+                      "on-secondary-container": "#5c647a",
+                      "on-background": "#0b1c30",
+                      "on-surface": "#0b1c30",
+                      "surface-tint": "#006a61",
+                      "surface-bright": "#f8f9ff",
+                      "surface": "#f8f9ff",
+                      "status-success": "#10B981",
+                      "surface-container-lowest": "#ffffff",
+                      "outline": "#6d7a77",
+                      "on-tertiary-fixed": "#370e00",
+                      "on-tertiary-fixed-variant": "#773215",
+                      "inverse-on-surface": "#eaf1ff",
+                      "inverse-surface": "#213145",
+                      "surface-container-highest": "#d3e4fe",
+                      "secondary": "#565e74",
+                      "tertiary-container": "#b05e3d",
+                      "status-warning": "#F59E0B",
+                      "error": "#ba1a1a",
+                      "outline-variant": "#bcc9c6",
+                      "on-tertiary": "#ffffff",
+                      "secondary-container": "#dae2fd",
+                      "status-error": "#DC2626",
+                      "surface-dim": "#cbdbf5",
+                      "on-primary-fixed-variant": "#005049",
+                      "surface-container-low": "#eff4ff",
+                      "on-primary": "#ffffff",
+                      "primary-fixed": "#89f5e7",
+                      "background": "#f8f9ff",
+                      "surface-container": "#e5eeff",
+                      "on-secondary-fixed-variant": "#3f465c",
+                      "primary": "#00685f",
+                      "on-secondary-fixed": "#131b2e",
+                      "tertiary": "#924628",
+                      "flash-sale-red": "#DC2626",
+                      "primary-fixed-dim": "#6bd8cb",
+                      "on-primary-container": "#f4fffc",
+                      "secondary-fixed-dim": "#bec6e0",
+                      "surface-background": "#F8FAFC",
+                      "inverse-primary": "#6bd8cb",
+                      "on-primary-fixed": "#00201d",
+                      "error-container": "#ffdad6",
+                      "on-surface-variant": "#3d4947",
+                      "surface-variant": "#d3e4fe",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed-dim": "#ffb59a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-md": "1rem",
+                      "gutter-grid": "0.75rem",
+                      "stack-lg": "1.5rem",
+                      "section-gap": "2rem",
+                      "stack-sm": "0.5rem",
+                      "margin-page": "1rem"
+              },
+              "fontFamily": {
+                      "body-md": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "headline-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                      "headline-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-xl": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+        .sidebar-active { background-color: #00685f; color: #ffffff; }
+        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .custom-shadow { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- Dashboard Layout Wrapper -->
+<div class="flex min-h-screen">
+<!-- Left Sidebar Navigation -->
+<aside class="w-64 bg-surface-container-lowest border-r border-outline-variant/30 flex flex-col sticky top-0 h-screen hidden md:flex">
+<div class="px-6 py-8">
+<span class="text-headline-xl font-headline-xl font-bold text-primary">Lumina</span>
+<p class="text-label-sm text-on-surface-variant uppercase tracking-widest mt-1">Vendor Console</p>
+</div>
+<nav class="flex-1 px-4 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-secondary-container/50 rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-secondary-container/50 rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Products</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-secondary-container/50 rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-secondary-container/50 rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<div class="pt-4 pb-2 px-4">
+<p class="text-label-sm text-outline font-bold uppercase">Management</p>
+</div>
+<a class="flex items-center gap-3 px-4 py-3 sidebar-active rounded-xl shadow-lg shadow-primary/20 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">storefront</span>
+<span class="font-label-md text-label-md">Store Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-secondary-container/50 rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Payouts</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-secondary-container/50 rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined">support_agent</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+</nav>
+<div class="p-4 border-t border-outline-variant/20">
+<div class="flex items-center gap-3 p-2 bg-surface-container-low rounded-xl">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold">L</div>
+<div class="flex-1 min-w-0">
+<p class="text-label-md font-label-md truncate">Lumina Tech</p>
+<p class="text-label-sm text-on-surface-variant truncate">Premium Vendor</p>
+</div>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary">logout</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+<!-- Top Navbar (Mobile Support) -->
+<header class="bg-surface/80 backdrop-blur-md sticky top-0 z-50 border-b border-outline-variant/30 px-6 py-4 flex justify-between items-center">
+<div class="flex items-center gap-4">
+<button class="md:hidden p-2 text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="text-headline-md font-headline-md text-on-surface">Store Settings</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden sm:flex items-center gap-2 px-4 py-2 border border-outline-variant rounded-full text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+<span class="text-label-md">View Live Shop</span>
+</button>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-md hover:opacity-90 active:scale-95 transition-all shadow-md shadow-primary/20">
+                        Save Changes
+                    </button>
+</div>
+</header>
+<div class="px-6 py-8 max-w-5xl w-full mx-auto space-y-8">
+<!-- Section: Visual Identity -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h2 class="text-headline-md font-headline-md">Visual Identity</h2>
+<span class="text-label-sm text-on-surface-variant">Last updated 2 days ago</span>
+</div>
+<!-- Shop Banner Upload -->
+<div class="relative group">
+<div class="w-full h-64 rounded-2xl overflow-hidden bg-surface-container-high relative custom-shadow transition-transform hover:scale-[1.005]">
+<div class="w-full h-full bg-cover bg-center opacity-80 group-hover:opacity-100 transition-opacity" data-alt="A wide panoramic horizontal banner for a tech store featuring minimalist clean lines, soft neon cyan accents, and abstract circuitry patterns on a professional dark slate background. The image is designed with ample copy space for a vendor shop name and exudes a high-end, premium marketplace aesthetic with sharp focus and cinematic studio lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC-dAj13ANtRqxh3K_lMjty0HXxlweMKvMT0-a_nln6kmWlMtZY-7Fw8GNr1fqn2zngPxWfnBJ-PoARvPQQvgepnOPg4Jm9zDK1B_LcJYU5opPxBSWkJWaQovpjWvDntPzZYkxQ3rtNqz4_QAwJEPOht7x9plP1WaVWyYJOJkVlPmO2EXV5Nmyskr4CQ_aq69-CQRF8SchUs9TrgIMMrfngNkrRPfkedEXKXy5HQ5jeRylp-0quZQB4zVZmJ-xwyNQTrkqx1NWyYmkq')"></div>
+<div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+<div class="bg-white/90 backdrop-blur-sm px-6 py-3 rounded-full flex items-center gap-2 shadow-xl">
+<span class="material-symbols-outlined text-primary">add_a_photo</span>
+<span class="text-label-md font-semibold text-primary">Change Shop Banner</span>
+</div>
+</div>
+</div>
+<!-- Shop Logo Overlay -->
+<div class="absolute -bottom-6 left-8 flex items-end gap-6">
+<div class="w-32 h-32 rounded-3xl bg-white p-2 shadow-2xl relative group/logo overflow-hidden border border-white/50">
+<div class="w-full h-full rounded-2xl bg-surface-container-low flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A sleek and professional minimalist corporate logo for a technology vendor called Lumina. The logo is a stylized geometric letter L with radiant glow effects in a teal and deep navy color scheme, set against a pristine white studio background with soft directional lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvQYq_wiAlN_IJnET5yIZQrpdYniHs7S96kgx67broYN38DWRRLe4bA9V727-hHDHzuO55BgX0tXgZXQAGPHr7tkFneNqYkwiq5iTOS89W5r7A2beuRxq_LAxfmoat8CalKOHaALmpWlN1iPN-9R9e_Yag55SnNAhB-aZPy_9F4aJHNd1PjIkB-BZM8rJJCZcJwwH0AZmEzEDtjYacdSm0MjRB_KesZKmKWqlZAdxrSsabkSELvKfvqx-XkS9e70gLOuLHJ4Kr7DYP"/>
+</div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover/logo:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+<span class="material-symbols-outlined text-white">edit</span>
+</div>
+</div>
+<div class="pb-2">
+<h3 class="text-headline-lg font-headline-lg text-on-surface drop-shadow-sm">Lumina Official Store</h3>
+<p class="text-body-md text-on-surface-variant">Established Jan 2024 • Top Rated Vendor</p>
+</div>
+</div>
+</div>
+</section>
+<div class="pt-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Form Columns: Main Details -->
+<div class="lg:col-span-2 space-y-6">
+<!-- Card: Shop Details -->
+<div class="bg-white p-8 rounded-3xl custom-shadow space-y-6 border border-outline-variant/10">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary">info</span>
+<h3 class="text-headline-md font-headline-md">General Information</h3>
+</div>
+<div class="grid grid-cols-1 gap-6">
+<div class="space-y-2">
+<label class="text-label-md font-semibold text-on-surface">Store Name</label>
+<input class="w-full px-4 py-3 rounded-xl border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-body-md" type="text" value="Lumina Official Store"/>
+</div>
+<div class="space-y-2">
+<label class="text-label-md font-semibold text-on-surface">Store Bio / Slogan</label>
+<input class="w-full px-4 py-3 rounded-xl border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-body-md" placeholder="e.g. Elevating your digital lifestyle" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-label-md font-semibold text-on-surface">Full Store Description</label>
+<textarea class="w-full px-4 py-3 rounded-xl border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-body-md leading-relaxed" rows="5">Lumina is a premium retailer of high-end electronics and boutique repair services. We specialize in Apple and Samsung ecosystem maintenance, providing OEM parts and expert-level craftsmanship for all our customers globally. Our mission is to provide clarity and trust in the tech repair industry.</textarea>
+<p class="text-label-sm text-outline text-right">Character count: 284/1000</p>
+</div>
+</div>
+</div>
+<!-- Card: Shipping Policies -->
+<div class="bg-white p-8 rounded-3xl custom-shadow space-y-6 border border-outline-variant/10">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary">local_shipping</span>
+<h3 class="text-headline-md font-headline-md">Shipping &amp; Returns</h3>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest border border-outline-variant/20 rounded-2xl">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">flight</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface">International Shipping</p>
+<p class="text-label-sm text-on-surface-variant">Enabled - Ships to 142 countries</p>
+</div>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="text-label-md font-semibold text-on-surface">Processing Time</label>
+<select class="w-full px-4 py-3 rounded-xl border border-outline-variant focus:border-primary outline-none text-body-md appearance-none bg-white">
+<option>1-2 Business Days</option>
+<option>3-5 Business Days</option>
+<option>Within 24 Hours</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-label-md font-semibold text-on-surface">Base Shipping Fee</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-outline">$</span>
+<input class="w-full pl-8 pr-4 py-3 rounded-xl border border-outline-variant focus:border-primary outline-none text-body-md" type="number" value="12.00"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Column: Analytics/Status/Preview -->
+<div class="space-y-6">
+<!-- Card: Profile Strength -->
+<div class="bg-primary text-white p-8 rounded-3xl shadow-xl shadow-primary/20 relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="text-label-md font-bold uppercase tracking-wider opacity-80">Profile Strength</h4>
+<p class="text-headline-xl font-headline-xl mt-2">85%</p>
+<div class="w-full bg-white/20 h-2 rounded-full mt-4">
+<div class="bg-white h-full rounded-full" style="width: 85%"></div>
+</div>
+<p class="text-body-md mt-6 opacity-90 leading-relaxed">Add a shop video to reach 100% and get boosted in search results.</p>
+<button class="mt-6 w-full py-3 bg-white text-primary rounded-xl font-label-md font-bold hover:bg-surface-bright transition-colors">
+                                    Add Shop Video
+                                </button>
+</div>
+<!-- Decorative Circle -->
+<div class="absolute -right-12 -bottom-12 w-48 h-48 bg-white/10 rounded-full blur-2xl"></div>
+</div>
+<!-- Card: Contact & Social -->
+<div class="bg-white p-6 rounded-3xl custom-shadow border border-outline-variant/10 space-y-4">
+<h3 class="font-headline-md text-headline-md">Store Contact</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
+<span class="material-symbols-outlined text-outline">alternate_email</span>
+<span class="text-body-md">support@lumina.tech</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
+<span class="material-symbols-outlined text-outline">language</span>
+<span class="text-body-md">www.lumina.tech</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
+<span class="material-symbols-outlined text-outline">share</span>
+<span class="text-body-md">Social Media Linked</span>
+</div>
+</div>
+<button class="w-full py-2 text-primary font-label-md hover:underline">Edit Contact Methods</button>
+</div>
+<!-- Card: Support Helper -->
+<div class="bg-tertiary-fixed text-on-tertiary-fixed-variant p-6 rounded-3xl border border-tertiary-container/20">
+<div class="flex gap-4">
+<span class="material-symbols-outlined">lightbulb</span>
+<div>
+<p class="font-bold text-label-md">Pro Tip</p>
+<p class="text-body-md mt-1">Vendors with a clear return policy see 25% more sales conversion. Make sure yours is concise!</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Dashboard Footer -->
+<footer class="mt-auto px-6 py-8 bg-surface-container-lowest border-t border-outline-variant/20">
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 max-w-7xl mx-auto">
+<p class="text-body-md text-on-surface-variant">© 2024 Lumina Tech &amp; Repairs. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+</main>
+</div>
+<!-- Mobile Bottom Navigation Shell (Consistent with Shared Components logic) -->
+<div class="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant/30 flex justify-around items-center py-3 z-[60]">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-[10px] font-bold">Products</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">storefront</span>
+<span class="text-[10px] font-bold">Settings</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="text-[10px] font-bold">Profile</span>
+</button>
+</div>
+<script>
+        // Simple Interaction Script
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.add('scale-95');
+                setTimeout(() => btn.classList.remove('scale-95'), 150);
+            });
+        });
+
+        // Hover effect for image upload
+        const bannerContainer = document.querySelector('.group');
+        if (bannerContainer) {
+            bannerContainer.addEventListener('mousemove', (e) => {
+                const rect = bannerContainer.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                // Subtle parallax or highlight effect could go here
+            });
+        }
+    </script>
+</body></html>

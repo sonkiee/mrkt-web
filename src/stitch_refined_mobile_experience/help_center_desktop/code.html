@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lumina | Help Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.5);
+        }
+        .hover-lift {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -10px rgba(13, 148, 136, 0.15);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed": "#ffdbce",
+                      "primary-container": "#008378",
+                      "secondary-fixed": "#dae2fd",
+                      "surface-container-high": "#dce9ff",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary-container": "#fffbff",
+                      "on-error": "#ffffff",
+                      "on-secondary-container": "#5c647a",
+                      "on-background": "#0b1c30",
+                      "on-surface": "#0b1c30",
+                      "surface-tint": "#006a61",
+                      "surface-bright": "#f8f9ff",
+                      "surface": "#f8f9ff",
+                      "status-success": "#10B981",
+                      "surface-container-lowest": "#ffffff",
+                      "outline": "#6d7a77",
+                      "on-tertiary-fixed": "#370e00",
+                      "on-tertiary-fixed-variant": "#773215",
+                      "inverse-on-surface": "#eaf1ff",
+                      "inverse-surface": "#213145",
+                      "surface-container-highest": "#d3e4fe",
+                      "secondary": "#565e74",
+                      "tertiary-container": "#b05e3d",
+                      "status-warning": "#F59E0B",
+                      "error": "#ba1a1a",
+                      "outline-variant": "#bcc9c6",
+                      "on-tertiary": "#ffffff",
+                      "secondary-container": "#dae2fd",
+                      "status-error": "#DC2626",
+                      "surface-dim": "#cbdbf5",
+                      "on-primary-fixed-variant": "#005049",
+                      "surface-container-low": "#eff4ff",
+                      "on-primary": "#ffffff",
+                      "primary-fixed": "#89f5e7",
+                      "background": "#f8f9ff",
+                      "surface-container": "#e5eeff",
+                      "on-secondary-fixed-variant": "#3f465c",
+                      "primary": "#00685f",
+                      "on-secondary-fixed": "#131b2e",
+                      "tertiary": "#924628",
+                      "flash-sale-red": "#DC2626",
+                      "primary-fixed-dim": "#6bd8cb",
+                      "on-primary-container": "#f4fffc",
+                      "secondary-fixed-dim": "#bec6e0",
+                      "surface-background": "#F8FAFC",
+                      "inverse-primary": "#6bd8cb",
+                      "on-primary-fixed": "#00201d",
+                      "error-container": "#ffdad6",
+                      "on-surface-variant": "#3d4947",
+                      "surface-variant": "#d3e4fe",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed-dim": "#ffb59a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-md": "1rem",
+                      "gutter-grid": "0.75rem",
+                      "stack-lg": "1.5rem",
+                      "section-gap": "2rem",
+                      "stack-sm": "0.5rem",
+                      "margin-page": "1rem"
+              },
+              "fontFamily": {
+                      "body-md": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "headline-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                      "headline-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-xl": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-surface-background text-on-surface font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Top Navigation Bar -->
+<header class="bg-surface/80 backdrop-blur-md sticky top-0 z-50 border-b border-outline-variant/30">
+<div class="flex justify-between items-center w-full px-margin-page py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-headline-xl font-headline-xl font-bold text-on-surface">Lumina</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Store</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">iPhone</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Samsung</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">iPad</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Accessories</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Repairs</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+</button>
+<button class="p-2 hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined text-on-surface-variant">shopping_bag</span>
+</button>
+<button class="p-2 hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined text-on-surface-variant">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="min-h-screen">
+<!-- Hero Search Section -->
+<section class="relative overflow-hidden bg-primary py-24 text-center">
+
+<div class="relative z-10 max-w-4xl mx-auto px-margin-page">
+<h1 class="text-headline-xl font-headline-xl text-on-primary-container mb-stack-lg">How can we help?</h1>
+<div class="relative group max-w-2xl mx-auto">
+<span class="material-symbols-outlined absolute left-6 top-1/2 -translate-y-1/2 text-primary text-2xl group-focus-within:scale-110 transition-transform">search</span>
+<input class="w-full pl-16 pr-6 py-5 rounded-xl border-none bg-surface-container-lowest shadow-lg focus:ring-2 focus:ring-primary-fixed-dim text-body-lg font-body-lg placeholder:text-on-surface-variant/60 transition-all outline-none" placeholder="Search for articles, topics, or keywords..." type="text"/>
+</div>
+<div class="mt-stack-lg flex flex-wrap justify-center gap-3">
+<span class="text-on-primary-container/80 text-label-md font-label-md">Popular:</span>
+<a class="text-label-md font-label-md text-on-primary-container hover:underline transition-all" href="#">Track Order</a>
+<a class="text-label-md font-label-md text-on-primary-container hover:underline transition-all" href="#">Refund Status</a>
+<a class="text-label-md font-label-md text-on-primary-container hover:underline transition-all" href="#">Change Address</a>
+</div>
+</div>
+</section>
+<!-- Category Grid Section (Asymmetric Bento) -->
+<section class="max-w-7xl mx-auto px-margin-page py-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-gutter-grid">
+<!-- Orders & Shipping -->
+<div class="md:col-span-3 lg:col-span-4 p-8 rounded-xl glass-card hover-lift cursor-pointer flex flex-col justify-between h-64">
+<div>
+<div class="w-12 h-12 bg-primary-fixed text-on-primary-fixed rounded-lg flex items-center justify-center mb-stack-md">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Orders &amp; Shipping</h3>
+<p class="text-body-md font-body-md text-on-surface-variant mt-2">Track shipments, modify delivery, or manage pending orders.</p>
+</div>
+<span class="text-primary font-semibold flex items-center gap-2 group">Explore <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span></span>
+</div>
+<!-- Payments -->
+<div class="md:col-span-3 lg:col-span-4 p-8 rounded-xl glass-card hover-lift cursor-pointer flex flex-col justify-between h-64">
+<div>
+<div class="w-12 h-12 bg-secondary-fixed text-on-secondary-fixed rounded-lg flex items-center justify-center mb-stack-md">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Payments</h3>
+<p class="text-body-md font-body-md text-on-surface-variant mt-2">Billing inquiries, payment methods, and invoice downloads.</p>
+</div>
+<span class="text-primary font-semibold flex items-center gap-2 group">Explore <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span></span>
+</div>
+<!-- Returns & Refunds -->
+<div class="md:col-span-6 lg:col-span-4 p-8 rounded-xl glass-card hover-lift cursor-pointer flex flex-col justify-between h-64">
+<div>
+<div class="w-12 h-12 bg-tertiary-fixed text-on-tertiary-fixed rounded-lg flex items-center justify-center mb-stack-md">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">assignment_return</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Returns &amp; Refunds</h3>
+<p class="text-body-md font-body-md text-on-surface-variant mt-2">Easy 30-day returns, refund timelines, and exchange policies.</p>
+</div>
+<span class="text-primary font-semibold flex items-center gap-2 group">Explore <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span></span>
+</div>
+<!-- Vendor Support -->
+<div class="md:col-span-4 lg:col-span-6 p-8 rounded-xl bg-surface-container-high hover-lift cursor-pointer flex flex-col md:flex-row items-start md:items-center gap-6 h-auto md:h-48">
+<div class="w-16 h-16 bg-on-surface text-surface rounded-full flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">store</span>
+</div>
+<div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Vendor Support</h3>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1">Resources for Lumina Partners, dashboard help, and selling guidelines.</p>
+<span class="inline-block mt-4 text-primary font-semibold">Partner Portal Access →</span>
+</div>
+</div>
+<!-- Technical Issues -->
+<div class="md:col-span-2 lg:col-span-6 p-8 rounded-xl bg-surface-container-highest hover-lift cursor-pointer flex flex-col md:flex-row items-start md:items-center gap-6 h-auto md:h-48">
+<div class="w-16 h-16 bg-primary-container text-on-primary-container rounded-full flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">build</span>
+</div>
+<div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Technical Issues</h3>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1">Login troubles, site errors, and app troubleshooting tips.</p>
+<span class="inline-block mt-4 text-primary font-semibold">Get Help →</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Trending Articles -->
+<section class="max-w-7xl mx-auto px-margin-page py-section-gap bg-surface-container-lowest rounded-3xl mb-section-gap">
+<div class="flex items-center justify-between mb-stack-lg">
+<h2 class="text-headline-xl font-headline-xl text-on-surface">Trending Articles</h2>
+<a class="text-primary font-semibold hover:underline" href="#">View All Articles</a>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg">
+<div class="space-y-4">
+<a class="flex items-center p-6 rounded-xl hover:bg-surface-container transition-colors group" href="#">
+<span class="text-primary-container font-bold text-headline-md w-12">01</span>
+<div class="flex-1">
+<h4 class="text-headline-md font-headline-md text-on-surface group-hover:text-primary transition-colors">How to setup your new Lumina device</h4>
+<p class="text-body-md text-on-surface-variant">A step-by-step guide for first-time Lumina Tech users.</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">chevron_right</span>
+</a>
+<a class="flex items-center p-6 rounded-xl hover:bg-surface-container transition-colors group" href="#">
+<span class="text-primary-container font-bold text-headline-md w-12">02</span>
+<div class="flex-1">
+<h4 class="text-headline-md font-headline-md text-on-surface group-hover:text-primary transition-colors">Updating your firmware via the Lumina App</h4>
+<p class="text-body-md text-on-surface-variant">Keep your tech running smoothly with latest security patches.</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">chevron_right</span>
+</a>
+</div>
+<div class="space-y-4">
+<a class="flex items-center p-6 rounded-xl hover:bg-surface-container transition-colors group" href="#">
+<span class="text-primary-container font-bold text-headline-md w-12">03</span>
+<div class="flex-1">
+<h4 class="text-headline-md font-headline-md text-on-surface group-hover:text-primary transition-colors">Understanding the 1-year warranty coverage</h4>
+<p class="text-body-md text-on-surface-variant">What's included in our comprehensive protection plan.</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">chevron_right</span>
+</a>
+<a class="flex items-center p-6 rounded-xl hover:bg-surface-container transition-colors group" href="#">
+<span class="text-primary-container font-bold text-headline-md w-12">04</span>
+<div class="flex-1">
+<h4 class="text-headline-md font-headline-md text-on-surface group-hover:text-primary transition-colors">Recycling your old Lumina products</h4>
+<p class="text-body-md text-on-surface-variant">Join our sustainability program and earn store credit.</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">chevron_right</span>
+</a>
+</div>
+</div>
+</section>
+<!-- Contact Support Section -->
+<section class="bg-on-secondary-fixed text-surface-bright py-section-gap overflow-hidden relative">
+<div class="absolute right-0 bottom-0 opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-[300px]" style="font-variation-settings: 'wght' 700;">support_agent</span>
+</div>
+<div class="max-w-7xl mx-auto px-margin-page relative z-10">
+<div class="text-center mb-12">
+<h2 class="text-headline-xl font-headline-xl mb-4">Still need help?</h2>
+<p class="text-body-lg text-on-secondary-fixed-variant max-w-2xl mx-auto">Our dedicated support team is available 24/7 to assist you with any questions or technical challenges.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-lg max-w-4xl mx-auto">
+<!-- Live Chat -->
+<div class="bg-on-secondary-fixed-variant/20 border border-on-secondary-fixed-variant/30 p-8 rounded-2xl flex items-start gap-6 hover:bg-on-secondary-fixed-variant/40 transition-colors">
+<div class="p-4 bg-primary rounded-xl">
+<span class="material-symbols-outlined text-white text-2xl">chat</span>
+</div>
+<div>
+<h3 class="text-headline-md font-headline-md mb-2">Live Chat</h3>
+<p class="text-body-md text-on-secondary-fixed-variant mb-4">Wait time: &lt; 2 minutes</p>
+<button class="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-container transition-all active:scale-95">Start Chat Now</button>
+</div>
+</div>
+<!-- Email Support -->
+<div class="bg-on-secondary-fixed-variant/20 border border-on-secondary-fixed-variant/30 p-8 rounded-2xl flex items-start gap-6 hover:bg-on-secondary-fixed-variant/40 transition-colors">
+<div class="p-4 bg-secondary rounded-xl">
+<span class="material-symbols-outlined text-white text-2xl">mail</span>
+</div>
+<div>
+<h3 class="text-headline-md font-headline-md mb-2">Email Support</h3>
+<p class="text-body-md text-on-secondary-fixed-variant mb-4">Typical response: 12-24 hours</p>
+<button class="bg-surface-bright text-on-surface px-6 py-2 rounded-lg font-semibold hover:bg-white transition-all active:scale-95">Send an Email</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low border-t border-outline-variant/20 mt-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-stack-lg px-margin-page py-section-gap max-w-7xl mx-auto">
+<div class="col-span-1 md:col-span-1">
+<span class="text-headline-md font-headline-md font-bold text-primary mb-stack-md block">Lumina</span>
+<p class="text-body-md text-on-surface-variant">Empowering global commerce with precision technology and premium service.</p>
+</div>
+<div>
+<h4 class="text-headline-md font-headline-md text-on-surface mb-stack-md">Company</h4>
+<ul class="space-y-2">
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 duration-200 transition-all inline-block" href="#">About Us</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 duration-200 transition-all inline-block" href="#">Store Locator</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 duration-200 transition-all inline-block" href="#">Contact Support</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-headline-md font-headline-md text-on-surface mb-stack-md">Support</h4>
+<ul class="space-y-2">
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 duration-200 transition-all inline-block" href="#">Warranty Info</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 duration-200 transition-all inline-block" href="#">Privacy Policy</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 duration-200 transition-all inline-block" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-headline-md font-headline-md text-on-surface mb-stack-md">Connect</h4>
+<div class="flex gap-4">
+<a class="p-2 bg-surface rounded-full hover:shadow-md transition-shadow" href="#">
+<span class="material-symbols-outlined text-primary">share</span>
+</a>
+<a class="p-2 bg-surface rounded-full hover:shadow-md transition-shadow" href="#">
+<span class="material-symbols-outlined text-primary">public</span>
+</a>
+</div>
+<p class="mt-6 text-label-md text-on-surface-variant">© 2024 Lumina Tech &amp; Repairs. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for article clicks
+        document.querySelectorAll('a[href="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Action: Navigation simulated');
+            });
+        });
+
+        // Search bar focus effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.parentElement.classList.add('scale-[1.02]');
+            searchInput.parentElement.parentElement.style.transition = 'all 0.3s ease';
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.parentElement.classList.remove('scale-[1.02]');
+        });
+    </script>
+</body></html>

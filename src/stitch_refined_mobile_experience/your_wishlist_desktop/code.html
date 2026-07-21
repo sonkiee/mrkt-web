@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Wishlist | Lumina Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9ff;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .wishlist-card:hover .remove-btn {
+            opacity: 1;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-low": "#eff4ff",
+                    "on-surface-variant": "#3d4947",
+                    "on-secondary-container": "#5c647a",
+                    "status-warning": "#F59E0B",
+                    "error-container": "#ffdad6",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#d3e4fe",
+                    "surface-container": "#e5eeff",
+                    "secondary": "#565e74",
+                    "inverse-primary": "#6bd8cb",
+                    "primary-fixed-dim": "#6bd8cb",
+                    "on-background": "#0b1c30",
+                    "status-error": "#DC2626",
+                    "inverse-surface": "#213145",
+                    "on-tertiary-container": "#fffbff",
+                    "on-secondary-fixed": "#131b2e",
+                    "secondary-fixed-dim": "#bec6e0",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed-variant": "#3f465c",
+                    "tertiary": "#924628",
+                    "primary": "#00685f",
+                    "primary-fixed": "#89f5e7",
+                    "on-primary-fixed": "#00201d",
+                    "background": "#f8f9ff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface": "#f8f9ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "tertiary-fixed-dim": "#ffb59a",
+                    "tertiary-fixed": "#ffdbce",
+                    "surface-container-high": "#dce9ff",
+                    "on-primary": "#ffffff",
+                    "status-success": "#10B981",
+                    "surface-bright": "#f8f9ff",
+                    "surface-dim": "#cbdbf5",
+                    "surface-tint": "#006a61",
+                    "on-error": "#ffffff",
+                    "tertiary-container": "#b05e3d",
+                    "on-tertiary-fixed-variant": "#773215",
+                    "on-tertiary-fixed": "#370e00",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#008378",
+                    "outline-variant": "#bcc9c6",
+                    "secondary-fixed": "#dae2fd",
+                    "error": "#ba1a1a",
+                    "surface-background": "#F8FAFC",
+                    "secondary-container": "#dae2fd",
+                    "on-secondary": "#ffffff",
+                    "flash-sale-red": "#DC2626",
+                    "on-primary-fixed-variant": "#005049",
+                    "outline": "#6d7a77",
+                    "on-primary-container": "#f4fffc"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-page": "1rem",
+                    "stack-lg": "1.5rem",
+                    "gutter-grid": "0.75rem",
+                    "section-gap": "2rem",
+                    "stack-sm": "0.5rem",
+                    "stack-md": "1rem"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-xl": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar -->
+<header class="bg-surface/80 dark:bg-on-surface/80 backdrop-blur-md sticky top-0 z-50 border-b border-outline-variant/30">
+<div class="flex justify-between items-center w-full px-margin-page py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-8">
+<a class="text-headline-xl font-headline-xl font-bold text-on-surface" href="#">Lumina</a>
+<nav class="hidden md:flex gap-6">
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Store</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">iPhone</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Samsung</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">iPad</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Accessories</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Repairs</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+<button class="p-2 text-primary border-b-2 border-primary pb-1 font-semibold">
+<span class="material-symbols-outlined" data-weight="fill">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-margin-page py-section-gap min-h-screen">
+<!-- Wishlist Header -->
+<div class="flex flex-col md:flex-row justify-between items-end gap-4 mb-stack-lg">
+<div>
+<h1 class="text-headline-xl font-headline-xl text-on-surface">Your Wishlist</h1>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1">Manage your saved items and add them to your bag whenever you're ready.</p>
+</div>
+<div class="flex gap-stack-sm">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-highest rounded-xl text-label-md font-label-md text-on-surface-variant hover:bg-surface-dim transition-colors">
+<span class="material-symbols-outlined text-[20px]">share</span>
+                    Share List
+                </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-xl text-label-md font-label-md hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+                    Add All to Bag
+                </button>
+</div>
+</div>
+<!-- Bento Grid for Wishlist Items -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter-grid">
+<!-- Item 1 -->
+<div class="wishlist-card group relative bg-white rounded-xl overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.04)] border border-outline-variant/20 hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] transition-all duration-300">
+<div class="relative aspect-square overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A premium, sleek silver laptop placed on a clean white desk. The lighting is bright and airy, reflecting a modern light-mode marketplace aesthetic. Soft shadows and a minimalist background highlight the product's high-end metallic finish. Professional studio photography style with crisp details." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDncB-7kaJThlOMbjF2NN4r_-LHpmark1yjwfo_OI-kys5gIAoCXqwfIf_dnSqI_aH_VMhYYFe5W3Po08P0io8zRhMlj82OWZADVRK-mR39oZVVWl4dEEGtEc9qW6iaKHsCnnOcuoPAJSI-IttPaH5w1MK4z_cjDKiKHrgyFXtNJOaRfuuJWSdJBOs_Ey55NM7oQOzvXvvAHL7HZh7hB54CE_C7LICYHtRK1a8Yp4dHKydC7KQ1PqHFySLnMILX0Ed0V4zPHjNwU9A6"/>
+<button class="remove-btn absolute top-3 right-3 p-2 bg-white/90 backdrop-blur shadow-md rounded-full text-status-error opacity-0 md:opacity-0 hover:bg-white transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<div class="absolute top-3 left-3 bg-primary px-3 py-1 rounded-full">
+<span class="text-label-sm font-label-sm text-on-primary">IN STOCK</span>
+</div>
+</div>
+<div class="p-stack-md flex flex-col gap-1">
+<span class="text-label-sm font-label-sm text-primary uppercase tracking-wider">Computers</span>
+<h3 class="text-headline-md font-headline-md text-on-surface line-clamp-1">Lumina Pro Book 14"</h3>
+<div class="flex items-center gap-1 mt-1">
+<span class="text-headline-md font-headline-md text-on-surface">$1,299.00</span>
+<span class="text-body-md font-body-md text-on-surface-variant line-through ml-2">$1,499.00</span>
+</div>
+<button class="mt-4 w-full bg-primary text-on-primary py-3 rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                        Add to Cart
+                    </button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="wishlist-card group relative bg-white rounded-xl overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.04)] border border-outline-variant/20 hover:shadow-[0_8_20px_rgba(0,0,0,0.08)] transition-all duration-300">
+<div class="relative aspect-square overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A pair of high-fidelity matte black over-ear headphones displayed against a soft teal gradient background. The product features premium leather cushions and metallic accents. The overall mood is sophisticated and tech-focused, aligned with a premium e-commerce marketplace feel. Clean, studio-quality lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuWeuCwrQvZ2HUYJQ4XTXSZreNOkU-7ep8FpHqLfrdZociqYfdQa-yTuYecR8_6ycpl4B4Q6rjmXCM6x9W1IIXXx8ICvACn2P6O_YHARyiNQNLRv-tEmVovbbhP-2QivoiVBgjZgtT02HIEH8joP701e2LON5pgymYgs3rVezI24VYW2XhfYv4EkKL7pWKspL7e9Dm6_nmCeLvwmeUfkMYmeoc7QGhC1kyXgNvqUp5gAM_b8rkE9RBDlef1LfVJ6GXxSUUwpPdtsVy"/>
+<button class="remove-btn absolute top-3 right-3 p-2 bg-white/90 backdrop-blur shadow-md rounded-full text-status-error opacity-0 md:opacity-0 hover:bg-white transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+<div class="p-stack-md flex flex-col gap-1">
+<span class="text-label-sm font-label-sm text-primary uppercase tracking-wider">Audio</span>
+<h3 class="text-headline-md font-headline-md text-on-surface line-clamp-1">SonicWave ANC Headphones</h3>
+<div class="flex items-center gap-1 mt-1">
+<span class="text-headline-md font-headline-md text-on-surface">$349.00</span>
+</div>
+<button class="mt-4 w-full bg-primary text-on-primary py-3 rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                        Add to Cart
+                    </button>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="wishlist-card group relative bg-white rounded-xl overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.04)] border border-outline-variant/20 hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] transition-all duration-300">
+<div class="relative aspect-square overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A minimalist smart watch with a circular titanium body and a forest green silicone strap. The watch face shows a clean health tracking interface. The shot is a close-up macro view highlighting the precision engineering and texture. Bright, contemporary lighting with a subtle depth-of-field effect." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwOJAK3o8_aC75qSumA_xLgQBoTDSRS0ToEJcIAX0U3Ru_CJ5vqaDVu-HBgiAPwh_ECGRw7nTbytPcYll3fMolkUMhzf4EvxbwLUzgxFdkeDpteStR8iS1ZCkyV3HfKtBDko1GJBoZgzORz2f0kq-2y13kVrugt3WFjkMYqEBAH7KPwPi1ZJQx_1pYUlicniSvD1Pp1IbWR-VWI3alSWVMMA0EbtQXW7kIeUNLAuymCBqedsTDwRtX0wBc5zaFaEhIJMK4n-wynhbP"/>
+<button class="remove-btn absolute top-3 right-3 p-2 bg-white/90 backdrop-blur shadow-md rounded-full text-status-error opacity-0 md:opacity-0 hover:bg-white transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<div class="absolute top-3 left-3 bg-status-warning px-3 py-1 rounded-full">
+<span class="text-label-sm font-label-sm text-white">LOW STOCK</span>
+</div>
+</div>
+<div class="p-stack-md flex flex-col gap-1">
+<span class="text-label-sm font-label-sm text-primary uppercase tracking-wider">Wearables</span>
+<h3 class="text-headline-md font-headline-md text-on-surface line-clamp-1">Lumina Watch Series 5</h3>
+<div class="flex items-center gap-1 mt-1">
+<span class="text-headline-md font-headline-md text-on-surface">$399.00</span>
+</div>
+<button class="mt-4 w-full bg-primary text-on-primary py-3 rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                        Add to Cart
+                    </button>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="wishlist-card group relative bg-white rounded-xl overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.04)] border border-outline-variant/20 hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] transition-all duration-300">
+<div class="relative aspect-square overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A high-performance mirrorless camera with a professional prime lens. The camera has a classic matte black magnesium alloy body. It is positioned on a marble surface with soft, diffused window light creating a premium, clean aesthetic. The focus is sharp on the lens glass reflecting a soft blue light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdskVv-STaOuc0JYVComuAzsukCiecsKRLo9t8P_zN9ZbuaOcFaXP0qIhRlxRPdFI5RrPDu68Q6nge64hkk58zC3tRdvAlibQ_Tr4wvx2eS_HCfIpflWuDIqpCnp2pKUt9476xFm-Q5y6KvehRgEctXfCwPzm2kLtQtcT4ojk1RUQLkakFRV6pRc_OG_77ILacakQ-Wi6fFi4eyIDTti9wSXjA3LPg-v0FlWnxxlSUzYUNuyBySEvdUPlTRYcD73aL-zSx38LLXH40"/>
+<button class="remove-btn absolute top-3 right-3 p-2 bg-white/90 backdrop-blur shadow-md rounded-full text-status-error opacity-0 md:opacity-0 hover:bg-white transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+<div class="p-stack-md flex flex-col gap-1">
+<span class="text-label-sm font-label-sm text-primary uppercase tracking-wider">Photography</span>
+<h3 class="text-headline-md font-headline-md text-on-surface line-clamp-1">Optic X-Pro Mirrorless</h3>
+<div class="flex items-center gap-1 mt-1">
+<span class="text-headline-md font-headline-md text-on-surface">$1,899.00</span>
+</div>
+<button class="mt-4 w-full bg-primary text-on-primary py-3 rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                        Add to Cart
+                    </button>
+</div>
+</div>
+<!-- Item 5 -->
+<div class="wishlist-card group relative bg-white rounded-xl overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.04)] border border-outline-variant/20 hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] transition-all duration-300">
+<div class="relative aspect-square overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A professional ultra-wide curved monitor displaying a vibrant coding interface and creative design tools. The monitor stands on a sleek aluminum mount. The desk environment is minimalist with a small plant and warm ambient light, conveying a productive yet elegant workspace atmosphere. High-resolution digital render style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByUfCFhlGnul5mXFxiEtnw_rX2oVbyh7k2dLOt8WWJF5WMmx9JgdAqBg-CqYs2-236S0ouT1IG_lTgGAhlOHZ-8FYbJVnG7Aty3phYmEXpuvaAMOwpRAKdHkhGNsArm7ECqApzg8pnZUO4dwEmGdoGWRzAeo362GJLZfpJB_NQOW_asMAV7YjTTy9XUv2835vgdrGWimplNJFhSe3EwVYqWYY8aITZTvzae_wC1hUfVNR8g057Vd8joKhQKQTiRmT0YgNIkl-aHMEx"/>
+<button class="remove-btn absolute top-3 right-3 p-2 bg-white/90 backdrop-blur shadow-md rounded-full text-status-error opacity-0 md:opacity-0 hover:bg-white transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+<div class="p-stack-md flex flex-col gap-1">
+<span class="text-label-sm font-label-sm text-primary uppercase tracking-wider">Peripherals</span>
+<h3 class="text-headline-md font-headline-md text-on-surface line-clamp-1">VistaCurv 34" Ultrawide</h3>
+<div class="flex items-center gap-1 mt-1">
+<span class="text-headline-md font-headline-md text-on-surface">$849.00</span>
+</div>
+<button class="mt-4 w-full bg-primary text-on-primary py-3 rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                        Add to Cart
+                    </button>
+</div>
+</div>
+<!-- Empty State Suggestion Placeholder -->
+<div class="lg:col-span-1 bg-surface-container-low rounded-xl border-2 border-dashed border-outline-variant/50 flex flex-col items-center justify-center p-stack-lg text-center gap-3 min-h-[300px]">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[28px]">add_circle</span>
+</div>
+<div>
+<h4 class="text-headline-md font-headline-md text-on-surface">Find More</h4>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-[200px] mx-auto">Browse our latest arrivals and save your favorites.</p>
+</div>
+<a class="text-label-md font-label-md text-primary hover:underline" href="#">Explore Store</a>
+</div>
+</div>
+<!-- Pagination or Load More -->
+<div class="mt-section-gap flex justify-center">
+<button class="px-8 py-3 border-2 border-primary text-primary font-label-md text-label-md rounded-xl hover:bg-primary hover:text-on-primary transition-all duration-300">
+                View 12 More Items
+            </button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low border-t border-outline-variant/20 mt-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-stack-lg px-margin-page py-section-gap max-w-7xl mx-auto">
+<div class="flex flex-col gap-4">
+<a class="text-headline-md font-headline-md font-bold text-primary" href="#">Lumina</a>
+<p class="text-body-md font-body-md text-on-secondary-fixed-variant max-w-xs">Elevating your digital lifestyle with premium tech, repairs, and accessories since 2012.</p>
+<div class="flex gap-4 mt-2">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">brand_awareness</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">public</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">chat</span>
+</div>
+</div>
+<div>
+<h4 class="text-headline-md font-headline-md text-on-surface mb-stack-md">Shop</h4>
+<ul class="flex flex-col gap-2">
+<li><a class="text-on-secondary-fixed-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 inline-block text-body-md font-body-md" href="#">Store Locator</a></li>
+<li><a class="text-on-secondary-fixed-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 inline-block text-body-md font-body-md" href="#">Refurbished Items</a></li>
+<li><a class="text-on-secondary-fixed-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 inline-block text-body-md font-body-md" href="#">Special Offers</a></li>
+<li><a class="text-on-secondary-fixed-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 inline-block text-body-md font-body-md" href="#">Gift Cards</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-headline-md font-headline-md text-on-surface mb-stack-md">Support</h4>
+<ul class="flex flex-col gap-2">
+<li><a class="text-on-secondary-fixed-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 inline-block text-body-md font-body-md" href="#">Contact Support</a></li>
+<li><a class="text-on-secondary-fixed-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 inline-block text-body-md font-body-md" href="#">Warranty Info</a></li>
+<li><a class="text-on-secondary-fixed-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 inline-block text-body-md font-body-md" href="#">Shipping &amp; Returns</a></li>
+<li><a class="text-on-secondary-fixed-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 inline-block text-body-md font-body-md" href="#">Repair Status</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-headline-md font-headline-md text-on-surface mb-stack-md">Company</h4>
+<ul class="flex flex-col gap-2">
+<li><a class="text-on-secondary-fixed-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 inline-block text-body-md font-body-md" href="#">About Us</a></li>
+<li><a class="text-on-secondary-fixed-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 inline-block text-body-md font-body-md" href="#">Privacy Policy</a></li>
+<li><a class="text-on-secondary-fixed-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 inline-block text-body-md font-body-md" href="#">Terms of Service</a></li>
+<li><a class="text-on-secondary-fixed-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 inline-block text-body-md font-body-md" href="#">Sustainability</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-margin-page py-6 border-t border-outline-variant/10 text-center">
+<p class="text-label-md font-label-md text-on-surface-variant">© 2024 Lumina Tech &amp; Repairs. All rights reserved.</p>
+</div>
+</footer>
+<script>
+        // Micro-interactions for removal
+        document.querySelectorAll('.remove-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const card = this.closest('.wishlist-card');
+                card.style.transform = 'scale(0.9) opacity(0)';
+                card.style.opacity = '0';
+                card.style.transition = 'all 0.4s ease';
+                setTimeout(() => {
+                    card.remove();
+                }, 400);
+            });
+        });
+
+        // Add to cart feedback
+        document.querySelectorAll('button:contains("Add to Cart")').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const originalText = this.innerHTML;
+                this.innerHTML = '<span class="material-symbols-outlined text-[18px]">check_circle</span> Added';
+                this.classList.remove('bg-primary');
+                this.classList.add('bg-status-success');
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.classList.add('bg-primary');
+                    this.classList.remove('bg-status-success');
+                }, 2000);
+            });
+        });
+        
+        // Polyfill for :contains selector if needed (or just use index/content)
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(btn => {
+            if(btn.textContent.includes('Add to Cart')) {
+                btn.addEventListener('click', function() {
+                    const originalContent = this.innerHTML;
+                    this.innerHTML = '<span class="material-symbols-outlined text-[18px]">check</span> Added';
+                    this.style.backgroundColor = '#10B981'; // status-success
+                    setTimeout(() => {
+                        this.innerHTML = originalContent;
+                        this.style.backgroundColor = '';
+                    }, 1500);
+                });
+            }
+        });
+    </script>
+</body></html>

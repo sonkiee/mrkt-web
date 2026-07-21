@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lumina | Pro Storefront</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#ffdbce",
+                    "error-container": "#ffdad6",
+                    "surface-bright": "#f8f9ff",
+                    "primary": "#00685f",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#3d4947",
+                    "status-error": "#DC2626",
+                    "primary-container": "#008378",
+                    "surface": "#f8f9ff",
+                    "on-surface": "#0b1c30",
+                    "secondary-container": "#dae2fd",
+                    "secondary-fixed-dim": "#bec6e0",
+                    "surface-dim": "#cbdbf5",
+                    "on-secondary-fixed-variant": "#3f465c",
+                    "on-primary-fixed": "#00201d",
+                    "primary-fixed-dim": "#6bd8cb",
+                    "tertiary": "#924628",
+                    "surface-container": "#e5eeff",
+                    "error": "#ba1a1a",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed-variant": "#773215",
+                    "background": "#f8f9ff",
+                    "primary-fixed": "#89f5e7",
+                    "flash-sale-red": "#DC2626",
+                    "on-primary": "#ffffff",
+                    "on-primary-container": "#f4fffc",
+                    "inverse-on-surface": "#eaf1ff",
+                    "inverse-surface": "#213145",
+                    "on-secondary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed-variant": "#005049",
+                    "inverse-primary": "#6bd8cb",
+                    "on-tertiary-fixed": "#370e00",
+                    "surface-background": "#F8FAFC",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary": "#565e74",
+                    "surface-tint": "#006a61",
+                    "on-tertiary-container": "#fffbff",
+                    "status-warning": "#F59E0B",
+                    "status-success": "#10B981",
+                    "on-secondary-container": "#5c647a",
+                    "tertiary-container": "#b05e3d",
+                    "outline": "#6d7a77",
+                    "on-background": "#0b1c30",
+                    "tertiary-fixed-dim": "#ffb59a",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-high": "#dce9ff",
+                    "surface-variant": "#d3e4fe",
+                    "surface-container-low": "#eff4ff",
+                    "secondary-fixed": "#dae2fd",
+                    "outline-variant": "#bcc9c6",
+                    "on-secondary-fixed": "#131b2e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-page": "1rem",
+                    "gutter-grid": "0.75rem",
+                    "stack-md": "1rem",
+                    "stack-lg": "1.5rem",
+                    "section-gap": "2rem",
+                    "stack-sm": "0.5rem"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "headline-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "headline-xl": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .tonal-card {
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .tonal-card:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        }
+        .glass-header {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-surface-background text-on-surface font-body-md min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="docked full-width top-0 sticky z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30">
+<div class="flex justify-between items-center w-full px-margin-page py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-headline-xl font-headline-xl font-bold text-on-surface">Lumina</span>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Store</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">iPhone</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Samsung</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">iPad</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Accessories</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Repairs</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined p-2 hover:opacity-80 transition-opacity" data-icon="search">search</button>
+<button class="material-symbols-outlined p-2 hover:opacity-80 transition-opacity" data-icon="shopping_bag">shopping_bag</button>
+<button class="material-symbols-outlined p-2 hover:opacity-80 transition-opacity" data-icon="account_circle">account_circle</button>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-margin-page py-8">
+<!-- Vendor Profile Header -->
+<section class="mb-section-gap">
+<!-- Hero Banner -->
+<div class="relative h-48 md:h-72 rounded-xl overflow-hidden mb-8 group">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A panoramic high-resolution photograph of a futuristic, minimalist electronics showroom with sleek glass displays and soft teal ambient lighting. The atmosphere is professional and high-end, featuring clean architectural lines and a bright, airy feel that matches the Lumina marketplace aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDcqDgNcNm3kV95LVYscaM00xccpfwOoDlKEHdb0Djr5JgIjOk2VUtxLC0RpwuJpEu_03EZn5aJFnQROMW-88CiFzPAdAA917KpbG2bBqxNI46JQ2_f-F6lVbfKz5PF6WUd7d9hEeXW8-qCOD75aUUqA1H8-IWzt8hA0bj-Bc1dom_9LGUGhW6jfaok1RL_kWhWKsOavKL14aGgzUnKcX-5JjYxvxSzQE5t6SMqjOME_DrMMTGj4jjTG9Pn-wbsAkvLmwouAcKA2zqq')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+</div>
+<div class="flex flex-col md:flex-row md:items-end gap-6 -mt-16 md:-mt-20 relative px-4 md:px-8">
+<!-- Vendor Logo -->
+<div class="w-24 h-24 md:w-32 md:h-32 rounded-xl bg-white p-1 shadow-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover rounded-lg" data-alt="A clean, minimalist logo for 'Quantum Tech', a high-end electronics vendor. The logo features a stylized teal 'Q' formed by circuit-like paths, set against a crisp white background. The aesthetic is modern, tech-focused, and premium, representing reliability and innovation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgzGVywepSOUOd0i5ZBbBMe_o9lisqw1z2tVpkOioHY-6KO06DnmTC0xPvYqXDhYK3iySLtpaA5DRPWFitJv8a9VeQsWMMbczwcq-exKaGmIEA50kp6gBiCz0cGzJ5j-EzX4CZv3jIWIqIWZQLL0_aQf62WrHCYhxPFEqiGFRAgv6buO322dFc8z-K32vMvEbl5sjzWQaTPYkgt9ZpZ9lBv_lTiSqGbNu8v2ktZKgnjnLS0HCyJXSU8syqYVb0XhiOA9Gct-vElFrr"/>
+</div>
+<div class="flex-grow flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+<div>
+<h1 class="text-headline-xl font-headline-xl text-on-surface">Quantum Tech Pro</h1>
+<div class="flex flex-wrap items-center gap-4 mt-2">
+<div class="flex items-center gap-1 text-status-success font-semibold">
+<span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-body-md">4.9 (2,400+ Reviews)</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-base">location_on</span>
+<span class="text-body-md" data-location="San Francisco">San Francisco, CA</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-base">verified</span>
+<span class="text-body-md">Certified Partner</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3 w-full md:w-auto">
+<button class="flex-1 md:flex-none px-6 py-3 bg-white border border-outline-variant text-on-surface font-label-md rounded-lg flex items-center justify-center gap-2 hover:bg-surface-container transition-colors tonal-card">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+                            Contact Vendor
+                        </button>
+<button class="flex-1 md:flex-none px-6 py-3 bg-primary text-white font-label-md rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+                            Follow
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Layout: Sidebar + Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg">
+<!-- Sidebar: Info & Filters -->
+<aside class="lg:col-span-3 space-y-section-gap">
+<!-- About Section -->
+<div class="tonal-card p-6 rounded-xl">
+<h3 class="text-headline-md font-headline-md mb-stack-md">About Quantum Tech</h3>
+<p class="text-body-md text-on-surface-variant leading-relaxed mb-stack-md">
+                        Quantum Tech Pro has been a leading authorized retailer for premium electronics since 2015. We specialize in rare mobile editions, professional repairs, and exclusive ecosystem accessories. Every product is strictly vetted for quality and comes with a 12-month standard warranty.
+                    </p>
+<div class="space-y-3 pt-4 border-t border-outline-variant/20">
+<div class="flex justify-between text-body-md">
+<span class="text-on-surface-variant">Member Since</span>
+<span class="font-medium">Dec 2015</span>
+</div>
+<div class="flex justify-between text-body-md">
+<span class="text-on-surface-variant">Avg Response</span>
+<span class="font-medium">&lt; 2 Hours</span>
+</div>
+<div class="flex justify-between text-body-md">
+<span class="text-on-surface-variant">Store Items</span>
+<span class="font-medium">152</span>
+</div>
+</div>
+</div>
+<!-- Category Filter -->
+<div class="tonal-card p-6 rounded-xl">
+<h3 class="text-headline-md font-headline-md mb-stack-md">Store Categories</h3>
+<div class="space-y-2">
+<label class="flex items-center gap-3 p-2 rounded-lg hover:bg-surface-container-low cursor-pointer group">
+<input checked="" class="w-5 h-5 text-primary focus:ring-primary border-outline-variant" name="category" type="radio"/>
+<span class="text-body-md font-medium group-hover:text-primary">All Products</span>
+</label>
+<label class="flex items-center gap-3 p-2 rounded-lg hover:bg-surface-container-low cursor-pointer group">
+<input class="w-5 h-5 text-primary focus:ring-primary border-outline-variant" name="category" type="radio"/>
+<span class="text-body-md text-on-surface-variant group-hover:text-primary">Mobile Phones</span>
+</label>
+<label class="flex items-center gap-3 p-2 rounded-lg hover:bg-surface-container-low cursor-pointer group">
+<input class="w-5 h-5 text-primary focus:ring-primary border-outline-variant" name="category" type="radio"/>
+<span class="text-body-md text-on-surface-variant group-hover:text-primary">Wearables</span>
+</label>
+<label class="flex items-center gap-3 p-2 rounded-lg hover:bg-surface-container-low cursor-pointer group">
+<input class="w-5 h-5 text-primary focus:ring-primary border-outline-variant" name="category" type="radio"/>
+<span class="text-body-md text-on-surface-variant group-hover:text-primary">Audio Equipment</span>
+</label>
+<label class="flex items-center gap-3 p-2 rounded-lg hover:bg-surface-container-low cursor-pointer group">
+<input class="w-5 h-5 text-primary focus:ring-primary border-outline-variant" name="category" type="radio"/>
+<span class="text-body-md text-on-surface-variant group-hover:text-primary">Accessories</span>
+</label>
+</div>
+</div>
+</aside>
+<!-- Main Content: Product Grid -->
+<div class="lg:col-span-9">
+<!-- Search & Sort Bar -->
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-stack-lg p-4 tonal-card rounded-xl">
+<div class="relative w-full md:w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 text-body-md" placeholder="Search in this store..." type="text"/>
+</div>
+<div class="flex items-center gap-4 w-full md:w-auto">
+<span class="text-body-md text-on-surface-variant whitespace-nowrap">Sort by:</span>
+<select class="w-full md:w-48 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 text-body-md py-2">
+<option>Popularity</option>
+<option>Newest Arrivals</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+</select>
+</div>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 gap-gutter-grid">
+<!-- Product 1 -->
+<div class="tonal-card rounded-xl overflow-hidden group cursor-pointer">
+<div class="aspect-square relative overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A professional studio product shot of a Titanium Silver iPhone 15 Pro, angled to show its brushed texture and sleek titanium edges. The lighting is crisp and cool, highlighting the premium craftsmanship. Set against a soft gradient background in shades of light blue and white, fitting the Lumina brand's minimalist tech aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIKQB8CrM25j4cYg1bVXckrbBEPoXpRIUrTvmjBdlkYrU7EiETPZRqpztUPZ5ptLWE5s8DlVRg9NUUlnlVT2l4_iCgyX0abnOdq1xEX5UqEY3wBJ06U-btCeYsllg3XrfTT0jVYKPc6CeKhLsay8_EsjrhB3jpbr2pLBkoLhMGulUnntSTOnLyNj3z1Aass-JqcaUiJtvs-QyzU_CKOWUhp-XIEdpsBpS2F237HgX2AbyN3PC7_wnakMPorzXbbpEk8pLuNBbY9Mx4"/>
+<span class="absolute top-2 left-2 bg-flash-sale-red text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Top Seller</span>
+</div>
+<div class="p-4">
+<p class="text-on-surface-variant text-label-sm uppercase mb-1">Apple</p>
+<h4 class="text-body-md font-semibold text-on-surface line-clamp-2 h-10 mb-2">iPhone 15 Pro - Titanium Silver 256GB</h4>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-headline-md font-bold text-primary">$999.00</span>
+<div class="flex items-center gap-1 text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-xs text-status-warning" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.9</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Product 2 -->
+<div class="tonal-card rounded-xl overflow-hidden group cursor-pointer">
+<div class="aspect-square relative overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Studio photography of the Samsung Galaxy S24 Ultra in Titanium Black. The shot focuses on the massive camera lenses and the sharp, rectangular profile of the device. High-end lighting creates sharp highlights and deep, professional shadows. The background is a clean, neutral gray gradient to maintain the premium marketplace feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7sDuQMf2_UOV715Onr1w2JHusWnml8-_oAMVkjGBrA4lXgwDw5pUqqSCW6F1W4trT54sDJi28rUeFeK65MmdOScV2FZeOuq5Y1BesCo4qU6r73-AwycU16mRs-1DSV9a_nKH-ZwHCdTznRb7U_zATfpGEdFBLmA494ZpEcOiwM20FNcpAEMFJQ1r--7tOWT5byE0MPY8Q8XIRYgLKeG0_LyQGszRHWbTlxzJTRNSyCGYQ7g3XZg6ZbuqYxgFoHKVcZoKf0dXrMnV2"/>
+</div>
+<div class="p-4">
+<p class="text-on-surface-variant text-label-sm uppercase mb-1">Samsung</p>
+<h4 class="text-body-md font-semibold text-on-surface line-clamp-2 h-10 mb-2">Galaxy S24 Ultra - Titanium Black</h4>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-headline-md font-bold text-primary">$1,199.00</span>
+<div class="flex items-center gap-1 text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-xs text-status-warning" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.8</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Product 3 -->
+<div class="tonal-card rounded-xl overflow-hidden group cursor-pointer">
+<div class="aspect-square relative overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Minimalist product image of Midnight Green noise-canceling headphones with premium leather padding. The headphones are displayed floating against a soft, bright background. The color palette uses deep greens and soft whites with a focus on texture and high-quality materials, evoking a sense of luxury and audio clarity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQeHnGXSDYIPjVF39DECnar6fGcyaBZ6RmMg7halmDQPifpfcq7D5HXzkMOlpFqsbCxt244ZQzCz4BkpfcvDw9dUBdtuw2YWQV9jCnY-A8w9NBE1XRVV260rMqcNhKTj1ZAOXW4XI1q0caGNrVm4T-umKoSNFTeGHqNO6OL5qOXS7aY0kUQ_-fyPGjETjOZMdS_ojF2ccgaBqZA04KyUlqpJ4sDeRllaxXLCJv9u434APLE3r_kit1TWsh4kB4QSjOtLdkw-bT0hfC"/>
+<span class="absolute top-2 left-2 bg-primary-container text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">New Arrival</span>
+</div>
+<div class="p-4">
+<p class="text-on-surface-variant text-label-sm uppercase mb-1">Audio-Pro</p>
+<h4 class="text-body-md font-semibold text-on-surface line-clamp-2 h-10 mb-2">Quantum Sound ANC Headphones - Midnight Green</h4>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-headline-md font-bold text-primary">$349.00</span>
+<div class="flex items-center gap-1 text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-xs text-status-warning" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>5.0</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Product 4 -->
+<div class="tonal-card rounded-xl overflow-hidden group cursor-pointer">
+<div class="aspect-square relative overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A macro photograph of a sleek, black smart watch with a vibrant, colorful OLED screen displaying fitness metrics. The lighting is dramatic, emphasizing the metallic finish of the watch body and the soft texture of the silicone strap. The image style is modern, energetic, and highly detailed, set against a pristine white studio background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKVl6mzNlN1xXVML0EfB0ecr2MebyaTyuROL1OMGPLv6hlys02HM5axKyPLI50BNQoK_0jGJt2Ucp6xocsfr_dtLX6Hvtvb9OL3m8_d_2z-1bPisVru8AJNYKmVsiPYIRhfcPlr7XljnkRZNVrLEUUb4eNLaNGrn6jNiI61KWUEaA4AUDfJoUdNqAnC9aFnWVdfkPczWV3PSPziJ8flGVfOOLb_VX7IcC5kxiXbHxdqr9NQ1izx1PG68HEpBIrarG7pHBXBtEwgBjo"/>
+</div>
+<div class="p-4">
+<p class="text-on-surface-variant text-label-sm uppercase mb-1">Apple</p>
+<h4 class="text-body-md font-semibold text-on-surface line-clamp-2 h-10 mb-2">Watch Series 9 - 45mm Midnight Aluminum</h4>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-headline-md font-bold text-primary">$399.00</span>
+<div class="flex items-center gap-1 text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-xs text-status-warning" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.7</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Product 5 -->
+<div class="tonal-card rounded-xl overflow-hidden group cursor-pointer">
+<div class="aspect-square relative overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A modern tablet with a pencil accessory shown in a creative workflow setting. The tablet screen displays a colorful illustration, and the surrounding environment is a clean, bright wooden desk with minimalist accessories. The lighting is warm and natural, suggesting a professional creative studio atmosphere while maintaining the Lumina brand's clean look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAN5QfNFFf9SYK_7hreXZHD6tvkrb-CCEdeQP8izJH1UOaZuEQwejwsT6Jfuv0ziKEu-snlzNtNFc0RoJCWXDCuOq9OYjpHsu7a10V93KhuKJGVNO9iyOJQklyUSZ8YNpYyCBRVp3QqxDMuhwrQr-slnADvAU2GfcrDrLuEU6aGytUkgf_nZAmePxeuJnnBCbGlbXyWavGe0wpP4INqTtxb_t8cvxSaw34RtGbOetS8Lb2bNOANux8OUuPkNXUVbWlxef36-K64s_yJ"/>
+</div>
+<div class="p-4">
+<p class="text-on-surface-variant text-label-sm uppercase mb-1">Apple</p>
+<h4 class="text-body-md font-semibold text-on-surface line-clamp-2 h-10 mb-2">iPad Pro 12.9" - M2 Chip, 512GB Wi-Fi</h4>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-headline-md font-bold text-primary">$1,299.00</span>
+<div class="flex items-center gap-1 text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-xs text-status-warning" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.9</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Product 6 -->
+<div class="tonal-card rounded-xl overflow-hidden group cursor-pointer">
+<div class="aspect-square relative overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A clean, close-up shot of a portable Bluetooth speaker in sand-colored fabric finish. The design is cylindrical and minimalist. The speaker is resting on a smooth stone surface with soft shadows and bright, daylight-style illumination. The aesthetic is organic yet tech-forward, perfectly matching the professional storefront mood of the marketplace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzi5wOa_E6q7yrgfXRLV6k84uQ4cNyeu0ZpPD6oZz_E9Ev26qymfANokMG6cKSbXGneKDI4v22AzUno5DxASmkflbT5Gqke4nTE47Ssr-KZ2Jfx8ZPg-3LkPoO4_cggNp_0789i3Y_KnRdzzP_afubamRjsEV-2PENq93Y-8mEXtefkEc83dZGhP68OpP7P4k9Iez9xyAHQ3BkWsAr4xBMz8IENjtZLqFt2sbRmBHkE6Qt5asP1zRQYf_YK1STJ3ek_I-yoxBrD9vu"/>
+</div>
+<div class="p-4">
+<p class="text-on-surface-variant text-label-sm uppercase mb-1">Audio-Pro</p>
+<h4 class="text-body-md font-semibold text-on-surface line-clamp-2 h-10 mb-2">Quantum Move Portable Speaker - Sand Edition</h4>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-headline-md font-bold text-primary">$129.00</span>
+<div class="flex items-center gap-1 text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-xs text-status-warning" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.6</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex justify-center mt-section-gap">
+<nav class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-white font-semibold">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors">3</button>
+<span class="px-2 text-on-surface-variant">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors">12</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</nav>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="full-width mt-section-gap bg-surface-container-low border-t border-outline-variant/20">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-stack-lg px-margin-page py-section-gap max-w-7xl mx-auto">
+<div class="space-y-4">
+<span class="text-headline-md font-headline-md font-bold text-primary">Lumina</span>
+<p class="text-body-md text-on-surface-variant">Your premium global electronics marketplace. Trusted by millions for quality tech and professional repairs.</p>
+</div>
+<div>
+<h4 class="text-headline-md font-headline-md text-on-surface mb-4">Shop</h4>
+<ul class="space-y-2">
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block" href="#">Smartphones</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block" href="#">Computers</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block" href="#">Accessories</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block" href="#">Audio</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-headline-md font-headline-md text-on-surface mb-4">Support</h4>
+<ul class="space-y-2">
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block" href="#">Contact Support</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block" href="#">Warranty Info</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block" href="#">Store Locator</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block" href="#">Repair Status</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-headline-md font-headline-md text-on-surface mb-4">Legal</h4>
+<ul class="space-y-2">
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block" href="#">Privacy Policy</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block" href="#">Terms of Service</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block" href="#">About Us</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-margin-page py-6 border-t border-outline-variant/10 text-center">
+<p class="text-label-md text-on-surface-variant">© 2024 Lumina Tech &amp; Repairs. All rights reserved.</p>
+</div>
+</footer>
+<script>
+        // Micro-interactions for product cards
+        document.querySelectorAll('.tonal-card').forEach(card => {
+            card.addEventListener('mousedown', () => {
+                card.style.transform = 'scale(0.98)';
+            });
+            card.addEventListener('mouseup', () => {
+                card.style.transform = 'scale(1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simple Smooth Scroll for internal anchors
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body></html>

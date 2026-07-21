@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lumina | Premium Authentication</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#ffdbce",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f8f9ff",
+                        "primary": "#00685f",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#3d4947",
+                        "status-error": "#DC2626",
+                        "primary-container": "#008378",
+                        "surface": "#f8f9ff",
+                        "on-surface": "#0b1c30",
+                        "secondary-container": "#dae2fd",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "surface-dim": "#cbdbf5",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "on-primary-fixed": "#00201d",
+                        "primary-fixed-dim": "#6bd8cb",
+                        "tertiary": "#924628",
+                        "surface-container": "#e5eeff",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#773215",
+                        "background": "#f8f9ff",
+                        "primary-fixed": "#89f5e7",
+                        "flash-sale-red": "#DC2626",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#f4fffc",
+                        "inverse-on-surface": "#eaf1ff",
+                        "inverse-surface": "#213145",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#005049",
+                        "inverse-primary": "#6bd8cb",
+                        "on-tertiary-fixed": "#370e00",
+                        "surface-background": "#F8FAFC",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#565e74",
+                        "surface-tint": "#006a61",
+                        "on-tertiary-container": "#fffbff",
+                        "status-warning": "#F59E0B",
+                        "status-success": "#10B981",
+                        "on-secondary-container": "#5c647a",
+                        "tertiary-container": "#b05e3d",
+                        "outline": "#6d7a77",
+                        "on-background": "#0b1c30",
+                        "tertiary-fixed-dim": "#ffb59a",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-high": "#dce9ff",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "secondary-fixed": "#dae2fd",
+                        "outline-variant": "#bcc9c6",
+                        "on-secondary-fixed": "#131b2e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-page": "1rem",
+                        "gutter-grid": "0.75rem",
+                        "stack-md": "1rem",
+                        "stack-lg": "1.5rem",
+                        "section-gap": "2rem",
+                        "stack-sm": "0.5rem"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "headline-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-xl": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .auth-card {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            transition: transform 0.15s ease-out;
+        }
+        .auth-card:active {
+            transform: scale(0.98);
+        }
+        .glass-overlay {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        input:focus {
+            outline: none;
+            border-color: #0d9488 !important;
+            box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.1);
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center overflow-x-hidden">
+<!-- Split Screen Container -->
+<main class="flex min-h-screen w-full bg-surface">
+<!-- Left Side: Hero Image (Visible on MD+) -->
+<section class="hidden md:flex w-1/2 relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-[10s] hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida/AP1WRLsZOgVy1_yZjCip_BbZuF0XO58eInzKksPqsI40vIx1vvzabG0s7iq1aaF3w1O56LmZn_H4EaFOWZNh1D5h2JZUaetbFc0oEdh4_TPX_4MjUrUmThapMIY6MgSGHgXxK5tg2tt7Y6hissH89wyZrYH8rDbno1u9ZGggDhW_BMtzDmmjUterrlJuGX36wRwUoAcbdFTdETzAP06h-LghG5fE7TMR1u4qjPFC8oE2o5moxzi3kxbbySyDIys')">
+</div>
+<!-- Gradient Overlay for Brand Identity -->
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/40 to-transparent flex flex-col justify-end p-12 text-white">
+<div class="glass-overlay p-8 rounded-xl max-w-lg border border-white/20">
+<h1 class="text-headline-xl font-headline-xl mb-4">Welcome to Lumina</h1>
+<p class="text-body-lg font-body-lg opacity-90 leading-relaxed">
+                        Experience the next generation of premium tech solutions and repairs. Trust, precision, and excellence delivered in every service.
+                    </p>
+<div class="mt-8 flex gap-4">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-primary bg-primary-fixed"></div>
+<div class="w-8 h-8 rounded-full border-2 border-primary bg-secondary-fixed"></div>
+<div class="w-8 h-8 rounded-full border-2 border-primary bg-tertiary-fixed"></div>
+</div>
+<span class="text-label-md font-label-md flex items-center">Joined by 10k+ tech enthusiasts</span>
+</div>
+</div>
+</div>
+<!-- Logo Floating -->
+<div class="absolute top-12 left-12">
+<span class="text-headline-xl font-headline-xl font-extrabold tracking-tight text-white drop-shadow-md">Lumina</span>
+</div>
+</section>
+<!-- Right Side: Auth Forms -->
+<section class="w-full md:w-1/2 flex items-center justify-center p-margin-page bg-surface">
+<div class="w-full max-w-md fade-in">
+<!-- Mobile Branding -->
+<div class="md:hidden flex justify-center mb-section-gap">
+<span class="text-headline-xl font-headline-xl font-extrabold text-primary">Lumina</span>
+</div>
+<!-- Form Header -->
+<div class="text-center mb-8">
+<h2 class="text-headline-lg font-headline-lg text-on-surface" id="form-title">Sign In to Lumina</h2>
+<p class="text-body-md font-body-md text-on-surface-variant mt-2" id="form-subtitle">Enter your credentials to access your account</p>
+</div>
+<!-- Auth Toggle -->
+<div class="bg-surface-container-low p-1 rounded-xl flex mb-8">
+<button class="w-1/2 py-2 text-label-md font-label-md rounded-lg transition-all bg-white text-primary shadow-sm" id="btn-login" onclick="toggleAuth('login')">Login</button>
+<button class="w-1/2 py-2 text-label-md font-label-md rounded-lg transition-all text-on-surface-variant hover:text-on-surface" id="btn-signup" onclick="toggleAuth('signup')">Sign Up</button>
+</div>
+<!-- Form -->
+<form class="space-y-stack-md" id="auth-form" onsubmit="event.preventDefault();">
+<!-- Signup-only Name Field (Hidden by default) -->
+<div class="hidden transition-all duration-300" id="field-name">
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1 ml-1">FULL NAME</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">person</span>
+<input class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-xl text-body-md focus:ring-0" placeholder="John Doe" type="text"/>
+</div>
+</div>
+<!-- Email Field -->
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1 ml-1">EMAIL ADDRESS</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">mail</span>
+<input class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-xl text-body-md focus:ring-0" placeholder="name@company.com" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div>
+<div class="flex justify-between items-center mb-1 ml-1">
+<label class="block text-label-sm font-label-sm text-on-surface-variant">PASSWORD</label>
+<a class="text-label-sm font-label-sm text-primary hover:underline" href="#" id="forgot-link">Forgot password?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">lock</span>
+<input class="w-full pl-10 pr-12 py-3 bg-white border border-outline-variant rounded-xl text-body-md focus:ring-0" placeholder="••••••••" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full py-4 bg-primary text-white font-headline-md rounded-xl auth-card hover:opacity-95 flex items-center justify-center gap-2 mt-4" type="submit">
+<span id="submit-text">Sign In</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</form>
+<!-- Divider -->
+<div class="relative my-8">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant/30"></div>
+</div>
+<div class="relative flex justify-center">
+<span class="px-4 bg-surface text-label-sm font-label-sm text-outline uppercase tracking-widest">Or continue with</span>
+</div>
+</div>
+<!-- Social Logins -->
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-2 py-3 border border-outline-variant rounded-xl hover:bg-surface-container-low transition-colors group">
+<svg class="w-5 h-5 group-hover:scale-110 transition-transform" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+<span class="text-label-md font-label-md text-on-surface">Google</span>
+</button>
+<button class="flex items-center justify-center gap-2 py-3 border border-outline-variant rounded-xl hover:bg-surface-container-low transition-colors group">
+<span class="material-symbols-outlined text-on-surface group-hover:scale-110 transition-transform">phone_iphone</span>
+<span class="text-label-md font-label-md text-on-surface">Phone</span>
+</button>
+</div>
+<!-- Footer Text -->
+<p class="mt-8 text-center text-body-md font-body-md text-on-surface-variant">
+                    By continuing, you agree to our 
+                    <a class="text-primary hover:underline" href="#">Terms of Service</a> and 
+                    <a class="text-primary hover:underline" href="#">Privacy Policy</a>.
+                </p>
+</div>
+</section>
+</main>
+<script>
+        function toggleAuth(mode) {
+            const title = document.getElementById('form-title');
+            const subtitle = document.getElementById('form-subtitle');
+            const submitText = document.getElementById('submit-text');
+            const nameField = document.getElementById('field-name');
+            const forgotLink = document.getElementById('forgot-link');
+            
+            const btnLogin = document.getElementById('btn-login');
+            const btnSignup = document.getElementById('btn-signup');
+
+            if (mode === 'signup') {
+                title.textContent = 'Create an Account';
+                subtitle.textContent = 'Join the Lumina community today';
+                submitText.textContent = 'Get Started';
+                nameField.classList.remove('hidden');
+                forgotLink.classList.add('hidden');
+                
+                btnSignup.classList.add('bg-white', 'text-primary', 'shadow-sm');
+                btnSignup.classList.remove('text-on-surface-variant');
+                btnLogin.classList.remove('bg-white', 'text-primary', 'shadow-sm');
+                btnLogin.classList.add('text-on-surface-variant');
+            } else {
+                title.textContent = 'Sign In to Lumina';
+                subtitle.textContent = 'Enter your credentials to access your account';
+                submitText.textContent = 'Sign In';
+                nameField.classList.add('hidden');
+                forgotLink.classList.remove('hidden');
+
+                btnLogin.classList.add('bg-white', 'text-primary', 'shadow-sm');
+                btnLogin.classList.remove('text-on-surface-variant');
+                btnSignup.classList.remove('bg-white', 'text-primary', 'shadow-sm');
+                btnSignup.classList.add('text-on-surface-variant');
+            }
+        }
+    </script>
+</body></html>

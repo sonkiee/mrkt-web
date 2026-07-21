@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lumina Admin | Seller Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-low": "#eff4ff",
+                    "on-surface-variant": "#3d4947",
+                    "on-secondary-container": "#5c647a",
+                    "status-warning": "#F59E0B",
+                    "error-container": "#ffdad6",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#d3e4fe",
+                    "surface-container": "#e5eeff",
+                    "secondary": "#565e74",
+                    "inverse-primary": "#6bd8cb",
+                    "primary-fixed-dim": "#6bd8cb",
+                    "on-background": "#0b1c30",
+                    "status-error": "#DC2626",
+                    "inverse-surface": "#213145",
+                    "on-tertiary-container": "#fffbff",
+                    "on-secondary-fixed": "#131b2e",
+                    "secondary-fixed-dim": "#bec6e0",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed-variant": "#3f465c",
+                    "tertiary": "#924628",
+                    "primary": "#00685f",
+                    "primary-fixed": "#89f5e7",
+                    "on-primary-fixed": "#00201d",
+                    "background": "#f8f9ff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface": "#f8f9ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "tertiary-fixed-dim": "#ffb59a",
+                    "tertiary-fixed": "#ffdbce",
+                    "surface-container-high": "#dce9ff",
+                    "on-primary": "#ffffff",
+                    "status-success": "#10B981",
+                    "surface-bright": "#f8f9ff",
+                    "surface-dim": "#cbdbf5",
+                    "surface-tint": "#006a61",
+                    "on-error": "#ffffff",
+                    "tertiary-container": "#b05e3d",
+                    "on-tertiary-fixed-variant": "#773215",
+                    "on-tertiary-fixed": "#370e00",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#008378",
+                    "outline-variant": "#bcc9c6",
+                    "secondary-fixed": "#dae2fd",
+                    "error": "#ba1a1a",
+                    "surface-background": "#F8FAFC",
+                    "secondary-container": "#dae2fd",
+                    "on-secondary": "#ffffff",
+                    "flash-sale-red": "#DC2626",
+                    "on-primary-fixed-variant": "#005049",
+                    "outline": "#6d7a77",
+                    "on-primary-container": "#f4fffc"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-page": "1rem",
+                    "stack-lg": "1.5rem",
+                    "gutter-grid": "0.75rem",
+                    "section-gap": "2rem",
+                    "stack-sm": "0.5rem",
+                    "stack-md": "1rem"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-xl": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #bcc9c6;
+            border-radius: 10px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .status-chip-verified { background-color: #d1fae5; color: #065f46; }
+        .status-chip-pending { background-color: #fef3c7; color: #92400e; }
+        .status-chip-rejected { background-color: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body class="bg-surface-background text-on-surface font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 flex-shrink-0 bg-surface-container-lowest border-r border-outline-variant/30 hidden md:flex flex-col">
+<div class="p-6">
+<span class="text-headline-xl font-headline-xl font-bold text-primary tracking-tight">Lumina</span>
+<span class="text-label-sm font-label-sm text-outline block mt-1 uppercase tracking-widest">Admin Panel</span>
+</div>
+<nav class="flex-1 px-4 space-y-1 custom-scrollbar overflow-y-auto">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-all group" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary-container text-on-primary-container font-semibold shadow-sm" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">storefront</span>
+<span class="font-label-md">Seller Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-all group" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md">Products</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-all group" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-md">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-all group" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md">Customers</span>
+</a>
+<div class="pt-4 pb-2 px-4">
+<span class="text-[10px] font-bold uppercase tracking-widest text-outline">System</span>
+</div>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-all group" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-all group" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-outline-variant/20">
+<div class="flex items-center gap-3 p-2 rounded-xl hover:bg-surface-container-low cursor-pointer transition-colors">
+<div class="w-10 h-10 rounded-full bg-primary-fixed-dim flex items-center justify-center text-primary overflow-hidden border border-primary/10">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a high-level female tech executive with a confident smile, wearing a minimalist navy blazer against a soft-focus office background. The lighting is crisp and modern, matching a premium corporate UI aesthetic with clean lines and a professional atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIwlWIIQr3sBj9yaAD7SVogU1RDN2VeGu4yDeiFf1cTrwihnAopgmHayfGBr4PYi0GFjfRqIrHkocMyKPap7Vx-qFz-Ge5Fd2ykxqT86ApDxtlZRbLAkotjhaxons4FoGc14_BbPByGRfAxv2yl7yTbPJNksA6ZUvJByZ9xJ_vwp5zDSOIeBgywHSl-R1nZZZyImAghCOvNnO0Vj2I_ufpu6JZXYa7m_m8GHVP5JFrvefvVjzarsLtV5cSfXDuT45WNfshwGxYPhV8"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-label-md font-label-md text-on-surface truncate">Sarah Jenkins</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant truncate">Super Admin</p>
+</div>
+<span class="material-symbols-outlined text-outline">more_vert</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col overflow-hidden">
+<!-- Top App Bar (Admin Context) -->
+<header class="h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 flex items-center justify-between px-6 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<button class="md:hidden p-2 rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="text-headline-md font-headline-md text-on-surface">Seller Management</h1>
+</div>
+<div class="flex items-center gap-3">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline scale-90">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-body-md w-64 focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline/60" placeholder="Search stores, owners..." type="text"/>
+</div>
+<button class="p-2 rounded-full hover:bg-surface-container-low relative transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-status-error rounded-full ring-2 ring-surface"></span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">help_outline</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Page Content -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
+<!-- Quick Stats Bento -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/20 shadow-[4px_4px_12px_rgba(0,0,0,0.02)]">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Total Sellers</span>
+<div class="w-8 h-8 rounded-lg bg-primary-fixed-dim/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">store</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-headline-lg font-headline-lg">1,284</span>
+<span class="text-status-success text-label-sm font-bold">+12%</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/20 shadow-[4px_4px_12px_rgba(0,0,0,0.02)]">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Pending Apps</span>
+<div class="w-8 h-8 rounded-lg bg-status-warning/10 flex items-center justify-center text-status-warning">
+<span class="material-symbols-outlined text-[18px]">pending_actions</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-headline-lg font-headline-lg">42</span>
+<span class="text-on-surface-variant text-label-sm">Requires attention</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/20 shadow-[4px_4px_12px_rgba(0,0,0,0.02)]">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Avg. Revenue</span>
+<div class="w-8 h-8 rounded-lg bg-tertiary-fixed/20 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-headline-lg font-headline-lg">$4,290</span>
+<span class="text-status-success text-label-sm font-bold">↑ 5.2%</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/20 shadow-[4px_4px_12px_rgba(0,0,0,0.02)]">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Trust Score</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-headline-lg font-headline-lg">94.8</span>
+<span class="text-on-surface-variant text-label-sm">Platform avg.</span>
+</div>
+</div>
+</div>
+<!-- Main Data Table Section -->
+<section class="bg-surface-container-lowest rounded-2xl border border-outline-variant/20 overflow-hidden shadow-[8px_8px_24px_rgba(0,0,0,0.04)]">
+<!-- Table Actions -->
+<div class="p-6 border-b border-outline-variant/20 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<button class="px-4 py-2 bg-surface-container-low text-on-surface-variant font-label-md rounded-xl hover:bg-surface-container-high transition-colors flex items-center gap-2 border border-outline-variant/10">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                                Filter
+                            </button>
+<button class="px-4 py-2 bg-surface-container-low text-on-surface-variant font-label-md rounded-xl hover:bg-surface-container-high transition-colors flex items-center gap-2 border border-outline-variant/10">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                                Export
+                            </button>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-body-md text-on-surface-variant">Viewing:</span>
+<select class="bg-transparent border-none text-label-md font-label-md text-primary focus:ring-0 cursor-pointer">
+<option>All Categories</option>
+<option>Electronics</option>
+<option>Home &amp; Living</option>
+<option>Fashion</option>
+</select>
+</div>
+</div>
+<!-- Responsive Table Container -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/30">
+<th class="px-6 py-4 text-label-sm font-label-sm text-outline uppercase tracking-wider">Store Name</th>
+<th class="px-6 py-4 text-label-sm font-label-sm text-outline uppercase tracking-wider">Owner</th>
+<th class="px-6 py-4 text-label-sm font-label-sm text-outline uppercase tracking-wider">Verification Status</th>
+<th class="px-6 py-4 text-label-sm font-label-sm text-outline uppercase tracking-wider text-right">Revenue</th>
+<th class="px-6 py-4 text-label-sm font-label-sm text-outline uppercase tracking-wider">Category</th>
+<th class="px-6 py-4 text-label-sm font-label-sm text-outline uppercase tracking-wider text-center">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Row 1: Pending -->
+<tr class="hover:bg-surface-container-low/20 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-outline">devices</span>
+</div>
+<span class="font-headline-md text-on-surface">TechNexus Pro</span>
+</div>
+</td>
+<td class="px-6 py-4 text-body-md text-on-surface-variant">Marcus Thorne</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full text-label-sm font-label-sm status-chip-pending flex items-center gap-1 w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-status-warning"></span>
+                                            Pending
+                                        </span>
+</td>
+<td class="px-6 py-4 text-body-md font-semibold text-on-surface text-right">$0.00</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-surface-container-high rounded text-[11px] font-bold text-outline">Electronics</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center justify-center gap-2">
+<button class="p-2 text-status-success hover:bg-status-success/10 rounded-lg transition-colors" title="Approve">
+<span class="material-symbols-outlined">check_circle</span>
+</button>
+<button class="p-2 text-status-error hover:bg-status-error/10 rounded-lg transition-colors" title="Reject">
+<span class="material-symbols-outlined">cancel</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Verified -->
+<tr class="hover:bg-surface-container-low/20 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-outline">chair</span>
+</div>
+<span class="font-headline-md text-on-surface">Luxe Living</span>
+</div>
+</td>
+<td class="px-6 py-4 text-body-md text-on-surface-variant">Helena Vane</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full text-label-sm font-label-sm status-chip-verified flex items-center gap-1 w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-status-success"></span>
+                                            Verified
+                                        </span>
+</td>
+<td class="px-6 py-4 text-body-md font-semibold text-on-surface text-right">$12,450.80</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-surface-container-high rounded text-[11px] font-bold text-outline">Home &amp; Decor</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center justify-center gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Rejected -->
+<tr class="hover:bg-surface-container-low/20 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-outline">shopping_bag</span>
+</div>
+<span class="font-headline-md text-on-surface">Daily Finds</span>
+</div>
+</td>
+<td class="px-6 py-4 text-body-md text-on-surface-variant">Julian Frost</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full text-label-sm font-label-sm status-chip-rejected flex items-center gap-1 w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-status-error"></span>
+                                            Rejected
+                                        </span>
+</td>
+<td class="px-6 py-4 text-body-md font-semibold text-on-surface text-right">$0.00</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-surface-container-high rounded text-[11px] font-bold text-outline">General</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center justify-center gap-2">
+<button class="px-3 py-1.5 bg-surface-container-low text-on-surface-variant text-label-md font-label-md rounded-lg hover:bg-surface-container-high transition-colors">
+                                                Re-evaluate
+                                            </button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Verified -->
+<tr class="hover:bg-surface-container-low/20 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-outline">watch</span>
+</div>
+<span class="font-headline-md text-on-surface">Chronos Hub</span>
+</div>
+</td>
+<td class="px-6 py-4 text-body-md text-on-surface-variant">Aria Chen</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full text-label-sm font-label-sm status-chip-verified flex items-center gap-1 w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-status-success"></span>
+                                            Verified
+                                        </span>
+</td>
+<td class="px-6 py-4 text-body-md font-semibold text-on-surface text-right">$45,210.00</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-surface-container-high rounded text-[11px] font-bold text-outline">Luxury Goods</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center justify-center gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: Pending -->
+<tr class="hover:bg-surface-container-low/20 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-outline">restaurant</span>
+</div>
+<span class="font-headline-md text-on-surface">Artisan Kitchen</span>
+</div>
+</td>
+<td class="px-6 py-4 text-body-md text-on-surface-variant">David Miller</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full text-label-sm font-label-sm status-chip-pending flex items-center gap-1 w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-status-warning"></span>
+                                            Pending
+                                        </span>
+</td>
+<td class="px-6 py-4 text-body-md font-semibold text-on-surface text-right">$0.00</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-surface-container-high rounded text-[11px] font-bold text-outline">Kitchenware</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center justify-center gap-2">
+<button class="p-2 text-status-success hover:bg-status-success/10 rounded-lg transition-colors" title="Approve">
+<span class="material-symbols-outlined">check_circle</span>
+</button>
+<button class="p-2 text-status-error hover:bg-status-error/10 rounded-lg transition-colors" title="Reject">
+<span class="material-symbols-outlined">cancel</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-6 py-4 border-t border-outline-variant/10 flex items-center justify-between">
+<p class="text-label-sm font-label-sm text-on-surface-variant">Showing <span class="font-bold text-on-surface">5</span> of <span class="font-bold text-on-surface">1,284</span> sellers</p>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg border border-outline-variant/30 text-on-surface-variant disabled:opacity-50 hover:bg-surface-container-low transition-colors" disabled="">
+<span class="material-symbols-outlined scale-75">chevron_left</span>
+</button>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-label-md">1</button>
+<button class="w-8 h-8 rounded-lg text-on-surface-variant hover:bg-surface-container-low font-label-md">2</button>
+<button class="w-8 h-8 rounded-lg text-on-surface-variant hover:bg-surface-container-low font-label-md">3</button>
+<span class="px-2 text-outline">...</span>
+<button class="w-8 h-8 rounded-lg text-on-surface-variant hover:bg-surface-container-low font-label-md">257</button>
+</div>
+<button class="p-2 rounded-lg border border-outline-variant/30 text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined scale-75">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Action Hub / Footer Section -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-primary-container p-6 rounded-2xl text-on-primary-container relative overflow-hidden group shadow-lg">
+<div class="relative z-10">
+<h3 class="text-headline-md font-headline-md mb-2">New Vendor Invitations</h3>
+<p class="text-body-md opacity-90 mb-6 max-w-sm">Invite premium brands to join the Lumina ecosystem and expand your marketplace reach.</p>
+<button class="px-6 py-2.5 bg-on-primary-container text-primary-container font-headline-md rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all duration-200">
+                                Send Invite
+                            </button>
+</div>
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-[120px] opacity-10 rotate-12 group-hover:rotate-0 transition-transform duration-500">mail</span>
+</div>
+<div class="bg-surface-container-highest p-6 rounded-2xl text-on-surface relative overflow-hidden border border-outline-variant/20 shadow-md">
+<h3 class="text-headline-md font-headline-md mb-2">Verification Guidelines</h3>
+<p class="text-body-md text-on-surface-variant mb-6">Last updated: 3 days ago. Ensure all sellers meet the new 2024 security standards before approval.</p>
+<div class="flex gap-4">
+<a class="text-primary font-label-md flex items-center gap-1 hover:underline" href="#">
+<span class="material-symbols-outlined text-[18px]">description</span>
+                                View Handbook
+                            </a>
+<a class="text-primary font-label-md flex items-center gap-1 hover:underline" href="#">
+<span class="material-symbols-outlined text-[18px]">history</span>
+                                Policy Logs
+                            </a>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer component from JSON structure concept -->
+<footer class="bg-surface-container-low border-t border-outline-variant/20 px-6 py-4 mt-auto">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex items-center gap-4">
+<span class="text-label-md font-bold text-primary">Lumina Admin</span>
+<span class="text-label-sm text-outline">© 2024 Lumina Tech &amp; Repairs. All rights reserved.</span>
+</div>
+<div class="flex gap-6">
+<a class="text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">About Us</a>
+<a class="text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+</main>
+</div>
+<!-- Notification Toast (Hidden by default) -->
+<div class="fixed bottom-8 right-8 z-[100] translate-y-20 opacity-0 transition-all duration-300 pointer-events-none" id="toast">
+<div class="bg-on-surface text-surface py-3 px-5 rounded-2xl shadow-2xl flex items-center gap-3">
+<span class="material-symbols-outlined text-status-success">check_circle</span>
+<span class="font-label-md">Seller application approved successfully.</span>
+<button class="ml-4 opacity-60 hover:opacity-100" onclick="hideToast()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+</div>
+<script>
+        // Simple Interaction logic
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            if (message) toast.querySelector('span:nth-child(2)').innerText = message;
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            
+            setTimeout(() => {
+                hideToast();
+            }, 3000);
+        }
+
+        function hideToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+        }
+
+        // Add event listeners to buttons
+        document.querySelectorAll('button[title="Approve"]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                showToast("Seller has been verified and notified.");
+                const row = btn.closest('tr');
+                const badge = row.querySelector('.status-chip-pending');
+                if (badge) {
+                    badge.classList.replace('status-chip-pending', 'status-chip-verified');
+                    badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-status-success"></span> Verified';
+                    btn.closest('div').innerHTML = `
+                        <button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
+                            <span class="material-symbols-outlined">visibility</span>
+                        </button>
+                        <button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
+                            <span class="material-symbols-outlined">edit</span>
+                        </button>
+                    `;
+                }
+            });
+        });
+
+        document.querySelectorAll('button[title="Reject"]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if(confirm("Are you sure you want to reject this application?")) {
+                    showToast("Application rejected.");
+                    const row = btn.closest('tr');
+                    const badge = row.querySelector('.status-chip-pending');
+                    if (badge) {
+                        badge.classList.replace('status-chip-pending', 'status-chip-rejected');
+                        badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-status-error"></span> Rejected';
+                        btn.closest('div').innerHTML = '<button class="px-3 py-1.5 bg-surface-container-low text-on-surface-variant text-label-md font-label-md rounded-lg hover:bg-surface-container-high transition-colors">Re-evaluate</button>';
+                    }
+                }
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vendor Onboarding | Lumina</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#ffdbce",
+                        "primary-container": "#008378",
+                        "secondary-fixed": "#dae2fd",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#fffbff",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#5c647a",
+                        "on-background": "#0b1c30",
+                        "on-surface": "#0b1c30",
+                        "surface-tint": "#006a61",
+                        "surface-bright": "#f8f9ff",
+                        "surface": "#f8f9ff",
+                        "status-success": "#10B981",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#6d7a77",
+                        "on-tertiary-fixed": "#370e00",
+                        "on-tertiary-fixed-variant": "#773215",
+                        "inverse-on-surface": "#eaf1ff",
+                        "inverse-surface": "#213145",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary": "#565e74",
+                        "tertiary-container": "#b05e3d",
+                        "status-warning": "#F59E0B",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#bcc9c6",
+                        "on-tertiary": "#ffffff",
+                        "secondary-container": "#dae2fd",
+                        "status-error": "#DC2626",
+                        "surface-dim": "#cbdbf5",
+                        "on-primary-fixed-variant": "#005049",
+                        "surface-container-low": "#eff4ff",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#89f5e7",
+                        "background": "#f8f9ff",
+                        "surface-container": "#e5eeff",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "primary": "#00685f",
+                        "on-secondary-fixed": "#131b2e",
+                        "tertiary": "#924628",
+                        "flash-sale-red": "#DC2626",
+                        "primary-fixed-dim": "#6bd8cb",
+                        "on-primary-container": "#f4fffc",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "surface-background": "#F8FAFC",
+                        "inverse-primary": "#6bd8cb",
+                        "on-primary-fixed": "#00201d",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#3d4947",
+                        "surface-variant": "#d3e4fe",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ffb59a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "1rem",
+                        "gutter-grid": "0.75rem",
+                        "stack-lg": "1.5rem",
+                        "section-gap": "2rem",
+                        "stack-sm": "0.5rem",
+                        "margin-page": "1rem"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "headline-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-xl": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .step-indicator-active {
+            width: 32px;
+            background-color: #00685f;
+        }
+        .custom-glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-surface-background min-h-screen flex flex-col">
+<!-- Top Navigation (Shell suppressed as per task: transactional/focused journey) -->
+<header class="w-full px-margin-page py-6 flex justify-between items-center max-w-7xl mx-auto">
+<div class="flex items-center gap-2">
+<span class="text-primary font-headline-xl text-headline-xl font-bold">Lumina</span>
+<span class="bg-primary-container/10 text-primary-container px-2 py-0.5 rounded text-label-sm font-label-sm">PARTNER</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant text-label-md font-label-md">
+<span>Step 1 of 4</span>
+<div class="flex gap-1.5 items-center">
+<div class="h-1.5 rounded-full step-indicator-active transition-all duration-500"></div>
+<div class="h-1.5 w-4 rounded-full bg-outline-variant/30"></div>
+<div class="h-1.5 w-4 rounded-full bg-outline-variant/30"></div>
+<div class="h-1.5 w-4 rounded-full bg-outline-variant/30"></div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex items-center justify-center px-margin-page py-section-gap">
+<!-- Centered Card Layout -->
+<div class="w-full max-w-5xl grid md:grid-cols-2 bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.04)] transition-transform duration-300 hover:shadow-[0_8px_20px_rgba(0,0,0,0.06)]">
+<!-- Illustration Column -->
+<div class="hidden md:block relative bg-surface-container-low overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="A premium high-fidelity 3D illustration of a modern workspace with digital commerce elements like floating UI graphs, a stylized laptop, and abstract connected nodes. The lighting is soft and professional with a color palette dominated by teal and soft blue tones, reflecting the Lumina brand's minimalist and trustworthy aesthetic. The background is a clean, neutral gradient that emphasizes clarity and global connectivity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClW-1u3idAtr4lSU8EyFu_Jg7qYWZk2wa6rLpIOW4wMS8oINiG6AUH7rStJqeBRIEgEQU8PaOh4v0imXBzAJ-5l6FlYGZYuGGLcBrDWxO4mDKLw8UY8Du3SXyu0EXqi8bpVN32m9mmUiJUG4liH6OgWtjPoqM9EKEGUpdkibRz9bBR04B-zYvk16d_oXA6PYN92r0AJMb3qCKi_8qyimAeE_dS2-U0JBE1FwiqyQ1NyXI4L6DGzKH5bbsBa9xUTFJqAM35O_W1x1ZI"/>
+</div>
+<!-- Overlay Gradient -->
+<div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent pointer-events-none"></div>
+<div class="relative z-10 p-12 h-full flex flex-col justify-end">
+<div class="custom-glass p-6 rounded-xl">
+<h2 class="text-headline-lg font-headline-lg text-on-surface mb-2">Empowering Global Tech Retailers</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">Join a network of elite vendors providing high-quality electronics and repair services to millions of customers worldwide.</p>
+</div>
+</div>
+</div>
+<!-- Onboarding Content Column -->
+<div class="p-8 md:p-12 flex flex-col justify-center">
+<div class="mb-stack-lg">
+<h1 class="text-headline-xl font-headline-xl text-on-surface mb-2">Welcome to Lumina</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant">Let's get your store set up. To ensure a secure marketplace for everyone, we'll need a few details to verify your business identity.</p>
+</div>
+<!-- Checklist -->
+<div class="space-y-4 mb-section-gap">
+<h3 class="text-label-md font-label-md text-outline uppercase tracking-wider">Onboarding Checklist</h3>
+<div class="group flex items-start gap-4 p-4 rounded-xl border border-outline-variant/30 hover:border-primary/40 hover:bg-primary/5 transition-all duration-200">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">badge</span>
+</div>
+<div>
+<p class="text-headline-md font-headline-md text-on-surface">Identity</p>
+<p class="text-body-md font-body-md text-on-surface-variant">Valid government-issued ID or business registration documents.</p>
+</div>
+</div>
+<div class="group flex items-start gap-4 p-4 rounded-xl border border-outline-variant/30 hover:border-primary/40 hover:bg-primary/5 transition-all duration-200">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">account_balance</span>
+</div>
+<div>
+<p class="text-headline-md font-headline-md text-on-surface">Tax Info</p>
+<p class="text-body-md font-body-md text-on-surface-variant">VAT/GST number or regional tax identification for legal compliance.</p>
+</div>
+</div>
+<div class="group flex items-start gap-4 p-4 rounded-xl border border-outline-variant/30 hover:border-primary/40 hover:bg-primary/5 transition-all duration-200">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<div>
+<p class="text-headline-md font-headline-md text-on-surface">Bank Account</p>
+<p class="text-body-md font-body-md text-on-surface-variant">A verified account for receiving your weekly payouts securely.</p>
+</div>
+</div>
+<div class="group flex items-start gap-4 p-4 rounded-xl border border-outline-variant/30 hover:border-primary/40 hover:bg-primary/5 transition-all duration-200">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">storefront</span>
+</div>
+<div>
+<p class="text-headline-md font-headline-md text-on-surface">Store Details</p>
+<p class="text-body-md font-body-md text-on-surface-variant">Store name, logo, and primary categories you intend to sell.</p>
+</div>
+</div>
+</div>
+<!-- Action Bar -->
+<div class="flex flex-col gap-4">
+<button class="w-full bg-primary hover:bg-primary-container text-white py-4 rounded-lg font-headline-md text-headline-md shadow-lg shadow-primary/20 transform active:scale-[0.98] transition-all duration-150">
+                        Get Started
+                    </button>
+<p class="text-center text-label-md font-label-md text-on-surface-variant">
+                        Estimated time: 5-10 minutes. <a class="text-primary hover:underline" href="#">Save &amp; exit</a>
+</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Simplified Footer for Focused Journey -->
+<footer class="w-full py-8 px-margin-page border-t border-outline-variant/20 bg-surface-container-low">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-body-md font-body-md text-on-surface-variant">© 2024 Lumina Tech &amp; Repairs. All rights reserved.</p>
+<div class="flex gap-6 text-label-md font-label-md text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for checklist items
+        document.querySelectorAll('.group').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                const icon = item.querySelector('.material-symbols-outlined');
+                icon.style.transform = 'scale(1.1) rotate(-5deg)';
+                icon.style.transition = 'transform 0.3s ease-out';
+            });
+            item.addEventListener('mouseleave', () => {
+                const icon = item.querySelector('.material-symbols-outlined');
+                icon.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+
+        // Simple button ripple effect simulation
+        const btn = document.querySelector('button');
+        btn.addEventListener('mousedown', function(e) {
+            this.style.opacity = '0.9';
+        });
+        btn.addEventListener('mouseup', function(e) {
+            this.style.opacity = '1';
+        });
+    </script>
+</body></html>

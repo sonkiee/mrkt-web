@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lumina Admin | Product Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom scrollbar for clean UI */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #bcc9c6;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6d7a77;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-low": "#eff4ff",
+                      "on-surface-variant": "#3d4947",
+                      "on-secondary-container": "#5c647a",
+                      "status-warning": "#F59E0B",
+                      "error-container": "#ffdad6",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-variant": "#d3e4fe",
+                      "surface-container": "#e5eeff",
+                      "secondary": "#565e74",
+                      "inverse-primary": "#6bd8cb",
+                      "primary-fixed-dim": "#6bd8cb",
+                      "on-background": "#0b1c30",
+                      "status-error": "#DC2626",
+                      "inverse-surface": "#213145",
+                      "on-tertiary-container": "#fffbff",
+                      "on-secondary-fixed": "#131b2e",
+                      "secondary-fixed-dim": "#bec6e0",
+                      "on-error-container": "#93000a",
+                      "on-surface": "#0b1c30",
+                      "on-secondary-fixed-variant": "#3f465c",
+                      "tertiary": "#924628",
+                      "primary": "#00685f",
+                      "primary-fixed": "#89f5e7",
+                      "on-primary-fixed": "#00201d",
+                      "background": "#f8f9ff",
+                      "inverse-on-surface": "#eaf1ff",
+                      "surface": "#f8f9ff",
+                      "surface-container-highest": "#d3e4fe",
+                      "tertiary-fixed-dim": "#ffb59a",
+                      "tertiary-fixed": "#ffdbce",
+                      "surface-container-high": "#dce9ff",
+                      "on-primary": "#ffffff",
+                      "status-success": "#10B981",
+                      "surface-bright": "#f8f9ff",
+                      "surface-dim": "#cbdbf5",
+                      "surface-tint": "#006a61",
+                      "on-error": "#ffffff",
+                      "tertiary-container": "#b05e3d",
+                      "on-tertiary-fixed-variant": "#773215",
+                      "on-tertiary-fixed": "#370e00",
+                      "on-tertiary": "#ffffff",
+                      "primary-container": "#008378",
+                      "outline-variant": "#bcc9c6",
+                      "secondary-fixed": "#dae2fd",
+                      "error": "#ba1a1a",
+                      "surface-background": "#F8FAFC",
+                      "secondary-container": "#dae2fd",
+                      "on-secondary": "#ffffff",
+                      "flash-sale-red": "#DC2626",
+                      "on-primary-fixed-variant": "#005049",
+                      "outline": "#6d7a77",
+                      "on-primary-container": "#f4fffc"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-page": "1rem",
+                      "stack-lg": "1.5rem",
+                      "gutter-grid": "0.75rem",
+                      "section-gap": "2rem",
+                      "stack-sm": "0.5rem",
+                      "stack-md": "1rem"
+              },
+              "fontFamily": {
+                      "headline-md": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                      "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-xl": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                      "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-surface-background text-on-surface font-body-md min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-surface/80 backdrop-blur-md sticky top-0 z-50 border-b border-outline-variant/30">
+<div class="flex justify-between items-center w-full px-margin-page py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-headline-xl font-headline-xl font-bold text-on-surface">Lumina</span>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-primary border-b-2 border-primary pb-1 font-label-md" href="#">Store</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md" href="#">iPhone</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md" href="#">Samsung</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md" href="#">iPad</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md" href="#">Accessories</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md" href="#">Repairs</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined text-primary">search</span>
+</button>
+<button class="p-2 hover:opacity-80 transition-opacity active:scale-95 duration-150 relative">
+<span class="material-symbols-outlined text-primary">shopping_bag</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-status-error rounded-full"></span>
+</button>
+<button class="p-2 hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-margin-page py-stack-lg">
+<!-- Dashboard Header -->
+<div class="mb-section-gap flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface">Product Management</h1>
+<p class="text-on-surface-variant font-body-md mt-1">Audit and manage vendor submissions for the marketplace.</p>
+</div>
+<div class="flex gap-stack-sm overflow-x-auto pb-2 md:pb-0">
+<div class="flex items-center bg-white border border-outline-variant/30 rounded-xl px-3 py-2 shadow-sm focus-within:border-primary transition-all group">
+<span class="material-symbols-outlined text-on-surface-variant group-focus-within:text-primary mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-full md:w-64" placeholder="Search products or vendors..." type="text"/>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-white border border-outline-variant/30 rounded-xl font-label-md hover:bg-surface-container-low transition-colors shadow-sm">
+<span class="material-symbols-outlined text-body-lg">filter_list</span>
+                    Filter
+                </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-xl font-label-md hover:opacity-90 transition-all shadow-md active:scale-95">
+<span class="material-symbols-outlined text-body-lg">download</span>
+                    Export
+                </button>
+</div>
+</div>
+<!-- Audit Cards (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter-grid mb-section-gap">
+<div class="bg-primary-container text-on-primary-container p-6 rounded-xl shadow-sm border border-primary/10">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-3xl">pending_actions</span>
+<span class="text-label-sm px-2 py-1 bg-on-primary-container/10 rounded-full">Requires Attention</span>
+</div>
+<h3 class="font-headline-md text-headline-md">24 Pending Review</h3>
+<p class="font-body-md mt-1 opacity-80">12 new submissions today from Top Vendors.</p>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-outline-variant/20">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-status-success text-3xl">check_circle</span>
+<span class="text-label-sm px-2 py-1 bg-status-success/10 text-status-success rounded-full">+15% vs Last Week</span>
+</div>
+<h3 class="font-headline-md text-headline-md">1,482 Approved</h3>
+<p class="font-body-md mt-1 text-on-surface-variant">Active products currently listed in the store.</p>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-outline-variant/20">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-status-error text-3xl">block</span>
+<span class="text-label-sm px-2 py-1 bg-status-error/10 text-status-error rounded-full">3 Quality Alerts</span>
+</div>
+<h3 class="font-headline-md text-headline-md">14 Rejected</h3>
+<p class="font-body-md mt-1 text-on-surface-variant">Submissions flagged for policy violations.</p>
+</div>
+</div>
+<!-- Product Audit List -->
+<div class="bg-white rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant/20">
+<tr>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Product</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Vendor</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Category</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider text-right">Price</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider text-center">Stock</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider text-center">Status</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20">
+<!-- Product Row 1 (Pending) -->
+<tr class="hover:bg-surface-container/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-low overflow-hidden border border-outline-variant/10">
+<img class="w-full h-full object-cover" data-alt="A professional studio product photograph of a sleek, dark grey titanium smartwatch on a clean white surface. The lighting is crisp and modern, highlighting the metallic texture and the vibrant circular OLED display. High-end product photography for a luxury tech brand with a minimalist light-mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtITBK6GD5Y2t7111NSph-KlTWVvayEs1Bs11TlNYW6yhvGHs1UCSyeO9MdTsNTZzcPwsRv9VSSkGYEjdqULEdOFNRU4Exmws07YREE3UY8U2vQcNfbykLbd-YQorrveABQg0SDuiBy-B2iZm_5CmhXSzfH-yhf7nU1VFtzYfynQ_6CsVnHs9pRien3EIgzzGJmKotJ-vr2EukDo29M9GM5B5KlOpYHivAjql5KoSqJzpiZ0hSQqeZCMTf5yK8-TWJfXID2j-MD9Dv"/>
+</div>
+<div>
+<div class="font-headline-md text-body-lg">Lumina Watch Ultra</div>
+<div class="text-label-sm text-on-surface-variant">SKU: LWU-2024-X</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="font-body-md">Precision Tech Ltd.</div>
+<div class="text-label-sm text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span> Platinum
+                                </div>
+</td>
+<td class="px-6 py-4">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-label-sm">Wearables</span>
+</td>
+<td class="px-6 py-4 text-right font-headline-md">$799.00</td>
+<td class="px-6 py-4 text-center">
+<span class="font-body-md text-status-success">150</span>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="bg-status-warning/10 text-status-warning px-3 py-1 rounded-full text-label-md font-semibold inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-status-warning"></span> Pending
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-primary/10 hover:text-primary rounded-lg transition-all active:scale-90" onclick="this.classList.toggle('text-primary')" title="Approve">
+<span class="material-symbols-outlined">check_circle</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-status-error/10 hover:text-status-error rounded-lg transition-all active:scale-90" title="Reject">
+<span class="material-symbols-outlined">cancel</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all active:scale-90" title="More">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Product Row 2 (Approved) -->
+<tr class="hover:bg-surface-container/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-low overflow-hidden border border-outline-variant/10">
+<img class="w-full h-full object-cover" data-alt="A minimalist studio shot of a white high-fidelity wireless headphone set against a soft blue background. The lighting is diffused and elegant, emphasizing the matte finish and plush ear cushions. Global marketplace style with clean lines and premium professional feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLnInLfiyv8pwErh8E4qH8DJ-ZE_tw1KdSuUXgpeWeSRjv9oGGpTxwDNAdMpm_RI6Bl-8tQDMcorg9M2_wZeqp-WzvKHH-wTIPhvn7c4nQ-ecgFLjLwj4oV-M-3JjTUkxmgl1rusj3R4aubA0wf_rsicuwa50euGtUA5cBEHtTSNxTN5UwcrO-EpjAuBzdCPGKdCNxI4w-FFjKRSiYpst-_MOxfBiXe1Dfha0VXXjDk6DPZJ54xTy5lzM7XG_HnaQB4UzdhuCLitMY"/>
+</div>
+<div>
+<div class="font-headline-md text-body-lg">Aura Noise Cancelling Gen 2</div>
+<div class="text-label-sm text-on-surface-variant">SKU: ANC-WHT-02</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="font-body-md">SoundSphere Global</div>
+<div class="text-label-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">store</span> Silver
+                                </div>
+</td>
+<td class="px-6 py-4">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-label-sm">Audio</span>
+</td>
+<td class="px-6 py-4 text-right font-headline-md">$349.99</td>
+<td class="px-6 py-4 text-center">
+<span class="font-body-md text-status-error">8</span>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="bg-status-success/10 text-status-success px-3 py-1 rounded-full text-label-md font-semibold inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-status-success"></span> Approved
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-all active:scale-90" title="Featured">
+<span class="material-symbols-outlined fill-icon">star</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all active:scale-90" title="Archive">
+<span class="material-symbols-outlined">archive</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all active:scale-90">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Product Row 3 (Rejected) -->
+<tr class="hover:bg-surface-container/30 transition-colors group opacity-70">
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-low overflow-hidden border border-outline-variant/10 filter grayscale">
+<img class="w-full h-full object-cover" data-alt="A high-quality photo of an unbranded generic smartphone charger with frayed cables on a dark wooden surface. The mood is slightly somber and industrial. Design emphasizes quality control and rejection for a professional tech marketplace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9QTSIErpMzdREi0qzzFid6_5dEZKWGX329I7KjjoVABVztns14p5PDReoHvF6Mpxp0tP1aLD8WPCxLI4Q7K3UXjPcPrRabJKjp6A9Dt8paXKGuWhn8iXqd15ldIeftDUD2Am71FOrREVSGIWnxKamiuY3vkE7Niv6ThW55mKfTU38DCt_1Vi2uQDmTNbnfC0201UyZyqFLvl8xRXnuSNl9Ep4BXXjhTdeloHi4z5vQV8DL7VZo1FrGJpsJ4D-WjmQ3Qt9jzcj2iVE"/>
+</div>
+<div>
+<div class="font-headline-md text-body-lg">SuperCharge Hub Pro</div>
+<div class="text-label-sm text-on-surface-variant">SKU: SCH-REJ-01</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="font-body-md">Generic Tech Supply</div>
+<div class="text-label-sm text-on-surface-variant italic">New Vendor</div>
+</td>
+<td class="px-6 py-4">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-label-sm">Power</span>
+</td>
+<td class="px-6 py-4 text-right font-headline-md">$45.00</td>
+<td class="px-6 py-4 text-center">
+<span class="font-body-md text-on-surface-variant">0</span>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="bg-status-error/10 text-status-error px-3 py-1 rounded-full text-label-md font-semibold inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-status-error"></span> Rejected
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="px-3 py-1.5 text-label-md text-primary hover:bg-primary/10 rounded-lg transition-all">Re-audit</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="bg-surface-container-lowest px-6 py-4 border-t border-outline-variant/20 flex items-center justify-between">
+<span class="text-body-md text-on-surface-variant">Showing 1-10 of 1,520 products</span>
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant/30 hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-on-primary shadow-sm">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant/30 hover:bg-surface-container-low transition-colors">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant/30 hover:bg-surface-container-low transition-colors">3</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant/30 hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low border-t border-outline-variant/20 mt-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-stack-lg px-margin-page py-section-gap max-w-7xl mx-auto">
+<div class="flex flex-col gap-stack-md">
+<span class="text-headline-md font-headline-md font-bold text-primary">Lumina Admin</span>
+<p class="text-body-md text-on-surface-variant max-w-xs">Global marketplace headquarters and inventory control center.</p>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md mb-4">Management</h4>
+<ul class="flex flex-col gap-2">
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block text-body-md" href="#">Vendor Portal</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block text-body-md" href="#">Quality Control</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block text-body-md" href="#">Logistics Tracking</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md mb-4">Support</h4>
+<ul class="flex flex-col gap-2">
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block text-body-md" href="#">Documentation</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block text-body-md" href="#">System Status</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block text-body-md" href="#">Internal Tools</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md mb-4">Account</h4>
+<ul class="flex flex-col gap-2">
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block text-body-md" href="#">Profile Settings</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block text-body-md" href="#">Security Audit</a></li>
+<li><a class="text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200 block text-body-md" href="#">Sign Out</a></li>
+</ul>
+</div>
+</div>
+<div class="px-margin-page py-6 max-w-7xl mx-auto border-t border-outline-variant/10 text-center md:text-left">
+<p class="text-label-md text-on-surface-variant opacity-70">© 2024 Lumina Tech & Repairs. All rights reserved. Authorized Personnel Only.</p>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for status pill toggling or similar
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', (e) => {
+                if (e.target.closest('button')) return; // Ignore if clicking action buttons
+                console.log('Row clicked for detailed view');
+                // Potential expansion logic here
+            });
+        });
+
+        // Add "active" class to nav links based on context
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                navLinks.forEach(l => l.classList.remove('text-primary', 'border-b-2', 'border-primary', 'pb-1'));
+                link.classList.add('text-primary', 'border-b-2', 'border-primary', 'pb-1');
+            });
+        });
+    </script>
+</body></html>

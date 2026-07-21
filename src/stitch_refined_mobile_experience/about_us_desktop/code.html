@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>About Us | Lumina Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-low": "#eff4ff",
+                      "on-surface-variant": "#3d4947",
+                      "on-secondary-container": "#5c647a",
+                      "status-warning": "#F59E0B",
+                      "error-container": "#ffdad6",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-variant": "#d3e4fe",
+                      "surface-container": "#e5eeff",
+                      "secondary": "#565e74",
+                      "inverse-primary": "#6bd8cb",
+                      "primary-fixed-dim": "#6bd8cb",
+                      "on-background": "#0b1c30",
+                      "status-error": "#DC2626",
+                      "inverse-surface": "#213145",
+                      "on-tertiary-container": "#fffbff",
+                      "on-secondary-fixed": "#131b2e",
+                      "secondary-fixed-dim": "#bec6e0",
+                      "on-error-container": "#93000a",
+                      "on-surface": "#0b1c30",
+                      "on-secondary-fixed-variant": "#3f465c",
+                      "tertiary": "#924628",
+                      "primary": "#00685f",
+                      "primary-fixed": "#89f5e7",
+                      "on-primary-fixed": "#00201d",
+                      "background": "#f8f9ff",
+                      "inverse-on-surface": "#eaf1ff",
+                      "surface": "#f8f9ff",
+                      "surface-container-highest": "#d3e4fe",
+                      "tertiary-fixed-dim": "#ffb59a",
+                      "tertiary-fixed": "#ffdbce",
+                      "surface-container-high": "#dce9ff",
+                      "on-primary": "#ffffff",
+                      "status-success": "#10B981",
+                      "surface-bright": "#f8f9ff",
+                      "surface-dim": "#cbdbf5",
+                      "surface-tint": "#006a61",
+                      "on-error": "#ffffff",
+                      "tertiary-container": "#b05e3d",
+                      "on-tertiary-fixed-variant": "#773215",
+                      "on-tertiary-fixed": "#370e00",
+                      "on-tertiary": "#ffffff",
+                      "primary-container": "#008378",
+                      "outline-variant": "#bcc9c6",
+                      "secondary-fixed": "#dae2fd",
+                      "error": "#ba1a1a",
+                      "surface-background": "#F8FAFC",
+                      "secondary-container": "#dae2fd",
+                      "on-secondary": "#ffffff",
+                      "flash-sale-red": "#DC2626",
+                      "on-primary-fixed-variant": "#005049",
+                      "outline": "#6d7a77",
+                      "on-primary-container": "#f4fffc"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-page": "1rem",
+                      "stack-lg": "1.5rem",
+                      "gutter-grid": "0.75rem",
+                      "section-gap": "2rem",
+                      "stack-sm": "0.5rem",
+                      "stack-md": "1rem"
+              },
+              "fontFamily": {
+                      "headline-md": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                      "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-xl": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                      "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<header class="bg-surface/80 dark:bg-on-surface/80 backdrop-blur-md border-b border-outline-variant/30 dark:border-outline/20 docked full-width top-0 sticky z-50">
+<div class="flex justify-between items-center w-full px-margin-page py-4 max-w-7xl mx-auto">
+<div class="text-headline-xl font-headline-xl font-bold text-on-surface dark:text-surface-bright tracking-tight">Lumina</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary dark:hover:text-primary-fixed transition-colors text-label-md font-label-md" href="#">Store</a>
+<a class="text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary dark:hover:text-primary-fixed transition-colors text-label-md font-label-md" href="#">iPhone</a>
+<a class="text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary dark:hover:text-primary-fixed transition-colors text-label-md font-label-md" href="#">Samsung</a>
+<a class="text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary dark:hover:text-primary-fixed transition-colors text-label-md font-label-md" href="#">iPad</a>
+<a class="text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary dark:hover:text-primary-fixed transition-colors text-label-md font-label-md" href="#">Accessories</a>
+<a class="text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary dark:hover:text-primary-fixed transition-colors text-label-md font-label-md" href="#">Repairs</a>
+<a class="text-primary dark:text-primary-fixed border-b-2 border-primary dark:border-primary-fixed pb-1 text-label-md font-label-md" href="#">About Us</a>
+</nav>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity" data-icon="search">search</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity" data-icon="shopping_bag">shopping_bag</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity" data-icon="account_circle">account_circle</button>
+</div>
+</div>
+</header>
+<main class="min-h-screen">
+<!-- Hero Section -->
+<section class="relative h-[819px] flex items-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="A high-end cinematic view of a sleek, minimalist tech laboratory with glowing cyan accents and polished glass surfaces. The lighting is bright and ethereal, emphasizing a premium light-mode aesthetic. Modern computers and holographic interfaces are visible in the background, creating a mood of advanced innovation and professional excellence. The overall atmosphere is clean, spacious, and technologically forward." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAG1uUd-y0izGjxEZSLqR2SR1OPqwgAv3tXmnYeDlnxB9cUsAEx9RJSRPelgDux04Eom_HrFVfrUN_RpH5jDiCR5CazXbjIY2H8ibUjU5d7PUMtKpZt5DUo1ds1kQ3B1zHPoEJAuFKRjrKu-hr84dJz19aPczbkH-49eV9DZivrc8DzcWDvTLtVL5yIQDhnhARxiLHi1veaUlkuZxM935TdnfnaEmSDcqhMKCfebPoSNwNR8hILps8Z-kh5A9OzvTQgDo6TOu16UYm3"/>
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto px-margin-page w-full">
+<div class="max-w-2xl">
+<span class="inline-block py-1 px-3 bg-primary-container text-on-primary-container rounded-full text-label-sm font-label-sm mb-6 uppercase tracking-widest">Est. 2024</span>
+<h1 class="text-[64px] leading-[1.1] font-bold text-on-surface tracking-tighter mb-8">Illuminating the future of <span class="text-primary">commerce</span>.</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant mb-10 max-w-lg leading-relaxed">
+                        Lumina is more than a marketplace. We are a curated ecosystem where premium technology meets unparalleled service, designed for those who demand excellence in every interaction.
+                    </p>
+<div class="flex gap-4">
+<button class="px-8 py-4 bg-primary text-on-primary rounded-xl font-label-md hover:shadow-lg transition-all active:scale-95 duration-150">Explore Catalog</button>
+<button class="px-8 py-4 bg-white border border-outline-variant text-on-surface rounded-xl font-label-md hover:bg-surface-container-low transition-all active:scale-95 duration-150">Our Story</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Our Mission: Bento Grid Layout -->
+<section class="py-section-gap max-w-7xl mx-auto px-margin-page">
+<div class="text-center mb-16">
+<h2 class="text-headline-xl font-headline-xl text-on-surface mb-4">Our Core Mission</h2>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-xl mx-auto">Guided by a commitment to quality and a passion for technology, we redefine how you discover and acquire the latest innovations.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter-grid h-auto md:h-[600px]">
+<!-- Big Bento Item -->
+<div class="md:col-span-8 rounded-3xl overflow-hidden relative group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A professional close-up shot of a high-tech circuit board with glowing golden and teal light paths, representing the core of innovation. The lighting is sophisticated and moody, with sharp focus on the central processor. The surrounding area is clean and minimalist, following a premium technology aesthetic with soft bokeh effects. The image conveys precision, reliability, and cutting-edge engineering." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCk_DU1qyhq-GLJAqITIf-GTFo7Kt1SIZuALPe_j-tieW7FeZKiVpSm5kGUKqlBoNDqDXvUoddy5DYjIWICgKlxxFWTQ4mLtcNC4sLud9jP8UMpThE5ujhmtDoA9V58XVtsp6XmjPdNzPCa7sWp91A21zTeFadZvYa2ah-QJqrXCL1Ywz_G06Jsa2cPW2LSkk_UxWH5tZlK59QI67VN8nVtjW8-2MwjX6d9_JdCab0kL6gigtKgBnrwwC99ohdsIA2GZZn3QHojcyMi"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-background/80 to-transparent flex flex-col justify-end p-10">
+<h3 class="text-white font-headline-lg text-headline-lg mb-2">Uncompromising Quality</h3>
+<p class="text-surface-variant text-body-md max-w-md">Every product in our marketplace undergoes a rigorous 50-point inspection by certified Lumina technicians to ensure it meets our gold standard.</p>
+</div>
+</div>
+<!-- Tall Bento Item -->
+<div class="md:col-span-4 rounded-3xl bg-primary-container p-10 flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-on-primary-container/20 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-primary-container text-3xl" data-icon="security">security</span>
+</div>
+<h3 class="text-on-primary-container font-headline-lg text-headline-lg mb-4">Trusted Security</h3>
+<p class="text-on-primary-container/80 text-body-md">We prioritize your data privacy and transaction security above all else, utilizing bank-grade encryption for every purchase.</p>
+</div>
+<div class="pt-8">
+<img class="w-full h-32 object-contain opacity-50" data-alt="A minimalist white 3D render of a secure shield icon floating in a bright, clean digital space. The lighting is soft and high-key, with delicate shadows. The scene is uncluttered and modern, using a palette of soft teals and crisp whites. This represents digital trust and architectural security within a premium marketplace context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCL2YUxuAu-k8NEBFAxFsMmtAOsRv8hgL66Bvj_SW0cZbq_LxhJbAf568qBSW7Hj0XinebyTi_TitRdf6o-cChmlkfEIrUWbqlmPgm5ihULxjSC084khqb3n0MZRIsLEXEFjP5kxlNtRf25EZex97FqvW5tfZ3Vut6jquwQ-iSo3lActgYOLxwEYy-6BuLrvwlWbHhLIjNK2iahm4azntomL5MQFPItwNGJFJx1Wr6i8-0VJGTVNb6wFn4nk-ERSseRHbJ9wmfIXCqi"/>
+</div>
+</div>
+<!-- Horizontal Bento Item -->
+<div class="md:col-span-4 rounded-3xl bg-surface-container-high p-10 group cursor-pointer hover:bg-surface-dim transition-colors">
+<span class="material-symbols-outlined text-primary text-4xl mb-6" data-icon="eco">eco</span>
+<h3 class="text-on-surface font-headline-md text-headline-md mb-2">Sustainability First</h3>
+<p class="text-on-surface-variant text-body-md">Our circular economy model reduces e-waste by extending the lifecycle of premium electronics.</p>
+</div>
+<!-- Final Bento Item -->
+<div class="md:col-span-8 rounded-3xl bg-white border border-outline-variant/30 p-10 flex items-center gap-10">
+<div class="flex-1">
+<h3 class="text-on-surface font-headline-md text-headline-md mb-2">The Lumina Guarantee</h3>
+<p class="text-on-surface-variant text-body-md">Every purchase is backed by our comprehensive 2-year warranty and 24/7 concierge support, no questions asked.</p>
+</div>
+<div class="hidden lg:flex gap-2">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center animate-float" style="animation-delay: 0s">
+<span class="material-symbols-outlined text-primary" data-icon="verified">verified</span>
+</div>
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center animate-float" style="animation-delay: 1s">
+<span class="material-symbols-outlined text-primary" data-icon="support_agent">support_agent</span>
+</div>
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center animate-float" style="animation-delay: 2s">
+<span class="material-symbols-outlined text-primary" data-icon="inventory_2">inventory_2</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Global Reach Section -->
+<section class="bg-on-background py-section-gap overflow-hidden relative">
+
+<div class="max-w-7xl mx-auto px-margin-page relative z-10 flex flex-col md:flex-row items-center gap-16">
+<div class="flex-1">
+<h2 class="text-white text-[48px] font-bold leading-tight mb-6">Our Global Footprint</h2>
+<p class="text-surface-variant text-body-lg mb-8 max-w-lg leading-relaxed">
+                        Lumina connects the world's most innovative tech centers with buyers across 120+ countries. We maintain state-of-the-art fulfillment hubs in London, New York, Tokyo, and Singapore.
+                    </p>
+<div class="grid grid-cols-2 gap-8">
+<div>
+<div class="text-[40px] font-bold text-primary-fixed mb-1">12M+</div>
+<div class="text-surface-variant/70 text-label-md">Annual Users</div>
+</div>
+<div>
+<div class="text-[40px] font-bold text-primary-fixed mb-1">120+</div>
+<div class="text-surface-variant/70 text-label-md">Countries Reached</div>
+</div>
+<div>
+<div class="text-[40px] font-bold text-primary-fixed mb-1">15</div>
+<div class="text-surface-variant/70 text-label-md">Global Hubs</div>
+</div>
+<div>
+<div class="text-[40px] font-bold text-primary-fixed mb-1">24h</div>
+<div class="text-surface-variant/70 text-label-md">Average Delivery</div>
+</div>
+</div>
+</div>
+<div class="flex-1 w-full aspect-square md:aspect-auto h-[500px] rounded-3xl overflow-hidden border border-white/10 glass-card">
+<img class="w-full h-full object-cover" data-alt="A sophisticated digital world map visualization with glowing data nodes and interconnected light trails over a dark, deep blue background. The map looks high-tech and futuristic, representing global connectivity and logistics. Small pinpoint lights glow over major tech capitals like London, New York, and Tokyo, linked by elegant, curved lines of white light. The aesthetic is professional, clean, and premium." data-location="London" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNc5-0vfN-Mi_nWzR7lcVQLwjPYqDwHPoO5fKQ7HzGb8CRCWAxFWj186wJEZn2Kd0m_NW0DjhsETC8_qsSZIHdJFprg3HAc4iWTJVGA0WNQMVuk2YrVfYg38kQtEkjXtkbHYL7aNI0UnhYBx4fMTDsvQruwvjKnHkjpv-jlRgS-5ScBOxs09q0C75_HDOoP4Sgoh6f8tqdT1QhbCPVjLJ7buwJDZrXtA-f_sR85BEyzBuPL6wvg7Jtn0wWalNeB5OmeRFEw-vjrEu-"/>
+</div>
+</div>
+</section>
+<!-- The Team Section -->
+<section class="py-section-gap max-w-7xl mx-auto px-margin-page">
+<div class="text-center mb-16">
+<h2 class="text-headline-xl font-headline-xl text-on-surface mb-4">Led by Visionaries</h2>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-xl mx-auto">Our leadership brings together decades of experience from the world's leading tech companies to build something truly revolutionary.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter-grid">
+<!-- Team Member 1 -->
+<div class="group">
+<div class="aspect-[3/4] rounded-2xl overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A professional studio portrait of a woman in her late 30s with an air of intelligent leadership. She is wearing a modern, minimalist navy blazer against a soft gray background. The lighting is flattering and high-end, characteristic of a Forbes cover or high-tech executive profile. Her expression is confident yet approachable. The overall color palette is muted, professional, and fits a premium brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBo1HSjBWfnMKXyq3iSzFRDYolQLHEVWUR7N6MV6BUc13izNsNmUEGL5IJnx2eennr7K5tRZZS5QJY2dsQUOyZnVxgHyNK_3czhd4aeN-tO6tJnJSpnndPP9tyAMokd_A-X5Y1cQc95X7Fla9o4ayKodlBdxzVWAS7sQDkzW2zrqN1FickiBZMuJl3kBJNF2rsEQjfWVd8BoAQuSCsnyy0YSw0jJ3vWraqgIfYIqO8FpriPiD_nDL2R5GzilhlAP8PdatppfikMeFHK"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<h4 class="text-headline-md font-headline-md text-on-surface">Sarah Chen</h4>
+<p class="text-primary font-label-md uppercase tracking-wider mb-2">CEO &amp; Founder</p>
+<p class="text-on-surface-variant text-body-md line-clamp-2">Former Head of Global Operations with a vision for ethical commerce.</p>
+</div>
+<!-- Team Member 2 -->
+<div class="group">
+<div class="aspect-[3/4] rounded-2xl overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A professional studio portrait of a man in his early 40s, looking modern and tech-savvy. He is wearing a dark gray turtleneck and has a sharp, clean-cut appearance. The lighting is cinematic with subtle rim lighting to emphasize his profile against a dark, minimalist studio background. He represents technical expertise and visionary thinking in the electronics industry. The image has a clean, premium, high-contrast look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADVAyLdEHuTKFRleOKdd3MdwAttyJD_wCl1vvIpSmx8qwxj0U5qHeqP4x7Hvnh9HdedlHsigycMkgaAulhIDfQ4d8WF7Os_wTmqwJuZ4iwXId1RaTAOU05AfxL5ZYsGuXd4VkMZpfhf1u3WP7zNJdPGgg9uGNUnkKnlAZBSNhR7epGlONWsvw5mao1rv05KunB1Kfbng4XGrGxdZO92PLud5YEdqRN5Xo-RWVlXQ5sSjqQxpDMCNlWRQXqvdQOae85cF_YfsJx--qQ"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<h4 class="text-headline-md font-headline-md text-on-surface">Marcus Thorne</h4>
+<p class="text-primary font-label-md uppercase tracking-wider mb-2">Chief Tech Officer</p>
+<p class="text-on-surface-variant text-body-md line-clamp-2">The architectural brain behind our proprietary inspection AI.</p>
+</div>
+<!-- Team Member 3 -->
+<div class="group">
+<div class="aspect-[3/4] rounded-2xl overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A high-end professional portrait of a woman in her mid 40s with a warm and inviting smile. She wears a crisp white shirt and simple elegant jewelry, seated in a bright, modern office with soft-focus greenery in the background. The lighting is natural and airy, conveying transparency and human-centric leadership. The aesthetic is clean, sophisticated, and perfectly aligned with a premium modern brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1jYFiSl7qqkU9n2DGt9xKfx9HQ10Vuq8FuJaJH7Tt2OOT6izPqSFJzZED7abTmQ_VUVCricfRv9Cm2DNxJ2SLb2TNHDpo6KsBf81uB2QrEzE6sEPEYrGreZqs1qGA8Qt3p5WseycioR_4Ary8C1ANqStq1W0kD4fksV76Zd2FtVXYkzDdQ9eNf95DEgpfaT-wpMTft7xtEmD_hAtUekjZTBT4aPaEeMZFjQKUhNrB756Z5NSUde4sKbiWbga8ghZr6dZWOY-dUPCO"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<h4 class="text-headline-md font-headline-md text-on-surface">Elena Rodriguez</h4>
+<p class="text-primary font-label-md uppercase tracking-wider mb-2">Chief Experience Officer</p>
+<p class="text-on-surface-variant text-body-md line-clamp-2">Dedicated to making every customer interaction seamless and joyful.</p>
+</div>
+<!-- Team Member 4 -->
+<div class="group">
+<div class="aspect-[3/4] rounded-2xl overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A professional business portrait of a man in his late 30s with a focused and analytical expression. He wears a tailored charcoal suit and stands in front of a blurred architectural glass wall with soft blue tones. The lighting is sharp and professional, highlighting a sense of financial stability and strategic growth. The image style is minimalist, corporate-premium, and uses a cold but inviting color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAH63KhyrpIHLJLo8EAU5zfeUFlnLc1bx_7wfGd7SCndhycFbSxe15dJH6CZTXXWPUHHkZ8SU5h9QHOiieQ48Dqage3zMEylUtFaagMYwphkWdnsyADx3CM_xIAf3VfNADK04ftylAPERaGGUdYBCwWRdkWVKigzMXQgl0ZDrLVkUBWjfYE_0Hk39b8AyUPEbacHp_Ku9xWzC14EaKVetPmGas_O-ihwcIpIZ5q3mcfwTQEzOjrApInYPEr8jrIB0j15Ge5Pi7-p9C"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<h4 class="text-headline-md font-headline-md text-on-surface">David Park</h4>
+<p class="text-primary font-label-md uppercase tracking-wider mb-2">Head of Global Logistics</p>
+<p class="text-on-surface-variant text-body-md line-clamp-2">Ensuring that innovation reaches your doorstep in record time.</p>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-section-gap px-margin-page">
+<div class="max-w-7xl mx-auto rounded-[32px] bg-primary relative overflow-hidden p-12 md:p-24 text-center">
+<div class="absolute inset-0 opacity-10">
+<img class="w-full h-full object-cover" data-alt="A mesmerizing abstract pattern of flowing digital particles in teal and white, creating a sense of constant motion and energy. The pattern is organic yet high-tech, resembling a network or neural pathways. The lighting is ethereal and deep, creating a layered depth. It serves as a subtle, sophisticated background for a premium brand's call to action." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCN5udE8q1eMM1PioYQcAfORaSzLJZimPIt8SZnwBTD9YmZ_ZOWjyyy6_2TWgPKFXB6pLmAg7rpNFsEAs2c8Iwv-D2SWBO6Y3Xf6ChwhSNEOyr7_r9uTFTphuiRdqjyz50OyZ4Z0QbKdvoYc37vB7DXvMK6JrXF2WSZm_N6w673T8G6FBf9KOItd9kJaYWWMQ5_ui65Ch3QHSxcm6vGKx2DciVu0ZZrPbOIEvEFWGRMxB3dKKA9Jwy2iIbqsFcMFgMmNqmjjuExT8nH"/>
+</div>
+<div class="relative z-10">
+<h2 class="text-on-primary text-[48px] font-bold mb-6">Join the Lumina Revolution</h2>
+<p class="text-primary-fixed text-body-lg mb-10 max-w-xl mx-auto">Experience the future of tech commerce. Whether you're buying or selling, we provide the platform for excellence.</p>
+<div class="flex flex-col md:flex-row gap-4 justify-center">
+<button class="px-10 py-5 bg-on-primary text-primary rounded-2xl font-bold hover:scale-105 transition-transform">Start Shopping</button>
+<button class="px-10 py-5 bg-primary-container text-on-primary-container rounded-2xl font-bold hover:scale-105 transition-transform border border-on-primary/20">Become a Partner</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low dark:bg-on-secondary-fixed border-t border-outline-variant/20 full-width mt-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-stack-lg px-margin-page py-section-gap max-w-7xl mx-auto">
+<div class="flex flex-col gap-4">
+<div class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed">Lumina</div>
+<p class="text-on-surface-variant dark:text-on-secondary-fixed-variant text-body-md">Redefining the premium tech marketplace for a global audience.</p>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="text-on-surface font-headline-md text-headline-md">Marketplace</h5>
+<nav class="flex flex-col gap-2">
+<a class="text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-on-surface dark:hover:text-surface-bright transition-colors hover:translate-x-1 duration-200" href="#">About Us</a>
+<a class="text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-on-surface dark:hover:text-surface-bright transition-colors hover:translate-x-1 duration-200" href="#">Store Locator</a>
+<a class="text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-on-surface dark:hover:text-surface-bright transition-colors hover:translate-x-1 duration-200" href="#">Contact Support</a>
+</nav>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="text-on-surface font-headline-md text-headline-md">Legal</h5>
+<nav class="flex flex-col gap-2">
+<a class="text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-on-surface dark:hover:text-surface-bright transition-colors hover:translate-x-1 duration-200" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-on-surface dark:hover:text-surface-bright transition-colors hover:translate-x-1 duration-200" href="#">Terms of Service</a>
+<a class="text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-on-surface dark:hover:text-surface-bright transition-colors hover:translate-x-1 duration-200" href="#">Warranty Info</a>
+</nav>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="text-on-surface font-headline-md text-headline-md">Newsletter</h5>
+<p class="text-on-surface-variant dark:text-on-secondary-fixed-variant text-body-md">Subscribe for the latest drops and tech insights.</p>
+<div class="flex gap-2">
+<input class="bg-surface border border-outline-variant rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Email address" type="email"/>
+<button class="bg-primary text-on-primary p-2 rounded-lg material-symbols-outlined" data-icon="send">send</button>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-margin-page py-6 border-t border-outline-variant/10 flex justify-between items-center text-label-md font-label-md text-on-surface-variant/60">
+<div>© 2024 Lumina Tech &amp; Repairs. All rights reserved.</div>
+<div class="flex gap-6">
+<a class="hover:text-primary transition-colors" href="#">Instagram</a>
+<a class="hover:text-primary transition-colors" href="#">Twitter</a>
+<a class="hover:text-primary transition-colors" href="#">LinkedIn</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions for team cards
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.querySelector('img').style.transform = 'scale(1.05)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.querySelector('img').style.transform = 'scale(1)';
+            });
+        });
+
+        // Simple parallax effect for hero image
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroImage = document.querySelector('section:first-of-type img');
+            if (heroImage) {
+                heroImage.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,27 @@
+"use client";
+
+import Spinner from "@/components/spinner";
+import { useFetchProductById } from "@/queries";
+import { useParams, useRouter } from "next/navigation";
+import ProductForm from "../../molecules/product-form";
+
+export default function EditProductPage() {
+  const slug = useParams()?.slug;
+  console.log("slug", slug);
+
+  const router = useRouter();
+
+  const { data, error, isLoading } = useFetchProductById(slug as string);
+  console.log("data", data);
+  const details = data?.data;
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <Spinner />
+      </div>
+    );
+  }
+
+  return <ProductForm mode="edit" initialData={details} />;
+}

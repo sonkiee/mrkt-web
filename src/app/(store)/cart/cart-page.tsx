@@ -68,7 +68,7 @@ export default function CartPage() {
                       <div className="flex flex-1 flex-col gap-1">
                         <div className="flex justify-between">
                           <Link
-                            href={`/product/${item.productId}`}
+                            href={`/p/${item.productId}`}
                             className="font-medium hover:underline"
                           >
                             {item.title}

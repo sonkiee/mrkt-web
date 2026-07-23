@@ -6,7 +6,7 @@ import Image from "next/image";
 import { SiteHeader } from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
 import ProductCard from "@/components/product-card";
-import { useListProducts, useFeatured, useFetchCategory } from "@/queries";
+import { useListProducts, useFeatured, useFetchCategory } from "@/hooks/queries";
 import { defaultCategories, dummyProducts } from "@/constants/dummy-data";
 import type { Product } from "@/types";
 import { ChevronRight, Sparkles, Flame, Clock, RefreshCw, ShoppingCart, Tag, ShieldCheck } from "lucide-react";
@@ -91,9 +91,68 @@ function SectionHeader({
     </div>
   );
 }
+const fallbackSubcategories: Record<string, { name: string; slug: string }[]> = {
+  "phones-tablets": [
+    { name: "Smartphones", slug: "smartphones" },
+    { name: "Tablets", slug: "tablets" },
+    { name: "Smartwatches", slug: "smartwatches" },
+    { name: "Mobile Accessories", slug: "mobile-accessories" },
+  ],
+  "fashion": [
+    { name: "Men's Clothing", slug: "mens-clothing" },
+    { name: "Women's Clothing", slug: "womens-clothing" },
+    { name: "Shoes", slug: "shoes" },
+    { name: "Watches & Accessories", slug: "watches-accessories" },
+  ],
+  "computing": [
+    { name: "Laptops", slug: "laptops" },
+    { name: "Printers & Scanners", slug: "printers-scanners" },
+  ],
+  "appliances": [
+    { name: "Kitchen Appliances", slug: "kitchen-appliances" },
+    { name: "Large Appliances", slug: "large-appliances" },
+  ],
+  "home-office": [
+    { name: "Furniture", slug: "furniture" },
+    { name: "Office Supplies", slug: "office-supplies" },
+  ],
+  "health-beauty": [
+    { name: "Makeup & Cosmetics", slug: "makeup-cosmetics" },
+    { name: "Hair & Wigs", slug: "hair-wigs" },
+    { name: "Fragrances", slug: "fragrances" },
+  ],
+  "gaming": [
+    { name: "Gaming Consoles", slug: "gaming-consoles" },
+    { name: "Console Games", slug: "console-games" },
+    { name: "Gaming Accessories", slug: "gaming-accessories" },
+  ],
+  "supermarket": [
+    { name: "Drinks & Beverages", slug: "drinks-beverages" },
+    { name: "Groceries", slug: "groceries" },
+  ],
+  "baby-products": [
+    { name: "Baby Clothing", slug: "baby-clothing" },
+    { name: "Baby Care", slug: "baby-care" },
+  ],
+  "sporting-goods": [
+    { name: "Fitness & Gym", slug: "fitness-gym" },
+    { name: "Outdoor Recreation", slug: "outdoor-recreation" },
+  ],
+  "automobile": [
+    { name: "Car Accessories", slug: "car-accessories" },
+    { name: "Car Care", slug: "car-care" },
+  ],
+  "electronics": [
+    { name: "Audio & Headphones", slug: "audio-headphones" },
+    { name: "Televisions & Videos", slug: "televisions-videos" },
+    { name: "Cameras & Photos", slug: "cameras-photos" },
+    { name: "Musical Instruments", slug: "musical-instruments" },
+  ]
+};
 
 export default function Home() {
   const [showAllCategories, setShowAllCategories] = useState(false);
+  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
 
   const { data: catData } = useFetchCategory();
   const { data: featuredData, isLoading: featuredLoading } = useFeatured();
@@ -104,9 +163,13 @@ export default function Home() {
     return Array.isArray(raw) ? raw : defaultCategories;
   }, [catData]);
 
+  const mainCategories = useMemo(() => {
+    return categories.filter((c: any) => !c.parentId);
+  }, [categories]);
+
   const visibleCategories = useMemo(() => {
-    return showAllCategories ? categories : categories.slice(0, 8);
-  }, [categories, showAllCategories]);
+    return showAllCategories ? mainCategories : mainCategories.slice(0, 8);
+  }, [mainCategories, showAllCategories]);
 
   const products: Product[] = useMemo(() => {
     const raw = (allData as any)?.data ?? allData ?? [];
@@ -147,19 +210,25 @@ export default function Home() {
         {/* TOP ROW: Categories Sidebar + Banner Hero */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
           {/* Left Categories Sidebar (Desktop) */}
-          <aside className="hidden lg:block bg-white p-4 rounded-xl border border-outline-variant/30 shadow-[0_4px_12px_rgba(0,0,0,0.02)] h-fit space-y-3 shrink-0">
+          <aside 
+            className="hidden lg:block bg-white p-4 rounded-xl border border-outline-variant/30 shadow-[0_4px_12px_rgba(0,0,0,0.02)] h-fit space-y-3 shrink-0 relative"
+            onMouseLeave={() => setHoveredCategory(null)}
+          >
             <h3 className="text-sm font-extrabold text-on-surface border-b pb-1.5 flex items-center gap-1.5">
               <span className="bg-primary/10 text-primary p-1 rounded-md">
                 <Tag className="h-3.5 w-3.5" />
               </span>
-              Top Categories
+              All Categories
             </h3>
             <nav className="flex flex-col gap-0.5">
               {visibleCategories.map((cat: any) => (
                 <Link
                   key={cat.slug || cat.id}
                   href={`/category/${cat.slug || cat.name}`}
-                  className="flex items-center justify-between py-1.5 px-2.5 rounded-lg hover:bg-surface-container-low text-xs text-on-surface-variant hover:text-primary transition-all capitalize group"
+                  onMouseEnter={() => setHoveredCategory(cat.id || cat.slug)}
+                  className={`flex items-center justify-between py-1.5 px-2.5 rounded-lg hover:bg-surface-container-low text-xs text-on-surface-variant hover:text-primary transition-all capitalize group ${
+                    hoveredCategory === (cat.id || cat.slug) ? "bg-surface-container-low text-primary" : ""
+                  }`}
                 >
                   <span>{cat.name}</span>
                   <ChevronRight className="h-3 w-3 text-on-surface-variant/40 group-hover:text-primary transition-colors" />
@@ -174,6 +243,57 @@ export default function Home() {
                 <span>{showAllCategories ? "Show Less" : "Show More"}</span>
                 <ChevronRight className={`h-3 w-3 text-primary transition-transform duration-250 ${showAllCategories ? "rotate-90" : ""}`} />
               </button>
+            )}
+
+            {/* Flyout subcategories panel on hover */}
+            {hoveredCategory && (
+              <div 
+                className="absolute left-full top-0 ml-2 w-72 bg-white border border-outline-variant/30 rounded-xl shadow-xl z-50 p-4 animate-in fade-in slide-in-from-left-2 duration-150 flex flex-col gap-3 min-h-[300px]"
+                onMouseEnter={() => setHoveredCategory(hoveredCategory)}
+              >
+                {(() => {
+                  const cat = categories.find((c: any) => c.id === hoveredCategory || c.slug === hoveredCategory);
+                  if (!cat) return null;
+                  
+                  // Find subcategories matching the parentId, fallback to static mapping
+                  const subcategories = categories.filter((c: any) => c.parentId === cat.id);
+                  const finalSubs = subcategories.length > 0 ? subcategories : (fallbackSubcategories[cat.slug] || []);
+                  
+                  return (
+                    <>
+                      <div className="flex items-center justify-between border-b pb-2">
+                        <span className="text-xs font-extrabold uppercase tracking-wider text-primary capitalize">
+                          {cat.name}
+                        </span>
+                        <Link 
+                          href={`/category/${cat.slug || cat.name}`}
+                          className="text-[10px] font-bold text-primary hover:underline"
+                        >
+                          View All
+                        </Link>
+                      </div>
+                      
+                      <div className="flex-1 flex flex-col gap-1.5 overflow-y-auto max-h-[350px]">
+                        {finalSubs.map((sub: any) => (
+                          <Link
+                            key={sub.id || sub.slug}
+                            href={`/category/${sub.slug}`}
+                            className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-surface-container-low text-xs text-on-surface-variant hover:text-primary transition-all capitalize group/sub"
+                          >
+                            <span>{sub.name}</span>
+                            <ChevronRight className="h-3 w-3 opacity-0 group-hover/sub:opacity-100 group-hover/sub:translate-x-0.5 transition-all text-primary" />
+                          </Link>
+                        ))}
+                        {finalSubs.length === 0 && (
+                          <p className="text-xs text-outline-variant italic p-2">
+                            No subcategories available.
+                          </p>
+                        )}
+                      </div>
+                    </>
+                  );
+                })()}
+              </div>
             )}
           </aside>
 
@@ -275,7 +395,7 @@ export default function Home() {
               return (
                 <Link
                   key={p.id}
-                  href={`/product/${p.slug}`}
+                  href={`/p/${p.slug}`}
                   className="bg-white rounded-lg overflow-hidden border border-outline-variant/15 hover:border-primary group transition-all duration-200 flex flex-col h-full relative"
                 >
                   <div className="aspect-square relative overflow-hidden bg-white flex items-center justify-center p-1">
@@ -380,7 +500,7 @@ export default function Home() {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5">
             {recentlyViewed.map((p) => {
               return (
-                <Link href={`/product/${p.slug}`} key={p.id} className="flex items-center gap-2 p-1.5 border rounded-lg hover:border-primary bg-surface-container-lowest transition-colors">
+                <Link href={`/p/${p.slug}`} key={p.id} className="flex items-center gap-2 p-1.5 border rounded-lg hover:border-primary bg-surface-container-lowest transition-colors">
                   <div className="w-8 h-8 bg-white flex items-center justify-center shrink-0 relative p-0.5 rounded border">
                     <Image
                       src={p.images?.[0]?.url || ""}
@@ -406,7 +526,7 @@ export default function Home() {
           <div className="border-t border-outline-variant/15 pt-3.5">
             <SectionHeader
               title="Explore More Products"
-              subtitle="Endless discovery of items in Lumina Marketplace"
+              subtitle="Endless discovery of items in MRKT Marketplace"
             />
           </div>
 

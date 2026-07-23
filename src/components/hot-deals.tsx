@@ -4,7 +4,7 @@
 // import Link from "next/link";
 // import { Card } from "./ui/card";
 // import { Button } from "./ui/button";
-// import { useFeatured } from "@/queries/product";
+// import { useFeatured } from "@/hooks/queries";
 // import { naira } from "@/utils/naira";
 // // if you have it, else remove
 

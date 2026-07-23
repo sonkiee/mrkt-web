@@ -4,40 +4,55 @@ import { CheckCircle, XCircle, FileCheck, Mail, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useListVendors } from "@/hooks/queries";
+import { updateVendorStatusAction } from "@/actions";
+import { useAction } from "next-safe-action/hooks";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { date } from "@/utils/date";
+import Spinner from "@/components/spinner";
+import { useState } from "react";
 
 export default function VendorApplicationsPage() {
-  const applications = [
-    {
-      id: "APP-029",
-      storeName: "Arewa Tech Hub",
-      owner: "Aminu Ibrahim",
-      email: "aminu@arewatech.com",
-      phone: "+234 803 123 4567",
-      category: "Electronics",
-      desc: "We supply premium wholesale accessories and networking solutions to retailers in Kaduna.",
-      date: "July 5, 2026",
+  const queryClient = useQueryClient();
+  const { data: vendorsData, isLoading, error } = useListVendors();
+  const [submittingId, setSubmittingId] = useState<string | null>(null);
+
+  const vendors = vendorsData?.data || vendorsData || [];
+  const pendingApplications = vendors.filter((v: any) => v.status === "PENDING");
+
+  const { execute: executeUpdate } = useAction(updateVendorStatusAction, {
+    onSuccess(res) {
+      toast.success(res?.data?.message || "Vendor status updated successfully!");
+      queryClient.invalidateQueries({ queryKey: ["vendors"] });
+      setSubmittingId(null);
     },
-    {
-      id: "APP-028",
-      storeName: "Kaduna Gadgets",
-      owner: "Faith Joshua",
-      email: "faith.gadgets@gmail.com",
-      phone: "+234 812 345 6789",
-      category: "Mobile Phones",
-      desc: "Specialist retailer of certified refurbished iPhones and Samsung flagship units.",
-      date: "July 4, 2026",
+    onError({ error }) {
+      toast.error(error.serverError || "Failed to update vendor status.");
+      setSubmittingId(null);
     },
-    {
-      id: "APP-027",
-      storeName: "Zaria Repairs & Parts",
-      owner: "Musa Bello",
-      email: "musa@zariarepairs.com",
-      phone: "+234 705 987 6543",
-      category: "Services / Repairs",
-      desc: "Professional motherboard micro-soldering repairs and original spare parts dealer.",
-      date: "July 3, 2026",
-    },
-  ];
+  });
+
+  const handleUpdateStatus = (id: string, status: "APPROVED" | "REJECTED") => {
+    setSubmittingId(id);
+    executeUpdate({ id, status });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-24">
+        <Spinner infoText="Loading vendor applications..." />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-24 text-status-error font-medium">
+        Failed to load vendor applications. Please try again later.
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -49,58 +64,76 @@ export default function VendorApplicationsPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4">
-        {applications.map((app) => (
-          <Card key={app.id} className="border border-outline-variant/30 shadow-soft">
-            <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-4">
-              <div>
-                <div className="flex items-center gap-3">
-                  <CardTitle className="text-headline-md font-bold text-on-surface">{app.storeName}</CardTitle>
-                  <Badge className="bg-primary/10 text-primary border-none text-xs font-bold px-2 py-0.5 rounded uppercase tracking-wider">
-                    {app.category}
-                  </Badge>
-                </div>
-                <p className="text-xs text-on-surface-variant mt-1 flex items-center gap-1.5">
-                  <Calendar size={12} />
-                  Submitted: {app.date} • Application ID: {app.id}
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <Button size="sm" variant="outline" className="border-status-error text-status-error hover:bg-status-error/5 h-9">
-                  <XCircle size={16} className="mr-1.5" /> Decline
-                </Button>
-                <Button size="sm" className="bg-primary text-on-primary hover:opacity-95 h-9">
-                  <CheckCircle size={16} className="mr-1.5" /> Approve Business
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="pt-6 space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {pendingApplications.map((app: any) => {
+          const isPending = submittingId === app.id;
+          return (
+            <Card key={app.id} className="border border-outline-variant/30 shadow-soft">
+              <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-4">
                 <div>
-                  <div className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-0.5">Primary Contact</div>
-                  <div className="text-sm font-bold text-on-surface">{app.owner}</div>
+                  <div className="flex items-center gap-3">
+                    <CardTitle className="text-headline-md font-bold text-on-surface">{app.businessName}</CardTitle>
+                    <Badge className="bg-primary/10 text-primary border-none text-xs font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                      Pending Review
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-on-surface-variant mt-1 flex items-center gap-1.5">
+                    <Calendar size={12} />
+                    Submitted: {app.createdAt ? date(app.createdAt, false) : "N/A"} • Application ID: {app.id.slice(0, 8).toUpperCase()}
+                  </p>
                 </div>
-                <div>
-                  <div className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-0.5">Email Address</div>
-                  <div className="text-sm text-on-surface flex items-center gap-1">
-                    <Mail size={14} className="text-on-surface-variant" /> {app.email}
+                <div className="flex items-center gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={isPending}
+                    onClick={() => handleUpdateStatus(app.id, "REJECTED")}
+                    className="border-status-error text-status-error hover:bg-status-error/5 h-9"
+                  >
+                    <XCircle size={16} className="mr-1.5" /> Decline
+                  </Button>
+                  <Button
+                    size="sm"
+                    disabled={isPending}
+                    onClick={() => handleUpdateStatus(app.id, "APPROVED")}
+                    className="bg-primary text-on-primary hover:opacity-95 h-9"
+                  >
+                    <CheckCircle size={16} className="mr-1.5" /> Approve Business
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-6 space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div>
+                    <div className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-0.5">Primary Contact</div>
+                    <div className="text-sm font-bold text-on-surface">
+                      {app.user ? `${app.user.firstName} ${app.user.lastName}` : "N/A"}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-0.5">Email Address</div>
+                    <div className="text-sm text-on-surface flex items-center gap-1">
+                      <Mail size={14} className="text-on-surface-variant" /> {app.businessEmail || app.user?.email || "N/A"}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-0.5">Phone Number</div>
+                    <div className="text-sm text-on-surface font-semibold">{app.phone || "N/A"}</div>
                   </div>
                 </div>
-                <div>
-                  <div className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-0.5">Phone Number</div>
-                  <div className="text-sm text-on-surface font-semibold">{app.phone}</div>
-                </div>
-              </div>
-              <div className="border-t pt-4">
-                <div className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">Business Pitch / Description</div>
-                <p className="text-sm text-on-surface-variant leading-relaxed bg-surface-container-low/40 p-4 rounded-xl border">
-                  {app.desc}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+                {app.description && (
+                  <div className="border-t pt-4">
+                    <div className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">Business Pitch / Description</div>
+                    <p className="text-sm text-on-surface-variant leading-relaxed bg-surface-container-low/40 p-4 rounded-xl border">
+                      {app.description}
+                    </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          );
+        })}
 
-        {applications.length === 0 && (
+        {pendingApplications.length === 0 && (
           <div className="text-center py-12 border border-dashed rounded-xl bg-white space-y-3">
             <FileCheck className="mx-auto text-status-success" size={40} />
             <div>
@@ -113,3 +146,4 @@ export default function VendorApplicationsPage() {
     </div>
   );
 }
+

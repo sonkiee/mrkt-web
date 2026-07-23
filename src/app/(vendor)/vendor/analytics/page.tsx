@@ -2,8 +2,71 @@
 
 import { BarChart3, TrendingUp, Eye, ShoppingBag, Percent } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { useFetchVendorDashboardStats, useFetchVendorOrders } from "@/hooks/queries";
+import { naira } from "@/utils/naira";
+import Spinner from "@/components/spinner";
+import { useMemo } from "react";
 
 export default function VendorAnalyticsPage() {
+  const { data: statsData, isLoading: isStatsLoading, error: statsError } = useFetchVendorDashboardStats();
+  const { data: ordersData, isLoading: isOrdersLoading, error: ordersError } = useFetchVendorOrders();
+
+  const stats = statsData?.data || statsData || {};
+  const orders = ordersData?.data || ordersData || [];
+
+  // Dynamically calculate top selling storefront products from order items
+  const topProducts = useMemo(() => {
+    const productMap: Record<string, { name: string; qty: number; sales: number }> = {};
+    let totalRevenue = 0;
+
+    orders.forEach((item: any) => {
+      const title = item.productTitleSnapshot || "Product Details";
+      const qty = Number(item.qty || 1);
+      const val = Number(item.total || item.unitPrice || 0);
+
+      totalRevenue += val;
+
+      if (!productMap[title]) {
+        productMap[title] = { name: title, qty: 0, sales: 0 };
+      }
+      productMap[title].qty += qty;
+      productMap[title].sales += val;
+    });
+
+    const list = Object.values(productMap).sort((a, b) => b.sales - a.sales);
+
+    return list.map((p) => {
+      const share = totalRevenue > 0 ? `${Math.round((p.sales / totalRevenue) * 100)}%` : "0%";
+      return {
+        name: p.name,
+        qty: p.qty,
+        sales: naira(p.sales),
+        share,
+      };
+    });
+  }, [orders]);
+
+  const isPageLoading = isStatsLoading || isOrdersLoading;
+
+  if (isPageLoading) {
+    return (
+      <div className="flex justify-center items-center py-24">
+        <Spinner infoText="Loading metrics..." />
+      </div>
+    );
+  }
+
+  if (statsError || ordersError) {
+    return (
+      <div className="text-center py-24 text-status-error font-medium">
+        Failed to load analytics dashboard. Please try again later.
+      </div>
+    );
+  }
+
+  const grossSales = Number(stats.revenue || 0);
+  const itemsSold = Number(stats.itemsSold || 0);
+
   return (
     <div className="space-y-6">
       <div className="border-b pb-5">
@@ -21,10 +84,10 @@ export default function VendorAnalyticsPage() {
                 <Eye size={20} />
               </span>
               <div>
-                <p className="text-xs font-semibold text-on-surface-variant">Storefront Pageviews</p>
-                <h3 className="text-2xl font-bold text-on-surface mt-0.5">14,240</h3>
+                <p className="text-xs font-semibold text-on-surface-variant">Storefront Revenue</p>
+                <h3 className="text-2xl font-bold text-on-surface mt-0.5">{naira(grossSales)}</h3>
                 <span className="text-[10px] text-status-success font-semibold flex items-center gap-0.5 mt-0.5">
-                  <TrendingUp size={10} /> +12.4% last week
+                  <TrendingUp size={10} /> Live balance revenue
                 </span>
               </div>
             </div>
@@ -37,10 +100,10 @@ export default function VendorAnalyticsPage() {
                 <ShoppingBag size={20} />
               </span>
               <div>
-                <p className="text-xs font-semibold text-on-surface-variant">Conversion Rate</p>
-                <h3 className="text-2xl font-bold text-on-surface mt-0.5">3.42%</h3>
+                <p className="text-xs font-semibold text-on-surface-variant">Total Units Sold</p>
+                <h3 className="text-2xl font-bold text-on-surface mt-0.5">{itemsSold}</h3>
                 <span className="text-[10px] text-status-success font-semibold flex items-center gap-0.5 mt-0.5">
-                  <TrendingUp size={10} /> +0.5% last week
+                  <TrendingUp size={10} /> Handled checkouts count
                 </span>
               </div>
             </div>
@@ -53,10 +116,10 @@ export default function VendorAnalyticsPage() {
                 <Percent size={20} />
               </span>
               <div>
-                <p className="text-xs font-semibold text-on-surface-variant">Add-to-Cart Ratio</p>
-                <h3 className="text-2xl font-bold text-on-surface mt-0.5">8.12%</h3>
+                <p className="text-xs font-semibold text-on-surface-variant">Conversion Rate</p>
+                <h3 className="text-2xl font-bold text-on-surface mt-0.5">3.42%</h3>
                 <span className="text-[10px] text-status-success font-semibold flex items-center gap-0.5 mt-0.5">
-                  <TrendingUp size={10} /> +1.2% last week
+                  <TrendingUp size={10} /> +0.5% last week
                 </span>
               </div>
             </div>
@@ -68,7 +131,7 @@ export default function VendorAnalyticsPage() {
         <CardHeader className="border-b pb-4">
           <CardTitle className="text-headline-md font-bold text-on-surface">Top Selling Storefront Products</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
+        <CardContent className="p-0 overflow-x-auto">
           <table className="w-full text-left text-sm border-collapse">
             <thead>
               <tr className="bg-surface-container-low border-b">
@@ -79,11 +142,7 @@ export default function VendorAnalyticsPage() {
               </tr>
             </thead>
             <tbody className="divide-y text-xs sm:text-sm">
-              {[
-                { name: "iPhone 13 Pro Max (128GB)", qty: 24, sales: "₦13,920,000", share: "45%" },
-                { name: "Apple AirPods Pro (2nd Generation)", qty: 98, sales: "₦14,210,000", share: "30%" },
-                { name: "Lenovo ThinkPad L14", qty: 15, sales: "₦4,200,000", share: "15%" },
-              ].map((p, idx) => (
+              {topProducts.map((p: any, idx: number) => (
                 <tr key={idx} className="hover:bg-surface-container-low/40 transition-colors">
                   <td className="p-4 font-semibold text-on-surface">{p.name}</td>
                   <td className="p-4 text-center text-on-surface">{p.qty}</td>
@@ -91,6 +150,18 @@ export default function VendorAnalyticsPage() {
                   <td className="p-4 text-center text-on-surface-variant font-semibold">{p.share}</td>
                 </tr>
               ))}
+
+              {topProducts.length === 0 && (
+                <tr>
+                  <td colSpan={4} className="p-8 text-center text-on-surface-variant">
+                    <div className="flex flex-col items-center justify-center space-y-2">
+                      <BarChart3 size={32} className="text-on-surface-variant/40" />
+                      <p className="font-bold text-on-surface">No Analytics Data</p>
+                      <p className="text-xs text-on-surface-variant">Once you make sales, detailed graphs will appear here.</p>
+                    </div>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </CardContent>
@@ -98,3 +169,4 @@ export default function VendorAnalyticsPage() {
     </div>
   );
 }
+

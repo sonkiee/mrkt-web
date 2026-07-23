@@ -101,7 +101,7 @@ export default function VendorOnboardingWizard() {
         <div className="text-center space-y-2">
           <Link href="/" className="inline-flex items-center gap-2 text-primary font-black text-2xl">
             <Store size={28} />
-            <span>Lumina Vendor Partner Program</span>
+            <span>MRKT Vendor Partner Program</span>
           </Link>
           <p className="text-sm text-on-surface-variant max-w-md mx-auto">
             Join Kaduna's premier multi-vendor network. Sell your devices, phones, and tech to thousands of verified buyers.

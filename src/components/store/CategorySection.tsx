@@ -2,7 +2,7 @@
 // import { ChevronRight } from "lucide-react";
 // import Image from "next/image";
 // import Link from "next/link";
-// import { useCategory } from "@/queries/category";
+// import { useCategory } from "@/hooks/queries";
 // import { Category } from "@/types";
 
 // export function StoreCategories() {

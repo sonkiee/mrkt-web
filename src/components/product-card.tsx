@@ -19,7 +19,7 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
     : product.minPrice;
 
   return (
-    <Link href={`/product/${product.slug}`} className="group block h-full">
+    <Link href={`/p/${product.slug}`} className="group block h-full">
       <div className="bg-white rounded-lg overflow-hidden border border-outline-variant/15 shadow-[0_1px_4px_rgba(0,0,0,0.01)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col h-full relative">
         
         {/* Product Image */}

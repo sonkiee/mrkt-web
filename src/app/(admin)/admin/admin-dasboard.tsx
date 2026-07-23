@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo } from "react";
 import {
   TrendingUp,
   Users,
@@ -17,89 +17,118 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useListVendors, useListUsers, useListPayments } from "@/hooks/queries";
+import { naira } from "@/utils/naira";
+import { date } from "@/utils/date";
+import Spinner from "@/components/spinner";
 
 export default function AdminDashboard() {
+  const { data: vendorsData, isLoading: isVendorsLoading } = useListVendors();
+  const { data: usersData, isLoading: isUsersLoading } = useListUsers();
+  const { data: paymentsData, isLoading: isPaymentsLoading } = useListPayments();
+
+  const vendors = vendorsData?.data || vendorsData || [];
+  const users = usersData?.data || usersData || [];
+  const payments = paymentsData?.data || paymentsData || [];
+
+  const isPageLoading = isVendorsLoading || isUsersLoading || isPaymentsLoading;
+
+  // 1. Calculate stats bento grid values
+  const activeVendorsCount = vendors.filter((v: any) => v.status === "APPROVED").length;
+  const pendingVerificationCount = vendors.filter((v: any) => v.status === "PENDING").length;
+  const suspendedVendorsCount = vendors.filter((v: any) => v.status === "SUSPENDED").length;
+  const platformCustomersCount = users.filter((u: any) => u.role === "customer" || u.role === "vendor").length;
+
+  const successfulPayments = payments.filter(
+    (p: any) => p.status === "successful" || p.status === "completed" || p.status === "success"
+  );
+  const totalRevenueVal = successfulPayments.reduce((acc: number, p: any) => acc + Number(p.amount || 0), 0);
+
   const stats = [
     {
       title: "Total Revenue (Market-Wide)",
-      value: "₦4,829,350",
-      change: "+14.2% from last month",
+      value: naira(totalRevenueVal),
+      change: "Gross platform GMV",
       icon: <DollarSign size={20} className="text-primary" />,
       bg: "bg-primary/10",
     },
     {
       title: "Active Vendors",
-      value: "142",
-      change: "+8 new this week",
+      value: activeVendorsCount.toString(),
+      change: `${pendingVerificationCount} awaiting approval`,
       icon: <Store size={20} className="text-status-success" />,
       bg: "bg-status-success/10",
     },
     {
       title: "Platform Customers",
-      value: "2,845",
-      change: "+22.5% YoY",
+      value: platformCustomersCount.toString(),
+      change: "Active user profiles",
       icon: <Users size={20} className="text-secondary" />,
       bg: "bg-secondary/10",
     },
     {
       title: "Pending Verification",
-      value: "7",
-      change: "Requires immediate review",
-      icon: <AlertCircle size={20} className="text-status-warning animate-pulse" />,
+      value: pendingVerificationCount.toString(),
+      change: "Requires review",
+      icon: <AlertCircle size={20} className={`text-status-warning ${pendingVerificationCount > 0 ? "animate-pulse" : ""}`} />,
       bg: "bg-status-warning/10",
     },
   ];
 
-  const pendingApplications = [
-    {
-      id: "APP-029",
-      storeName: "Arewa Tech Hub",
-      owner: "Aminu Ibrahim",
-      category: "Electronics",
-      date: "2 hours ago",
-    },
-    {
-      id: "APP-028",
-      storeName: "Kaduna Gadgets",
-      owner: "Faith Joshua",
-      category: "Mobile Phones",
-      date: "5 hours ago",
-    },
-    {
-      id: "APP-027",
-      storeName: "Zaria Repairs & Parts",
-      owner: "Musa Bello",
-      category: "Services / Repairs",
-      date: "1 day ago",
-    },
-  ];
+  // 2. Compute dynamic chart data for visual bar representation
+  const monthlyData = useMemo(() => {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const monthStats = months.map((m) => ({ month: m, gmv: 0, comm: 0 }));
 
-  const recentTransactions = [
-    {
-      id: "TXN-8490",
-      vendor: "Lumina Official Store",
-      amount: "₦142,000",
-      commission: "₦14,200 (10%)",
+    successfulPayments.forEach((p: any) => {
+      if (!p.createdAt) return;
+      const d = new Date(p.createdAt);
+      const mIdx = d.getMonth();
+      const val = Number(p.amount || 0);
+      monthStats[mIdx].gmv += val;
+      monthStats[mIdx].comm += val * 0.1; // 10% platform commission fee
+    });
+
+    const currentMonth = new Date().getMonth();
+    const startIdx = Math.max(0, currentMonth - 5);
+    return monthStats.slice(startIdx, currentMonth + 1);
+  }, [successfulPayments]);
+
+  const maxChartVal = useMemo(() => {
+    const vals = monthlyData.map((d) => d.gmv);
+    return Math.max(...vals, 1);
+  }, [monthlyData]);
+
+  // 3. pending applications list
+  const pendingApplications = vendors.filter((v: any) => v.status === "PENDING").slice(0, 3);
+
+  // 4. recent transactions mapping
+  const recentTransactions = successfulPayments.slice(0, 3).map((p: any) => {
+    const val = Number(p.amount || 0);
+    const comm = val * 0.1;
+    return {
+      id: p.reference ? `TXN-${p.reference.slice(-4).toUpperCase()}` : `TXN-${p.id.slice(0, 4).toUpperCase()}`,
+      vendor: p.user ? `${p.user.firstName} ${p.user.lastName}` : "Platform Customer",
+      amount: naira(val),
+      commission: `${naira(comm)} (10%)`,
       status: "Successful",
-      date: "Just now",
-    },
-    {
-      id: "TXN-8489",
-      vendor: "Digital Depot",
-      amount: "₦85,500",
-      commission: "₦8,550 (10%)",
-      status: "Successful",
-      date: "15 mins ago",
-    },
-    {
-      id: "TXN-8488",
-      vendor: "QuickFix Kaduna",
-      amount: "₦12,000",
-      commission: "₦1,200 (10%)",
-      status: "Successful",
-      date: "1 hour ago",
-    },
-  ];
+      date: p.createdAt ? date(p.createdAt, false) : "N/A",
+    };
+  });
+
+  // Calculate Vendor Distribution percentages
+  const totalVendors = vendors.length || 1;
+  const verifiedPercentage = Math.round((activeVendorsCount / totalVendors) * 100);
+  const pendingPercentage = Math.round((pendingVerificationCount / totalVendors) * 100);
+  const suspendedPercentage = Math.round((suspendedVendorsCount / totalVendors) * 100);
+
+  if (isPageLoading) {
+    return (
+      <div className="flex justify-center items-center py-24">
+        <Spinner infoText="Loading platform metrics..." />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -156,38 +185,36 @@ export default function AdminDashboard() {
             {/* Visual SVG chart representation */}
             <div className="h-64 flex flex-col justify-between">
               <div className="flex-1 flex items-end gap-6 pb-2">
-                {[
-                  { month: "Jan", gmv: 65, comm: 30 },
-                  { month: "Feb", gmv: 75, comm: 35 },
-                  { month: "Mar", gmv: 55, comm: 28 },
-                  { month: "Apr", gmv: 90, comm: 45 },
-                  { month: "May", gmv: 110, comm: 55 },
-                  { month: "Jun", gmv: 140, comm: 70 },
-                ].map((d, index) => (
-                  <div key={index} className="flex-1 flex flex-col items-center gap-2 group">
-                    <div className="w-full flex justify-center gap-1.5 h-44 items-end">
-                      {/* GMV Bar */}
-                      <div
-                        className="w-4 bg-primary/20 group-hover:bg-primary/30 rounded-t-sm transition-all relative"
-                        style={{ height: `${d.gmv}%` }}
-                      >
-                        <span className="absolute -top-6 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[9px] font-bold px-1 py-0.5 rounded shadow opacity-0 group-hover:opacity-100 transition-opacity">
-                          ₦{d.gmv * 10}k
-                        </span>
+                {monthlyData.map((d, index) => {
+                  const gmvPercent = (d.gmv / maxChartVal) * 80;
+                  const commPercent = (d.comm / maxChartVal) * 80;
+
+                  return (
+                    <div key={index} className="flex-1 flex flex-col items-center gap-2 group">
+                      <div className="w-full flex justify-center gap-1.5 h-44 items-end">
+                        {/* GMV Bar */}
+                        <div
+                          className="w-4 bg-primary/20 group-hover:bg-primary/30 rounded-t-sm transition-all relative"
+                          style={{ height: `${Math.max(2, gmvPercent)}%` }}
+                        >
+                          <span className="absolute -top-6 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[9px] font-bold px-1 py-0.5 rounded shadow opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
+                            {naira(d.gmv)}
+                          </span>
+                        </div>
+                        {/* Commission Bar */}
+                        <div
+                          className="w-4 bg-primary group-hover:bg-primary-container rounded-t-sm transition-all relative"
+                          style={{ height: `${Math.max(2, commPercent)}%` }}
+                        >
+                          <span className="absolute -top-6 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[9px] font-bold px-1 py-0.5 rounded shadow opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
+                            {naira(d.comm)}
+                          </span>
+                        </div>
                       </div>
-                      {/* Commission Bar */}
-                      <div
-                        className="w-4 bg-primary group-hover:bg-primary-container rounded-t-sm transition-all relative"
-                        style={{ height: `${d.comm}%` }}
-                      >
-                        <span className="absolute -top-6 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[9px] font-bold px-1 py-0.5 rounded shadow opacity-0 group-hover:opacity-100 transition-opacity">
-                          ₦{d.comm}k
-                        </span>
-                      </div>
+                      <span className="text-xs text-on-surface-variant font-medium">{d.month}</span>
                     </div>
-                    <span className="text-xs text-on-surface-variant font-medium">{d.month}</span>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
               <div className="flex items-center justify-center gap-6 border-t pt-4 text-xs">
                 <div className="flex items-center gap-2">
@@ -212,9 +239,9 @@ export default function AdminDashboard() {
           <CardContent className="pt-6 space-y-4">
             <div className="space-y-3">
               {[
-                { label: "Verified Vendors", count: 128, percentage: 90, color: "bg-status-success" },
-                { label: "Pending Verification", count: 7, percentage: 5, color: "bg-status-warning" },
-                { label: "Suspended/Restricted", count: 7, percentage: 5, color: "bg-status-error" },
+                { label: "Verified Vendors", count: activeVendorsCount, percentage: verifiedPercentage, color: "bg-status-success" },
+                { label: "Pending Verification", count: pendingVerificationCount, percentage: pendingPercentage, color: "bg-status-warning" },
+                { label: "Suspended/Restricted", count: suspendedVendorsCount, percentage: suspendedPercentage, color: "bg-status-error" },
               ].map((item, index) => (
                 <div key={index} className="space-y-1.5">
                   <div className="flex justify-between text-xs font-semibold">
@@ -236,7 +263,7 @@ export default function AdminDashboard() {
             <div className="border-t pt-4 mt-6">
               <div className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Compliance Action Required</div>
               <p className="text-xs text-on-surface-variant/90 leading-relaxed">
-                7 vendors have submitted new verification documents (business registration details / CAC certificate). These storefronts will remain locked for new product listing publications until approved.
+                {pendingVerificationCount} vendors have submitted new verification documents (business registration details / CAC certificate). These storefronts will remain locked for new product listing publications until approved.
               </p>
             </div>
           </CardContent>
@@ -259,17 +286,17 @@ export default function AdminDashboard() {
             </Link>
           </CardHeader>
           <CardContent className="divide-y pt-2">
-            {pendingApplications.map((app) => (
+            {pendingApplications.map((app: any) => (
               <div key={app.id} className="flex justify-between items-center py-4">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-body-md font-bold text-on-surface">{app.storeName}</span>
+                    <span className="text-body-md font-bold text-on-surface">{app.businessName}</span>
                     <span className="text-[10px] bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded font-bold capitalize">
-                      {app.category}
+                      {app.businessEmail || "Store"}
                     </span>
                   </div>
                   <p className="text-xs text-on-surface-variant">
-                    Owner: {app.owner} • Requested {app.date}
+                    Owner: {app.user ? `${app.user.firstName} ${app.user.lastName}` : "N/A"} • Requested {app.createdAt ? date(app.createdAt, false) : "N/A"}
                   </p>
                 </div>
                 <div className="flex items-center gap-1">
@@ -281,6 +308,12 @@ export default function AdminDashboard() {
                 </div>
               </div>
             ))}
+
+            {pendingApplications.length === 0 && (
+              <div className="py-6 text-center text-on-surface-variant text-xs font-semibold">
+                No pending vendor applications found.
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -298,8 +331,8 @@ export default function AdminDashboard() {
             </Link>
           </CardHeader>
           <CardContent className="divide-y pt-2">
-            {recentTransactions.map((tx) => (
-              <div key={tx.id} className="flex justify-between items-center py-4">
+            {recentTransactions.map((tx: any, idx: number) => (
+              <div key={idx} className="flex justify-between items-center py-4">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
                     <span className="text-body-md font-bold text-on-surface">{tx.vendor}</span>
@@ -317,6 +350,12 @@ export default function AdminDashboard() {
                 </div>
               </div>
             ))}
+
+            {recentTransactions.length === 0 && (
+              <div className="py-6 text-center text-on-surface-variant text-xs font-semibold">
+                No recent checkout collections recorded.
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

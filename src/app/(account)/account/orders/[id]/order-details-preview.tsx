@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 
 import type { Order, OrderItem } from "@/types";
 import { useParams } from "next/navigation";
-import { useGetUserOrderDetails } from "@/queries";
+import { useGetUserOrderDetails } from "@/hooks/queries";
 import { date } from "@/utils/date";
 import StatusBadge from "@/components/status";
 import { naira } from "@/utils/naira";

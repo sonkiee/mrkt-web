@@ -27,10 +27,11 @@ api.interceptors.response.use(
     }
 
     if (axios.isAxiosError(error)) {
-      const e = error.response?.data?.message || "Unknown error";
-      // console.error("API Error:", e);
-      return Promise.reject(new Error(e));
+      const e =
+        error.response?.data?.message || error.message || "Unknown error";
+      error.message = e;
+      return Promise.reject(error);
     }
-    return Promise.reject("Unexpected error");
+    return Promise.reject(new Error("Unexpected error"));
   },
 );

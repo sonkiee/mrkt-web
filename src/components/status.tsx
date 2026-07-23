@@ -1,4 +1,5 @@
 import { Status } from "@/types";
+export type OrderStatus = Status;
 import { Badge } from "./ui/badge";
 
 export default function StatusBadge({

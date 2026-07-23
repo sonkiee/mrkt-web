@@ -17,15 +17,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 import { toast } from "sonner";
-import { useFetchUserProfile } from "@/queries/user";
-import ProfileSection from "./molecules/profile-section";
-import OrdersSection from "./molecules/orders-section";
-import AddressesSection from "./molecules/addresses-section";
-import WishListSection from "./molecules/wishlist-section";
-import SettingsSection from "./molecules/settings-section";
-import AccountSidebar from "./molecules/account-sidebar";
-import AccountMobileNav from "./molecules/account-mobile-nav";
-import { WalletSection } from "./molecules/wallet-section";
+import { useFetchUserProfile } from "@/hooks/queries";
+import ProfileSection from "./_components/profile-section";
+import OrdersSection from "./_components/orders-section";
+import AddressesSection from "./_components/addresses-section";
+import WishListSection from "./_components/wishlist-section";
+import SettingsSection from "./_components/settings-section";
+import AccountSidebar from "./_components/account-sidebar";
+import AccountMobileNav from "./_components/account-mobile-nav";
+import { WalletSection } from "./_components/wallet-section";
 import { useAction } from "next-safe-action/hooks";
 import { logout } from "@/actions";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -107,7 +107,6 @@ export default function AccountPage() {
               user={user}
               activeTab={activeTab}
               showPassword={showPassword}
-              handleSaveProfile={handleSaveProfile}
               handleSavePassword={handleSavePassword}
               setShowPassword={setShowPassword}
             />

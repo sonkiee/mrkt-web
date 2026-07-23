@@ -1,11 +1,27 @@
 "use client";
 
-import { Settings, Shield, Bell, CheckCircle2 } from "lucide-react";
+import { Settings, Shield, Bell, CheckCircle2, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useFetchVendorProfile } from "@/hooks/queries";
+import Spinner from "@/components/spinner";
 
 export default function VendorSettingsPage() {
+  const { data: profileData, isLoading } = useFetchVendorProfile();
+  
+  const vendor = profileData?.data || profileData || {};
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-24">
+        <Spinner infoText="Loading configurations..." />
+      </div>
+    );
+  }
+
+  const isVerified = vendor.status === "APPROVED";
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b pb-5">
@@ -57,12 +73,25 @@ export default function VendorSettingsPage() {
               </div>
             </CardHeader>
             <CardContent className="pt-6 space-y-3 text-xs leading-relaxed">
-              <div className="flex items-center gap-1.5 text-status-success font-bold mb-2">
-                <CheckCircle2 size={16} /> Fully Verified Account
-              </div>
-              <p className="text-on-surface-variant">
-                Your business registry (CAC) audit has been validated by Lumina Platform operations. You have full listing rights.
-              </p>
+              {isVerified ? (
+                <>
+                  <div className="flex items-center gap-1.5 text-status-success font-bold mb-2">
+                    <CheckCircle2 size={16} /> Fully Verified Account
+                  </div>
+                  <p className="text-on-surface-variant">
+                    Your business registry (CAC) audit has been validated by Lumina Platform operations. You have full listing rights.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center gap-1.5 text-status-warning font-bold mb-2">
+                    <Clock size={16} /> Verification Pending Audit
+                  </div>
+                  <p className="text-on-surface-variant">
+                    Your business documents (government ID/CAC) are currently being reviewed by compliance. Standard storefront restrictions apply.
+                  </p>
+                </>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -70,3 +99,4 @@ export default function VendorSettingsPage() {
     </div>
   );
 }
+

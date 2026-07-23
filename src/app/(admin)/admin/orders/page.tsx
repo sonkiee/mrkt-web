@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import OrdersTable from "./molecules/orders-table";
+import OrdersTable from "./_components/orders-table";
 
 export default function OrdersPage() {
   return (

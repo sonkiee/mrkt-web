@@ -9,7 +9,7 @@ type ValidationErrorNode = {
 type ActionError = {
   error?: {
     serverError?: string;
-    validationErrors?: Record<string, string[]>;
+    validationErrors?: any;
     thrownError?: Error;
   };
 };
@@ -30,11 +30,27 @@ export function handleActionError(error: ActionError, context?: string) {
   if (error?.error?.validationErrors) {
     console.error(`${prefix}Validation errors:`, error.error.validationErrors);
 
-    const messages = Object.values(error.error.validationErrors)
-      .flat()
-      .join("\n");
+    const messages: string[] = [];
+    const extractErrors = (node: any) => {
+      if (!node) return;
+      if (Array.isArray(node)) {
+        messages.push(...node);
+        return;
+      }
+      if (typeof node === "object") {
+        if (Array.isArray(node._errors)) {
+          messages.push(...node._errors);
+        }
+        Object.entries(node).forEach(([key, val]) => {
+          if (key !== "_errors") extractErrors(val);
+        });
+      }
+    };
 
-    toast.error(messages || "Validation error occurred.");
+    extractErrors(error.error.validationErrors);
+    const messageText = messages.join("\n");
+
+    toast.error(messageText || "Validation error occurred.");
 
     return;
   }

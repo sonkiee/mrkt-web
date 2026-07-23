@@ -1,9 +1,9 @@
 // "use client";
 
-// import { useAllProducts } from "@/queries/product";
+// import { useAllProducts } from "@/hooks/queries";
 // import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 // import { ProductCard } from "./ProductCard";
-// import { useCategory } from "@/queries/category";
+// import { useCategory } from "@/hooks/queries";
 // import { Category, Product } from "@/types";
 
 // export function StoreProducts() {

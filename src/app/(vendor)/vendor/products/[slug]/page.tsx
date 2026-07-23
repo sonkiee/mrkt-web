@@ -1,5 +1,5 @@
-import AdminProductDetailsPage from "./product-details-page";
+import ProductDetails from "@/components/products/product-details";
 
 export default function page() {
-  return <AdminProductDetailsPage />;
+  return <ProductDetails role="vendor" />;
 }

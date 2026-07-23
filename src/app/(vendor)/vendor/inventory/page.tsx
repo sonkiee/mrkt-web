@@ -1,55 +1,58 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Plus, Filter, RotateCcw, AlertTriangle } from "lucide-react";
+import { Search, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useAdminListProducts } from "@/hooks/queries";
+import { naira } from "@/utils/naira";
+import Spinner from "@/components/spinner";
 
 export default function VendorInventoryPage() {
   const [searchTerm, setSearchTerm] = useState("");
+  const { data: productsData, isLoading, error } = useAdminListProducts();
 
-  const items = [
-    {
-      sku: "IPH13PM-128-BLK",
-      name: "iPhone 13 Pro Max (128GB, Space Black)",
-      category: "Smartphones",
-      stock: 4,
-      alertThreshold: 5,
-      price: "₦580,000",
-    },
-    {
-      sku: "THINK-L14-256",
-      name: "Lenovo ThinkPad L14 (AMD Ryzen 5, 256GB)",
-      category: "Laptops",
-      stock: 12,
-      alertThreshold: 3,
-      price: "₦280,000",
-    },
-    {
-      sku: "AP-PODS-PRO2",
-      name: "Apple AirPods Pro (2nd Generation)",
-      category: "Audio",
-      stock: 0,
-      alertThreshold: 10,
-      price: "₦145,000",
-    },
-    {
-      sku: "SAM-S22U-256",
-      name: "Samsung Galaxy S22 Ultra (256GB, Phantom Black)",
-      category: "Smartphones",
-      stock: 8,
-      alertThreshold: 5,
-      price: "₦460,000",
-    },
-  ];
+  const products = productsData?.data ?? [];
 
-  const filteredItems = items.filter(
-    (item) =>
+  // Flatten products and variants to get individual SKU listings
+  const inventoryItems = products.flatMap((product: any) => {
+    return (product.variants || []).map((variant: any) => ({
+      sku: variant.sku || `${product.id.slice(0, 8)}-${variant.id.slice(0, 4)}`.toUpperCase(),
+      name: `${product.title} (${variant.condition ? variant.condition.replace('_', ' ') : 'Standard'}${variant.attributes ? ', ' + Object.entries(variant.attributes).map(([k,v]) => `${k}: ${v}`).join(', ') : ''})`,
+      category: product.category?.name || "Uncategorized",
+      stock: variant.stockQty || 0,
+      alertThreshold: 5, // Default low stock warning threshold
+      price: Number(variant.price || 0),
+    }));
+  });
+
+  const filteredItems = inventoryItems.filter(
+    (item: any) =>
       item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.sku.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const totalSKUs = inventoryItems.length;
+  const outOfStockCount = inventoryItems.filter((item: any) => item.stock === 0).length;
+  const lowStockCount = inventoryItems.filter((item: any) => item.stock > 0 && item.stock <= item.alertThreshold).length;
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-24">
+        <Spinner infoText="Loading inventory details..." />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-24 text-status-error font-medium">
+        Failed to load inventory. Please try again later.
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -66,19 +69,19 @@ export default function VendorInventoryPage() {
         <Card className="border border-outline-variant/30 shadow-soft">
           <CardContent className="pt-6">
             <p className="text-xs font-semibold text-on-surface-variant">Total SKU Variations</p>
-            <h3 className="text-2xl font-bold text-on-surface mt-1">42</h3>
+            <h3 className="text-2xl font-bold text-on-surface mt-1">{totalSKUs}</h3>
           </CardContent>
         </Card>
         <Card className="border border-outline-variant/30 shadow-soft">
           <CardContent className="pt-6">
             <p className="text-xs font-semibold text-on-surface-variant">Out of Stock SKU Warnings</p>
-            <h3 className="text-2xl font-bold text-status-error mt-1">3</h3>
+            <h3 className="text-2xl font-bold text-status-error mt-1">{outOfStockCount}</h3>
           </CardContent>
         </Card>
         <Card className="border border-outline-variant/30 shadow-soft">
           <CardContent className="pt-6">
             <p className="text-xs font-semibold text-on-surface-variant">Low Stock Warning</p>
-            <h3 className="text-2xl font-bold text-status-warning mt-1">5</h3>
+            <h3 className="text-2xl font-bold text-status-warning mt-1">{lowStockCount}</h3>
           </CardContent>
         </Card>
       </div>
@@ -110,12 +113,12 @@ export default function VendorInventoryPage() {
               </tr>
             </thead>
             <tbody className="divide-y">
-              {filteredItems.map((item) => (
+              {filteredItems.map((item: any) => (
                 <tr key={item.sku} className="hover:bg-surface-container-low/40 transition-colors">
                   <td className="p-4 font-mono font-bold text-on-surface text-xs">{item.sku}</td>
                   <td className="p-4 text-on-surface font-semibold max-w-[240px] truncate">{item.name}</td>
                   <td className="p-4 text-on-surface-variant">{item.category}</td>
-                  <td className="p-4 text-right text-on-surface font-semibold">{item.price}</td>
+                  <td className="p-4 text-right text-on-surface font-semibold">{naira(item.price)}</td>
                   <td className="p-4 text-center font-bold text-on-surface">{item.stock}</td>
                   <td className="p-4 text-center text-on-surface-variant">{item.alertThreshold}</td>
                   <td className="p-4 text-center">
@@ -138,6 +141,18 @@ export default function VendorInventoryPage() {
                   </td>
                 </tr>
               ))}
+
+              {filteredItems.length === 0 && (
+                <tr>
+                  <td colSpan={8} className="p-8 text-center text-on-surface-variant">
+                    <div className="flex flex-col items-center justify-center space-y-2">
+                      <ShoppingBag size={32} className="text-on-surface-variant/40" />
+                      <p className="font-bold text-on-surface">No SKUs Found</p>
+                      <p className="text-xs text-on-surface-variant">Your product listings will appear here.</p>
+                    </div>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </CardContent>
@@ -145,3 +160,4 @@ export default function VendorInventoryPage() {
     </div>
   );
 }
+

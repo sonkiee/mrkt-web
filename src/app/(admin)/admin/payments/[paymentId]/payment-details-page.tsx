@@ -1,11 +1,11 @@
 "use client";
 
-import { useGetPaymentById } from "@/queries/admin";
-import CustomerCard from "../../customers/molecules/customer-card";
-import PaymentInfo from "../molecules/payment-info";
-import SecurityAudit from "../molecules/security-audit";
-import TransactionHeader from "../molecules/transaction-header";
-import TransactionSummary from "../molecules/transaction-summary";
+import { useGetPaymentById } from "@/hooks/queries";
+import CustomerCard from "../../customers/_components/customer-card";
+import PaymentInfo from "../_components/payment-info";
+import SecurityAudit from "../_components/security-audit";
+import TransactionHeader from "../_components/transaction-header";
+import TransactionSummary from "../_components/transaction-summary";
 import { useParams } from "next/navigation";
 
 export default function TransactionDetailsPage() {

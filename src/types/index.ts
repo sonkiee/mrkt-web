@@ -26,9 +26,8 @@ export type AuthContextType = {
 export type ProductVariant = {
   id: string;
   productId: string;
-  condition: "new" | "used" | "nigerian_used" | "refurbished";
-  storage?: number | null;
-  color?: string | null;
+  condition?: "new" | "used" | "nigerian_used" | "refurbished";
+  attributes?: Record<string, string>;
   price: number; // numeric -> string
   compareAtPrice?: string | null;
   stockQty: number;
@@ -42,13 +41,16 @@ export type Product = {
   description?: string | null;
 
   specs?: Record<string, string | number> | null;
+  model?: string | null;
+  origin?: string | null;
+  keyFeatures?: string[] | null;
 
   minPrice?: number | undefined;
   maxPrice?: number | undefined;
   inStock: boolean;
 
-  brand: { id: string; name: string };
-  category: { id: string; name: string };
+  brand: { id: string; name: string; slug?: string };
+  category: { id: string; name: string; slug?: string };
 
   images: { url: string }[];
   variants: ProductVariant[];
@@ -106,9 +108,8 @@ export type OrderItem = {
 
   variantSnapshot?: {
     sku: string;
-    color: string;
-    storage: number;
     condition: string;
+    attributes?: Record<string, string>;
   };
 };
 

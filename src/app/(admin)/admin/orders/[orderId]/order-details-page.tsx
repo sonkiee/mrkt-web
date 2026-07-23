@@ -1,13 +1,13 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import CustomerCard from "../../customers/molecules/customer-card";
-import OrderHeader from "../molecules/order-header";
-import OrderItems from "../molecules/order-items";
-import OrderSummary from "../molecules/order-summary";
-import OrderTimeline from "../molecules/order-timeline";
-import { useGetOrderDetails } from "@/queries/admin";
-import ShippingSummaryCard from "../molecules/shipping";
+import CustomerCard from "../../customers/_components/customer-card";
+import OrderHeader from "../_components/order-header";
+import OrderItems from "../_components/order-items";
+import OrderSummary from "../_components/order-summary";
+import OrderTimeline from "../_components/order-timeline";
+import { useGetOrderDetails } from "@/hooks/queries";
+import ShippingSummaryCard from "../_components/shipping";
 
 export default function OrderDetailsPage() {
   const { orderId } = useParams();

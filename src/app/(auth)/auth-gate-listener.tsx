@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { removeAuthToken } from "@/utils/cookies";
 
 type AuthRequiredDetail = { status: number };
 
@@ -11,7 +12,7 @@ export function AuthGateListener() {
   const p = usePathname();
 
   useEffect(() => {
-    const handler = (event: Event) => {
+    const handler = async (event: Event) => {
       if (p.startsWith("/signin")) {
         // Already on signin page, no need to redirect again
         return;
@@ -21,8 +22,13 @@ export function AuthGateListener() {
       console.warn("Auth-required, status:", status);
       toast.warning("Your session has expired. Please log in again.");
 
+      // Clear the invalid token cookie on the server
+      await removeAuthToken();
+
       setTimeout(() => {
-        window.location.href = `/signin?callback=${encodeURIComponent(window.location.pathname)}`;
+        window.location.href = `/signin?callback=${encodeURIComponent(
+          window.location.pathname
+        )}`;
       }, 2000);
     };
 

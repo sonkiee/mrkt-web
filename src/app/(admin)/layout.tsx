@@ -1,9 +1,9 @@
 "use client";
 
 import { ReactNode } from "react";
-import { AdminSidebar } from "./admin/molecules/sidebar";
-import { AdminHeader } from "./admin/molecules/header";
-import PcOnly from "./admin/molecules/pc-only";
+import { AdminSidebar } from "./admin/_components/sidebar";
+import { AdminHeader } from "./admin/_components/header";
+import PcOnly from "./admin/_components/pc-only";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (

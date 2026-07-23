@@ -1,6 +1,6 @@
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import ProductsTable from "./molecules/products-table";
+import ProductsTable from "@/components/products/products-table";
 import Link from "next/link";
 
 export default function ProductsPage() {
@@ -18,7 +18,7 @@ export default function ProductsPage() {
       </div>
 
       <div className="border rounded-md p-1 text-muted-foreground">
-        <ProductsTable />
+        <ProductsTable role="vendor" />
       </div>
     </Card>
   );

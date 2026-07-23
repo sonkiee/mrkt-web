@@ -7,7 +7,7 @@ import Link from "next/link";
 import ProductCard from "@/components/product-card";
 import Breadcrumb from "@/components/breadcrumb";
 
-import { useListProducts, useFetchCategory } from "@/queries";
+import { useListProducts, useFetchCategory } from "@/hooks/queries";
 
 import type { Product, ProductFilter } from "@/types";
 
@@ -20,8 +20,6 @@ const PRICE_RANGES = [
   { label: "₦200,000 – ₦500,000", min: 200_000, max: 500_000 },
   { label: "Over ₦500,000", min: 500_000, max: Infinity },
 ] as const;
-
-const CONDITIONS = ["New", "Nigerian Used", "Refurbished"] as const;
 
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function ProductListingPage() {
@@ -37,9 +35,6 @@ export default function ProductListingPage() {
   const [sort, setSort] = useState<SortKey>("featured");
   const [search, setSearch] = useState("");
   const [selectedPriceIdx, setSelectedPriceIdx] = useState<number | null>(null);
-  const [selectedCondition, setSelectedCondition] = useState<string | null>(
-    null,
-  );
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
@@ -47,7 +42,11 @@ export default function ProductListingPage() {
   const { data: categoriesData } = useFetchCategory();
 
   // Normalise API response
-  const apiProducts = Array.isArray(p?.data) ? (p.data as Product[]) : [];
+  const apiProducts = Array.isArray(p)
+    ? (p as Product[])
+    : Array.isArray((p as any)?.data)
+      ? ((p as any).data as Product[])
+      : [];
   const products: Product[] = apiProducts.length ? apiProducts : [];
 
   // Derive unique brands from products
@@ -58,7 +57,7 @@ export default function ProductListingPage() {
 
   // Derive unique categories
   const categories: { id: string; name: string }[] = useMemo(() => {
-    if (Array.isArray(categoriesData?.data)) return categoriesData.data;
+    if (Array.isArray((categoriesData as any)?.data)) return (categoriesData as any).data;
     if (Array.isArray(categoriesData)) return categoriesData;
     return [];
   }, [categoriesData]);
@@ -82,13 +81,7 @@ export default function ProductListingPage() {
       arr = arr.filter((pr) => pr.brand?.name === selectedBrand);
     }
 
-    // Condition
-    if (selectedCondition) {
-      const cond = selectedCondition.toLowerCase().replace(/\s+/g, "_");
-      arr = arr.filter((pr) =>
-        pr.variants?.some((v) => v.condition?.toLowerCase().includes(cond)),
-      );
-    }
+
 
     // Price range
     if (selectedPriceIdx !== null) {
@@ -125,7 +118,7 @@ export default function ProductListingPage() {
     }
 
     return arr;
-  }, [products, search, selectedBrand, selectedCondition, selectedPriceIdx, selectedCategory, sort]);
+  }, [products, search, selectedBrand, selectedPriceIdx, selectedCategory, sort]);
 
   const categorySlug = category?.toLowerCase() || "";
   const matchedCategory = categories.find((c: any) => (c.slug || c.name || "").toLowerCase() === categorySlug);
@@ -166,43 +159,6 @@ export default function ProductListingPage() {
       <div className="px-4 md:px-8 pb-16 grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* ── Sidebar ─────────────────────────────────────────────────────── */}
         <aside className="lg:col-span-3 space-y-4 lg:sticky lg:top-24 lg:self-start">
-          {/* Category Filter */}
-          <div className="bg-white rounded-xl border border-outline-variant/20 shadow-[0_4px_12px_rgba(0,0,0,0.04)] p-6">
-            <h3 className="text-headline-md font-semibold text-on-surface mb-4">
-              Category
-            </h3>
-            <div className="space-y-1">
-              <label className="flex items-center gap-3 p-2 rounded-lg hover:bg-surface-container-low cursor-pointer group">
-                <input
-                  type="radio"
-                  name="sidebar-category"
-                  checked={selectedCategory === null}
-                  onChange={() => setSelectedCategory(null)}
-                  className="w-4 h-4 text-primary focus:ring-primary border-outline-variant accent-primary"
-                />
-                <span className="text-body-md font-medium group-hover:text-primary transition-colors">
-                  All Products
-                </span>
-              </label>
-              {categories.map((cat) => (
-                <label
-                  key={cat.id}
-                  className="flex items-center gap-3 p-2 rounded-lg hover:bg-surface-container-low cursor-pointer group"
-                >
-                  <input
-                    type="radio"
-                    name="sidebar-category"
-                    checked={selectedCategory === cat.name}
-                    onChange={() => setSelectedCategory(cat.name)}
-                    className="w-4 h-4 text-primary focus:ring-primary border-outline-variant accent-primary"
-                  />
-                  <span className="text-body-md text-on-surface-variant group-hover:text-primary transition-colors">
-                    {cat.name}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </div>
 
           {/* Price Range Filter */}
           <div className="bg-white rounded-xl border border-outline-variant/20 shadow-[0_4px_12px_rgba(0,0,0,0.04)] p-6">
@@ -282,54 +238,14 @@ export default function ProductListingPage() {
             </div>
           )}
 
-          {/* Condition Filter */}
-          <div className="bg-white rounded-xl border border-outline-variant/20 shadow-[0_4px_12px_rgba(0,0,0,0.04)] p-6">
-            <h3 className="text-headline-md font-semibold text-on-surface mb-4">
-              Condition
-            </h3>
-            <div className="space-y-1">
-              <label className="flex items-center gap-3 p-2 rounded-lg hover:bg-surface-container-low cursor-pointer group">
-                <input
-                  type="radio"
-                  name="condition"
-                  checked={selectedCondition === null}
-                  onChange={() => setSelectedCondition(null)}
-                  className="w-4 h-4 accent-primary"
-                />
-                <span className="text-body-md font-medium group-hover:text-primary transition-colors">
-                  Any Condition
-                </span>
-              </label>
-              {CONDITIONS.map((cond) => (
-                <label
-                  key={cond}
-                  className="flex items-center gap-3 p-2 rounded-lg hover:bg-surface-container-low cursor-pointer group"
-                >
-                  <input
-                    type="radio"
-                    name="condition"
-                    checked={selectedCondition === cond}
-                    onChange={() => setSelectedCondition(cond)}
-                    className="w-4 h-4 accent-primary"
-                  />
-                  <span className="text-body-md text-on-surface-variant group-hover:text-primary transition-colors">
-                    {cond}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </div>
-
           {/* Clear Filters */}
           {(selectedBrand ||
-            selectedCondition ||
             selectedPriceIdx !== null ||
             selectedCategory ||
             search) && (
             <button
               onClick={() => {
                 setSelectedBrand(null);
-                setSelectedCondition(null);
                 setSelectedPriceIdx(null);
                 setSelectedCategory(null);
                 setSearch("");
@@ -439,7 +355,6 @@ export default function ProductListingPage() {
               <button
                 onClick={() => {
                   setSelectedBrand(null);
-                  setSelectedCondition(null);
                   setSelectedPriceIdx(null);
                   setSelectedCategory(null);
                   setSearch("");

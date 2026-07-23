@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ChevronRight, Search, SlidersHorizontal } from "lucide-react";
 
 import ProductCard from "@/components/product-card";
-import { useListProducts, useFetchCategory } from "@/queries";
+import { useListProducts, useFetchCategory } from "@/hooks/queries";
 import { defaultCategories } from "@/constants/dummy-data";
 import type { Product } from "@/types";
 

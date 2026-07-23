@@ -51,7 +51,7 @@ export default function SiteFooter() {
               href="/"
               className="text-headline-md font-bold text-primary inline-block"
             >
-              Lumina
+              MRKT
             </Link>
             <p className="text-body-md text-on-surface-variant max-w-xs leading-relaxed">
               Elevating your digital lifestyle with premium tech, repairs, and
@@ -118,7 +118,7 @@ export default function SiteFooter() {
       <div className="border-t border-outline-variant/20">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-3">
           <p className="text-label-md text-on-surface-variant">
-            © {new Date().getFullYear()} Lumina Tech & Repairs. All rights reserved.
+            © {new Date().getFullYear()} MRKT. All rights reserved.
           </p>
           <div className="flex items-center gap-1 text-label-sm text-on-surface-variant">
             <span className="material-symbols-outlined text-primary" style={{ fontSize: 14 }}>

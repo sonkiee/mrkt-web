@@ -1,6 +1,5 @@
 import { Card } from "@/components/ui/card";
-import OrdersTable from "./molecules/payments-table";
-import PaymentsTable from "./molecules/payments-table";
+import PaymentsTable from "./_components/payments-table";
 
 export default function PaymentsPage() {
   return (

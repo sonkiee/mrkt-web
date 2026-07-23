@@ -1,39 +1,97 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { ArrowLeft, Printer, Truck, Check, PackageOpen, HelpCircle } from "lucide-react";
+import { ArrowLeft, Printer, Truck } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useFetchVendorOrderDetails } from "@/hooks/queries";
+import { naira } from "@/utils/naira";
+import { date } from "@/utils/date";
 
 export default function VendorOrderDetailsPage() {
   const params = useParams();
-  const id = params?.id || "ORD-9421";
+  const id = (params?.id as string) || "";
 
-  const order = {
-    id: id,
-    customer: {
-      name: "Kamilu Isa",
-      email: "kamilu.isa@outlook.com",
-      phone: "+234 803 987 6543",
-    },
-    shipping: {
-      address: "14 Isa Kaita Road, Kaduna North",
-      city: "Kaduna State",
-      courier: "Lumina Standard Logistics",
-    },
-    items: [
-      { name: "iPhone 13 Pro Max (128GB, Space Black)", price: "₦580,000", qty: 1, total: "₦580,000" },
-    ],
-    summary: {
-      subtotal: "₦580,000",
-      shippingFee: "₦2,500",
-      commission: "-₦58,000 (10%)",
-      payoutAmount: "₦524,500",
-    },
-    status: "Pending Dispatch",
-    date: "July 6, 2026 11:34 AM",
+  const { data, isLoading, error } = useFetchVendorOrderDetails(id);
+
+  const orderData = data?.data || data;
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (error || !orderData) {
+    return (
+      <div className="p-6 text-center text-status-error bg-status-error/5 border border-status-error/15 rounded-xl text-sm">
+        Failed to load order details. Please try again later.
+      </div>
+    );
+  }
+
+  // Resilient mapping of items
+  const items = (orderData.items || [orderData]).map((item: any) => ({
+    name: item.productTitleSnapshot || item.name || "Product details",
+    price: Number(item.unitPrice || item.price || item.total || 0),
+    qty: item.qty || 1,
+    total: Number(item.total || (Number(item.unitPrice || 0) * (item.qty || 1)) || 0),
+  }));
+
+  // Calculations
+  const subtotal = items.reduce((acc: number, item: any) => acc + item.total, 0);
+  const shippingFee = Number(orderData.shippingFee || orderData.order?.shippingFee || 0);
+  const commission = subtotal * 0.1;
+  const payoutAmount = subtotal - commission;
+
+  // Buyer Name
+  const getBuyerName = (item: any) => {
+    if (item.buyerName) return item.buyerName;
+    if (item.customerName) return item.customerName;
+    if (item.order?.shippingAddressSnapshot) {
+      const { firstName, lastName } = item.order.shippingAddressSnapshot;
+      return `${firstName || ""} ${lastName || ""}`.trim() || "Customer";
+    }
+    if (item.shippingAddressSnapshot) {
+      const { firstName, lastName } = item.shippingAddressSnapshot;
+      return `${firstName || ""} ${lastName || ""}`.trim() || "Customer";
+    }
+    if (item.user) {
+      return `${item.user.firstName || ""} ${item.user.lastName || ""}`.trim() || item.user.email || "Customer";
+    }
+    return "Customer";
+  };
+
+  const getBuyerEmail = (item: any) => {
+    return item.customerEmail || item.customer?.email || item.order?.user?.email || item.user?.email || "N/A";
+  };
+
+  const getBuyerPhone = (item: any) => {
+    return item.customerPhone || item.customer?.phone || item.order?.shippingAddressSnapshot?.phone || item.shippingAddressSnapshot?.phone || "N/A";
+  };
+
+  const getShippingAddress = (item: any) => {
+    const snap = item.shippingAddressSnapshot || item.order?.shippingAddressSnapshot;
+    if (snap) {
+      return snap.address || snap.addressLine || `${snap.street || ""} ${snap.city || ""}`;
+    }
+    return item.shippingAddress || item.order?.shippingAddress || "N/A";
+  };
+
+  const getShippingCityState = (item: any) => {
+    const snap = item.shippingAddressSnapshot || item.order?.shippingAddressSnapshot;
+    if (snap) {
+      return `${snap.city || ""}, ${snap.state || ""}`.trim().replace(/^,\s*|,\s*$/g, "") || "N/A";
+    }
+    return item.shippingCity || item.order?.shippingCity || "N/A";
+  };
+
+  const getShippingCourier = (item: any) => {
+    return item.shippingMethod || item.order?.deliveryMethod || "Lumina Standard Logistics";
   };
 
   return (
@@ -48,12 +106,20 @@ export default function VendorOrderDetailsPage() {
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-headline-lg font-bold text-on-surface">Order Details</h2>
-              <Badge className="bg-status-warning/15 text-status-warning border-none text-xs font-bold px-2 py-0.5 rounded">
-                {order.status}
+              <Badge
+                className={`border-none ${
+                  orderData.status === "delivered" || orderData.status === "success"
+                    ? "bg-status-success/15 text-status-success"
+                    : orderData.status === "shipped"
+                      ? "bg-primary/15 text-primary"
+                      : "bg-status-warning/15 text-status-warning"
+                } text-xs px-2.5 py-0.5 rounded font-bold capitalize`}
+              >
+                {orderData.status || "pending"}
               </Badge>
             </div>
             <p className="text-xs text-on-surface-variant mt-1">
-              Order ID: <span className="font-mono font-semibold">{order.id}</span> • Placed {order.date}
+              Order ID: <span className="font-mono font-semibold">{orderData.orderNumber || orderData.id || id}</span> • Placed {orderData.createdAt ? date(orderData.createdAt) : "N/A"}
             </p>
           </div>
         </div>
@@ -86,12 +152,12 @@ export default function VendorOrderDetailsPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y text-xs sm:text-sm">
-                  {order.items.map((item, idx) => (
+                  {items.map((item: any, idx: number) => (
                     <tr key={idx} className="hover:bg-surface-container-low/40 transition-colors">
                       <td className="p-4 font-semibold text-on-surface">{item.name}</td>
-                      <td className="p-4 text-right text-on-surface-variant">{item.price}</td>
+                      <td className="p-4 text-right text-on-surface-variant">{naira(item.price)}</td>
                       <td className="p-4 text-center text-on-surface">{item.qty}</td>
-                      <td className="p-4 text-right text-on-surface font-bold">{item.total}</td>
+                      <td className="p-4 text-right text-on-surface font-bold">{naira(item.total)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -107,19 +173,19 @@ export default function VendorOrderDetailsPage() {
             <CardContent className="pt-6 space-y-3 text-sm">
               <div className="flex justify-between">
                 <span className="text-on-surface-variant">Subtotal</span>
-                <span className="font-semibold text-on-surface">{order.summary.subtotal}</span>
+                <span className="font-semibold text-on-surface">{naira(subtotal)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-on-surface-variant">Fulfillment &amp; Courier Fee</span>
-                <span className="font-semibold text-on-surface">{order.summary.shippingFee}</span>
+                <span className="font-semibold text-on-surface">{naira(shippingFee)}</span>
               </div>
               <div className="flex justify-between text-status-error font-medium">
                 <span>Lumina Platform Fee (10% commission)</span>
-                <span>{order.summary.commission}</span>
+                <span>-{naira(commission)}</span>
               </div>
               <div className="flex justify-between border-t pt-3 font-bold text-primary text-base">
                 <span>Final Store Earnings</span>
-                <span>{order.summary.payoutAmount}</span>
+                <span>{naira(payoutAmount)}</span>
               </div>
             </CardContent>
           </Card>
@@ -134,15 +200,15 @@ export default function VendorOrderDetailsPage() {
             <CardContent className="pt-6 space-y-3 text-sm">
               <div>
                 <span className="text-xs text-on-surface-variant block uppercase tracking-wider font-semibold">Name</span>
-                <span className="font-bold text-on-surface">{order.customer.name}</span>
+                <span className="font-bold text-on-surface">{getBuyerName(orderData)}</span>
               </div>
               <div>
                 <span className="text-xs text-on-surface-variant block uppercase tracking-wider font-semibold">Email</span>
-                <span className="text-on-surface">{order.customer.email}</span>
+                <span className="text-on-surface">{getBuyerEmail(orderData)}</span>
               </div>
               <div>
                 <span className="text-xs text-on-surface-variant block uppercase tracking-wider font-semibold">Phone</span>
-                <span className="text-on-surface font-semibold">{order.customer.phone}</span>
+                <span className="text-on-surface font-semibold">{getBuyerPhone(orderData)}</span>
               </div>
             </CardContent>
           </Card>
@@ -154,15 +220,15 @@ export default function VendorOrderDetailsPage() {
             <CardContent className="pt-6 space-y-3 text-sm">
               <div>
                 <span className="text-xs text-on-surface-variant block uppercase tracking-wider font-semibold">Address</span>
-                <span className="text-on-surface leading-relaxed">{order.shipping.address}</span>
+                <span className="text-on-surface leading-relaxed">{getShippingAddress(orderData)}</span>
               </div>
               <div>
                 <span className="text-xs text-on-surface-variant block uppercase tracking-wider font-semibold">Region / State</span>
-                <span className="text-on-surface font-semibold">{order.shipping.city}</span>
+                <span className="text-on-surface font-semibold">{getShippingCityState(orderData)}</span>
               </div>
               <div>
                 <span className="text-xs text-on-surface-variant block uppercase tracking-wider font-semibold">Courier Hub</span>
-                <span className="text-on-surface">{order.shipping.courier}</span>
+                <span className="text-on-surface">{getShippingCourier(orderData)}</span>
               </div>
             </CardContent>
           </Card>

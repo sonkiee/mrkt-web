@@ -5,8 +5,8 @@ import { CreditCard, Truck } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Breadcrumb from "@/components/breadcrumb";
 import { CartSummaryCard } from "../cart/cart-summary";
-import Shipping from "./molecules/shipping";
-import Payment from "./molecules/payment";
+import Shipping from "./_components/shipping";
+import Payment from "./_components/payment";
 
 export default function CheckoutPage() {
   // const { data } = useUser();

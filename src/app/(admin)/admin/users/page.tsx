@@ -1,56 +1,152 @@
 "use client";
 
 import { useState } from "react";
-import { Search, UserPlus, Shield, CheckCircle2, Lock } from "lucide-react";
+import { Search, UserPlus, Shield, CheckCircle2, Mail, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useListUsers } from "@/hooks/queries";
+import { inviteAdmin } from "@/actions/admin";
+import { useAction } from "next-safe-action/hooks";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { date } from "@/utils/date";
+import Spinner from "@/components/spinner";
+
+function InviteStaffModal({ onSuccess }: { onSuccess: () => void }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { execute: promoteToAdmin } = useAction(inviteAdmin, {
+    onSuccess(res) {
+      toast.success(res?.data?.message || "User promoted to administrator successfully!");
+      setEmail("");
+      setIsOpen(false);
+      onSuccess();
+    },
+    onError({ error }) {
+      toast.error(error.serverError || "Failed to promote user. Ensure user profile exists.");
+      setIsSubmitting(false);
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setIsSubmitting(true);
+    promoteToAdmin({ email });
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Button className="bg-primary text-on-primary">
+          <UserPlus size={16} className="mr-1.5" /> Promote to Administrator
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-md bg-white border">
+        <form onSubmit={handleSubmit}>
+          <DialogHeader>
+            <DialogTitle className="text-headline-md font-bold text-on-surface">Promote Staff Member</DialogTitle>
+            <DialogDescription className="text-body-sm text-on-surface-variant">
+              Enter the registered email address of the user you want to grant full Platform Administrator access rights.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="py-6 space-y-4">
+            <div className="space-y-1.5">
+              <label htmlFor="email" className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">
+                User Email Address
+              </label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="e.g. fatima@lumina.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={isSubmitting}
+                className="bg-surface-container-lowest border-outline-variant"
+              />
+            </div>
+          </div>
+
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsOpen(false)}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="bg-primary text-on-primary font-bold shadow-sm"
+            >
+              {isSubmitting ? "Promoting..." : "Grant Admin Rights"}
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
 export default function UsersPage() {
+  const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState("");
+  const { data: usersData, isLoading, error } = useListUsers();
 
-  const users = [
-    {
-      id: "USR-001",
-      name: "Alex Danjuma",
-      email: "alex@lumina.com",
-      role: "Platform Administrator",
-      status: "Active",
-      lastLogin: "2 mins ago",
-    },
-    {
-      id: "USR-002",
-      name: "Fatima Aliyu",
-      email: "fatima@lumina.com",
-      role: "Compliance Officer",
-      status: "Active",
-      lastLogin: "1 hour ago",
-    },
-    {
-      id: "USR-003",
-      name: "Chidi Okafor",
-      email: "chidi@lumina.com",
-      role: "Support Lead",
-      status: "Active",
-      lastLogin: "1 day ago",
-    },
-    {
-      id: "USR-004",
-      name: "Bello Kaduna",
-      email: "bello.k@lumina.com",
-      role: "Moderator",
-      status: "Suspended",
-      lastLogin: "2 weeks ago",
-    },
-  ];
+  const users = usersData?.data || usersData || [];
+
+  const handleInviteSuccess = () => {
+    queryClient.invalidateQueries({ queryKey: ["users"] });
+  };
 
   const filteredUsers = users.filter(
-    (u) =>
-      u.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (u: any) =>
+      `${u.firstName} ${u.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
       u.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       u.role.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const getRoleLabel = (role: string) => {
+    const labels: Record<string, string> = {
+      admin: "Platform Administrator",
+      vendor: "Marketplace Vendor",
+      customer: "Platform Customer",
+    };
+    return labels[role] || role;
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-24">
+        <Spinner infoText="Loading user profiles..." />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-24 text-status-error font-medium">
+        Failed to load platform users. Please try again later.
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -61,9 +157,7 @@ export default function UsersPage() {
             Manage system administrators, verification teams, support specialists, and control roles.
           </p>
         </div>
-        <Button className="bg-primary text-on-primary">
-          <UserPlus size={16} className="mr-1.5" /> Invite Staff Member
-        </Button>
+        <InviteStaffModal onSuccess={handleInviteSuccess} />
       </div>
 
       <Card className="border border-outline-variant/30 shadow-soft">
@@ -86,45 +180,38 @@ export default function UsersPage() {
                 <th className="p-4 font-bold text-on-surface-variant">Email</th>
                 <th className="p-4 font-bold text-on-surface-variant">Role</th>
                 <th className="p-4 font-bold text-on-surface-variant">Status</th>
-                <th className="p-4 font-bold text-on-surface-variant">Last Active</th>
-                <th className="p-4 font-bold text-on-surface-variant text-center">Actions</th>
+                <th className="p-4 font-bold text-on-surface-variant">Profile Created</th>
               </tr>
             </thead>
             <tbody className="divide-y">
-              {filteredUsers.map((user) => (
+              {filteredUsers.map((user: any) => (
                 <tr key={user.id} className="hover:bg-surface-container-low/40 transition-colors">
                   <td className="p-4 font-bold text-on-surface flex items-center gap-2">
                     <span className="p-1 bg-primary/10 text-primary rounded-md">
                       <Shield size={14} />
                     </span>
-                    {user.name}
+                    {user.firstName} {user.lastName}
                   </td>
                   <td className="p-4 text-on-surface-variant">{user.email}</td>
-                  <td className="p-4 text-on-surface font-semibold">{user.role}</td>
+                  <td className="p-4 text-on-surface font-semibold">{getRoleLabel(user.role)}</td>
                   <td className="p-4">
-                    <Badge
-                      className={`border-none ${
-                        user.status === "Active"
-                          ? "bg-status-success/15 text-status-success"
-                          : "bg-status-error/15 text-status-error"
-                      } text-xs px-2.5 py-0.5 rounded font-bold`}
-                    >
-                      {user.status}
+                    <Badge className="border-none bg-status-success/15 text-status-success text-xs px-2.5 py-0.5 rounded font-bold">
+                      Active
                     </Badge>
                   </td>
-                  <td className="p-4 text-on-surface-variant">{user.lastLogin}</td>
-                  <td className="p-4 text-center">
-                    <div className="flex justify-center gap-1.5">
-                      <Button size="sm" variant="outline" className="text-xs border-outline-variant hover:bg-surface-container-high h-8">
-                        Edit
-                      </Button>
-                      <Button size="sm" variant="ghost" className="text-xs text-status-error hover:bg-status-error/5 h-8">
-                        <Lock size={12} className="mr-1" /> Deactivate
-                      </Button>
-                    </div>
+                  <td className="p-4 text-on-surface-variant">
+                    {user.createdAt ? date(user.createdAt, false) : "N/A"}
                   </td>
                 </tr>
               ))}
+
+              {filteredUsers.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="p-8 text-center text-on-surface-variant">
+                    No users matched your search criteria.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </CardContent>
@@ -132,3 +219,4 @@ export default function UsersPage() {
     </div>
   );
 }
+

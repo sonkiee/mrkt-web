@@ -1,22 +1,18 @@
 import { Product } from "@/types";
 
 export const defaultCategories = [
+  { name: "Appliances", slug: "appliances" },
+  { name: "Phones & Tablets", slug: "phones-tablets" },
+  { name: "Health & Beauty", slug: "health-beauty" },
+  { name: "Home & Office", slug: "home-office" },
   { name: "Electronics", slug: "electronics" },
   { name: "Fashion", slug: "fashion" },
-  { name: "Home & Kitchen", slug: "home-kitchen" },
-  { name: "Health & Beauty", slug: "health-beauty" },
   { name: "Supermarket", slug: "supermarket" },
   { name: "Computing", slug: "computing" },
-  { name: "Gaming", slug: "gaming" },
-  { name: "Automotive", slug: "automotive" },
-  { name: "Office Supplies", slug: "office-supplies" },
-  { name: "Sports & Outdoors", slug: "sports-outdoors" },
   { name: "Baby Products", slug: "baby-products" },
-  { name: "Pet Supplies", slug: "pet-supplies" },
-  { name: "Books", slug: "books" },
-  { name: "Musical Instruments", slug: "musical-instruments" },
-  { name: "Industrial & Tools", slug: "industrial-tools" },
-  { name: "Phones & Tablets", slug: "phones-tablets" },
+  { name: "Gaming", slug: "gaming" },
+  { name: "Sporting Goods", slug: "sporting-goods" },
+  { name: "Automobile", slug: "automobile" },
 ];
 
 export const dummyProducts: Product[] = [
@@ -35,8 +31,8 @@ export const dummyProducts: Product[] = [
     isNewArrival: true,
     discount: 5,
     variants: [
-      { id: "v1_1", productId: "p1", condition: "new", storage: 256, color: "Space Black", price: 1650000, stockQty: 12, isActive: true },
-      { id: "v1_2", productId: "p1", condition: "new", storage: 512, color: "Desert Titanium", price: 1850000, stockQty: 8, isActive: true },
+      { id: "v1_1", productId: "p1", condition: "new", attributes: { storage: "256", color: "Space Black" }, price: 1650000, stockQty: 12, isActive: true },
+      { id: "v1_2", productId: "p1", condition: "new", attributes: { storage: "512", color: "Desert Titanium" }, price: 1850000, stockQty: 8, isActive: true },
     ]
   },
   {
@@ -53,7 +49,7 @@ export const dummyProducts: Product[] = [
     isNewArrival: false,
     discount: 8,
     variants: [
-      { id: "v2_1", productId: "p2", condition: "new", storage: 512, color: "Titanium Gray", price: 1450000, stockQty: 15, isActive: true },
+      { id: "v2_1", productId: "p2", condition: "new", attributes: { storage: "512", color: "Titanium Gray" }, price: 1450000, stockQty: 15, isActive: true },
     ]
   },
   // Electronics
@@ -71,7 +67,7 @@ export const dummyProducts: Product[] = [
     isNewArrival: false,
     discount: 10,
     variants: [
-      { id: "v3_1", productId: "p3", condition: "new", color: "Silver", price: 420000, stockQty: 25, isActive: true }
+      { id: "v3_1", productId: "p3", condition: "new", attributes: { color: "Silver" }, price: 420000, stockQty: 25, isActive: true }
     ]
   },
   {
@@ -106,8 +102,8 @@ export const dummyProducts: Product[] = [
     isNewArrival: true,
     discount: 0,
     variants: [
-      { id: "v5_1", productId: "p5", condition: "new", storage: 512, color: "Space Gray", price: 2450000, stockQty: 6, isActive: true },
-      { id: "v5_2", productId: "p5", condition: "new", storage: 1024, color: "Silver", price: 2850000, stockQty: 4, isActive: true },
+      { id: "v5_1", productId: "p5", condition: "new", attributes: { storage: "512", color: "Space Gray" }, price: 2450000, stockQty: 6, isActive: true },
+      { id: "v5_2", productId: "p5", condition: "new", attributes: { storage: "1024", color: "Silver" }, price: 2850000, stockQty: 4, isActive: true },
     ]
   },
   // Gaming
@@ -143,7 +139,7 @@ export const dummyProducts: Product[] = [
     isNewArrival: true,
     discount: 20,
     variants: [
-      { id: "v7_1", productId: "p7", condition: "new", color: "Black/Red", price: 120000, stockQty: 50, isActive: true }
+      { id: "v7_1", productId: "p7", condition: "new", attributes: { color: "Black/Red" }, price: 120000, stockQty: 50, isActive: true }
     ]
   },
   // Home & Kitchen

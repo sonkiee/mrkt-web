@@ -12,8 +12,7 @@ export type CartItem = {
   price: number;
 
   condition?: "new" | "used" | "refurbished";
-  storage?: number;
-  color?: string;
+  attributes?: Record<string, string>;
 };
 
 type CartState = {

@@ -1,17 +1,15 @@
 "use client";
 
 import Spinner from "@/components/spinner";
-import { useFetchProductById } from "@/queries";
-import { useParams, useRouter } from "next/navigation";
-import ProductForm from "../../molecules/product-form";
+import { useFetchProductById } from "@/hooks/queries";
+import { useParams } from "next/navigation";
+import ProductForm from "@/components/products/product-form";
 
 export default function EditProductPage() {
   const slug = useParams()?.slug;
   console.log("slug", slug);
 
-  const router = useRouter();
-
-  const { data, error, isLoading } = useFetchProductById(slug as string);
+  const { data, isLoading } = useFetchProductById(slug as string);
   console.log("data", data);
   const details = data?.data;
 
@@ -23,5 +21,5 @@ export default function EditProductPage() {
     );
   }
 
-  return <ProductForm mode="edit" initialData={details} />;
+  return <ProductForm mode="edit" initialData={details} role="vendor" />;
 }

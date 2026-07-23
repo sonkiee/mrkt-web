@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ChevronRight, Star, SlidersHorizontal, Search } from "lucide-react";
 
 import ProductCard from "@/components/product-card";
-import { useListProducts, useFetchCategory } from "@/queries";
+import { useListProducts, useFetchCategory } from "@/hooks/queries";
 import { defaultCategories } from "@/constants/dummy-data";
 import type { Product } from "@/types";
 
@@ -16,8 +16,6 @@ const PRICE_RANGES = [
   { label: "₦200,000 – ₦500,000", min: 200000, max: 500000 },
   { label: "Over ₦500,000", min: 500000, max: Infinity },
 ];
-
-const CONDITIONS = ["New", "Nigerian Used", "Refurbished"];
 
 export default function ProductsPage() {
   const searchParams = useSearchParams();
@@ -36,7 +34,6 @@ export default function ProductsPage() {
   const [selectedBrand, setSelectedBrand] = useState<string>(paramBrand);
   const [priceMin, setPriceMin] = useState<number | null>(paramPriceMin);
   const [priceMax, setPriceMax] = useState<number | null>(paramPriceMax);
-  const [selectedCondition, setSelectedCondition] = useState<string | null>(null);
   const [sort, setSort] = useState<string>(paramSort);
   const [searchQuery, setSearchQuery] = useState<string>(paramSearch);
 
@@ -102,13 +99,7 @@ export default function ProductsPage() {
       arr = arr.filter((pr) => (pr.minPrice ?? 0) <= priceMax);
     }
 
-    // Condition
-    if (selectedCondition) {
-      const cond = selectedCondition.toLowerCase().replace(/\s+/g, "_");
-      arr = arr.filter((pr) =>
-        pr.variants?.some((v) => v.condition?.toLowerCase().includes(cond))
-      );
-    }
+
 
     // Sort
     switch (sort) {
@@ -129,7 +120,7 @@ export default function ProductsPage() {
     }
 
     return arr;
-  }, [products, searchQuery, selectedCategory, selectedBrand, priceMin, priceMax, selectedCondition, sort]);
+  }, [products, searchQuery, selectedCategory, selectedBrand, priceMin, priceMax, sort]);
 
   // Handle filter changes and update URL
   const updateURL = (key: string, value: string | null) => {
@@ -291,38 +282,6 @@ export default function ProductsPage() {
                 </div>
               )}
 
-              {/* Condition */}
-              <div className="mb-6 pt-4 border-t border-outline-variant/30">
-                <h3 className="text-body-lg font-semibold mb-3">Condition</h3>
-                <div className="space-y-1">
-                  <label className="flex items-center gap-2 text-sm cursor-pointer p-1 rounded hover:bg-surface-container-low">
-                    <input
-                      type="radio"
-                      name="condition"
-                      checked={!selectedCondition}
-                      onChange={() => setSelectedCondition(null)}
-                      className="accent-primary"
-                    />
-                    <span>Any Condition</span>
-                  </label>
-                  {CONDITIONS.map((cond) => (
-                    <label
-                      key={cond}
-                      className="flex items-center gap-2 text-sm cursor-pointer p-1 rounded hover:bg-surface-container-low"
-                    >
-                      <input
-                        type="radio"
-                        name="condition"
-                        checked={selectedCondition === cond}
-                        onChange={() => setSelectedCondition(cond)}
-                        className="accent-primary"
-                      />
-                      <span>{cond}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
               {/* Reset */}
               <button
                 onClick={() => {
@@ -330,7 +289,6 @@ export default function ProductsPage() {
                   setSelectedBrand("");
                   setPriceMin(null);
                   setPriceMax(null);
-                  setSelectedCondition(null);
                   setSearchQuery("");
                   router.push("/products");
                 }}
@@ -421,7 +379,6 @@ export default function ProductsPage() {
                     setSelectedBrand("");
                     setPriceMin(null);
                     setPriceMax(null);
-                    setSelectedCondition(null);
                     setSearchQuery("");
                     router.push("/products");
                   }}

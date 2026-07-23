@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetUserById } from "@/queries/admin";
+import { useGetUserById } from "@/hooks/queries";
 import { date } from "@/utils/date";
 import Image from "next/image";
 import { useParams } from "next/navigation";

@@ -4,8 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cart";
-import { Search, ShoppingBag, User, Heart, Package, ChevronDown, Menu, X } from "lucide-react";
+import { Search, ShoppingBag, User, Heart, Package, ChevronDown, Menu, X, ChevronRight } from "lucide-react";
 import { defaultCategories } from "@/constants/dummy-data";
+import { useFetchCategory } from "@/hooks/queries";
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,6 +15,13 @@ export function SiteHeader() {
   const { items } = useCartStore();
   const pathname = usePathname();
   const router = useRouter();
+
+  const { data: rawCategories = [] } = useFetchCategory();
+  const mainCategories = rawCategories.filter((c: any) => !c.parentId);
+
+  const toggleCategories = () => {
+    setCategoriesOpen(!categoriesOpen);
+  };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,13 +43,13 @@ export function SiteHeader() {
             <span className="bg-primary text-white p-1.5 rounded-lg flex items-center justify-center">
               <ShoppingBag className="h-5 w-5" />
             </span>
-            <span>Lumina</span>
+            <span>MRKT</span>
           </Link>
 
           {/* Categories Dropdown (Desktop) */}
           <div className="hidden lg:relative lg:block">
             <button
-              onClick={() => setCategoriesOpen(!categoriesOpen)}
+              onClick={toggleCategories}
               className="flex items-center gap-1.5 text-label-md text-on-surface hover:text-primary font-bold transition-colors py-2 px-3 rounded-lg hover:bg-surface-container-low"
             >
               <span>Categories</span>
@@ -54,17 +62,23 @@ export function SiteHeader() {
                   className="fixed inset-0 z-10" 
                   onClick={() => setCategoriesOpen(false)}
                 />
-                <div className="absolute left-0 mt-2 w-64 bg-white border border-outline-variant/30 rounded-xl shadow-lg z-20 py-2 animate-in fade-in slide-in-from-top-1 duration-150">
-                  {defaultCategories.map((cat) => (
+                <div className="absolute left-0 mt-2 w-56 bg-white border border-outline-variant/30 rounded-2xl shadow-xl z-20 flex flex-col overflow-hidden p-1.5 animate-in fade-in slide-in-from-top-1 duration-150 max-h-[380px] overflow-y-auto">
+                  {mainCategories.map((cat: any) => (
                     <Link
-                      key={cat.slug}
+                      key={cat.id || cat.slug}
                       href={`/category/${cat.slug}`}
                       onClick={() => setCategoriesOpen(false)}
-                      className="block px-4 py-2 text-body-md text-on-surface-variant hover:text-primary hover:bg-surface-container-low capitalize"
+                      className="w-full flex items-center justify-between px-3 py-2 text-xs font-bold text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded-lg transition-colors capitalize"
                     >
-                      {cat.name}
+                      <span>{cat.name}</span>
+                      <ChevronRight className="h-3 w-3 opacity-40 transition-opacity" />
                     </Link>
                   ))}
+                  {mainCategories.length === 0 && (
+                    <p className="text-xs text-outline-variant italic p-3 text-center">
+                      No categories available.
+                    </p>
+                  )}
                 </div>
               </>
             )}
@@ -106,7 +120,7 @@ export function SiteHeader() {
           
           {/* Wishlist */}
           <Link
-            href="/wishlist"
+            href="/account?tab=wishlist"
             className="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded-lg transition-colors relative"
             aria-label="Wishlist"
           >
@@ -115,7 +129,7 @@ export function SiteHeader() {
 
           {/* Orders */}
           <Link
-            href="/account/orders"
+            href="/account?tab=orders"
             className="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded-lg transition-colors relative"
             aria-label="Orders"
           >
@@ -183,7 +197,7 @@ export function SiteHeader() {
               Categories
             </p>
             <div className="grid grid-cols-2 gap-1 max-h-48 overflow-y-auto p-1 border rounded-lg bg-surface-container-lowest">
-              {defaultCategories.map((cat) => (
+              {(mainCategories.length > 0 ? mainCategories : defaultCategories).map((cat) => (
                 <Link
                   key={cat.slug}
                   href={`/category/${cat.slug}`}
@@ -198,14 +212,14 @@ export function SiteHeader() {
 
           <div className="border-t border-outline-variant/30 pt-3 flex flex-col gap-1">
             <Link
-              href="/wishlist"
+              href="/account?tab=wishlist"
               onClick={() => setMenuOpen(false)}
               className="py-2.5 px-3 rounded-lg text-body-md font-medium text-on-surface-variant hover:text-primary hover:bg-surface-container-low"
             >
               My Wishlist
             </Link>
             <Link
-              href="/account/orders"
+              href="/account?tab=orders"
               onClick={() => setMenuOpen(false)}
               className="py-2.5 px-3 rounded-lg text-body-md font-medium text-on-surface-variant hover:text-primary hover:bg-surface-container-low"
             >

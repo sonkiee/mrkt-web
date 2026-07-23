@@ -4,7 +4,7 @@ import Spinner from "@/components/spinner";
 import Failed from "./failed";
 import Success from "./success";
 import { useSearchParams } from "next/navigation";
-import { useFetchPaymentStatus } from "@/queries/payment";
+import { useFetchPaymentStatus } from "@/hooks/queries";
 import { useCartStore } from "@/store";
 import { useEffect, useRef } from "react";
 import { stat } from "fs";
@@ -53,10 +53,7 @@ export default function VerifyPage() {
   if (isPending) {
     return (
       <CenterWrapper>
-        <div className="flex flex-col items-center gap-4">
-          <Spinner />
-          <p className="text-sm text-gray-500">Verifying your payment...</p>
-        </div>
+        <Spinner infoText="Verifying your payment..." />
       </CenterWrapper>
     );
   }

@@ -1,9 +1,13 @@
 import { actionClient } from "@/lib/safe-action";
+import { z } from "zod";
 import {
   createProductSchema,
   deleteImageSchema,
   inviteAdminSchema,
   updateProductSchema,
+  createBrandSchema,
+  createCategorySchema,
+  updateCategorySchema,
 } from "@/schema";
 import { api } from "@/lib/axios";
 
@@ -63,5 +67,51 @@ export const inviteAdmin = actionClient
   .inputSchema(inviteAdminSchema)
   .action(async ({ parsedInput: { email } }) => {
     const response = await api.post("/admin/promote", { email });
+    return response.data;
+  });
+
+export const createBrand = actionClient
+  .inputSchema(createBrandSchema)
+  .action(async ({ parsedInput }) => {
+    const response = await api.post("/admin/brands", parsedInput);
+    return response.data;
+  });
+
+export const createVendorBrand = actionClient
+  .inputSchema(createBrandSchema)
+  .action(async ({ parsedInput }) => {
+    const response = await api.post("/vendor/brands", parsedInput);
+    return response.data;
+  });
+
+export const createCategoryAction = actionClient
+  .inputSchema(createCategorySchema)
+  .action(async ({ parsedInput }) => {
+    const response = await api.post("/admin/categories", parsedInput);
+    return response.data;
+  });
+
+export const updateCategoryAction = actionClient
+  .inputSchema(updateCategorySchema)
+  .action(async ({ parsedInput }) => {
+    const { id, ...rest } = parsedInput;
+    const response = await api.put(`/admin/categories/${id}`, rest);
+    return response.data;
+  });
+
+export const updateVendorByAdminAction = actionClient
+  .inputSchema(
+    z.object({
+      id: z.string().uuid("Invalid vendor ID"),
+      businessName: z.string().min(1, "Business name is required"),
+      businessEmail: z.string().email("Invalid email address"),
+      phone: z.string().min(1, "Phone number is required"),
+      description: z.string().optional(),
+      address: z.string().optional(),
+    })
+  )
+  .action(async ({ parsedInput }) => {
+    const { id, ...rest } = parsedInput;
+    const response = await api.put(`/admin/vendors/${id}`, rest);
     return response.data;
   });

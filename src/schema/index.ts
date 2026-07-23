@@ -38,15 +38,7 @@ export const productImageSchema = z.object({
 export const productVariantSchema = z.object({
   sku: z.string().max(80, "SKU cannot exceed 80 characters").optional(),
 
-  condition: z.string().min(1, "Condition is required"),
-
-  storage: z.coerce
-    .number()
-    .min(0, "Storage must be a whole number")
-    // .positive("Storage must be a positive number")
-    .optional(),
-
-  color: z.string().max(60, "Color cannot exceed 60 characters").optional(),
+  attributes: z.record(z.string(), z.string()).default({}),
 
   price: z.coerce.number().positive("Price must be a positive number"),
 
@@ -196,3 +188,37 @@ export type SignupData = z.infer<typeof signupSchema>;
 
 export type ShippingData = z.infer<typeof shippingSchema>;
 export type CreateOrderData = z.infer<typeof createOrderSchema>;
+
+export const createBrandSchema = z.object({
+  name: z.string().min(1, "Brand name is required").max(100),
+});
+
+export type CreateBrandData = z.infer<typeof createBrandSchema>;
+
+export const createCategorySchema = z.object({
+  name: z.string().min(1, "Category name is required").max(100),
+  description: z.string().optional(),
+  parentId: z.string().uuid().optional().nullable(),
+  allowedAttributes: z.object({
+    variantOptions: z.array(z.string()).default([]),
+    specFields: z.array(z.string()).default([]),
+  }).default({ variantOptions: [], specFields: [] }),
+});
+
+export type CreateCategoryData = z.infer<typeof createCategorySchema>;
+
+export const updateCategorySchema = createCategorySchema.extend({
+  id: z.string().uuid("Invalid category ID"),
+});
+
+export type UpdateCategoryData = z.infer<typeof updateCategorySchema>;
+
+export const vendorProfileSchema = z.object({
+  businessName: z.string().min(2, "Store name is required"),
+  businessEmail: z.string().email("Invalid email").optional().or(z.literal("")),
+  phone: z.string().min(10, "Valid phone number is required"),
+  description: z.string().min(10, "Description must be at least 10 characters"),
+  address: z.string().min(5, "Address is required"),
+});
+
+export type VendorProfileData = z.infer<typeof vendorProfileSchema>;

@@ -61,7 +61,7 @@ export default function SignupPage() {
           className="absolute inset-0 bg-cover bg-center transition-transform duration-[10s] hover:scale-110"
           style={{
             backgroundImage:
-              "url('https://placehold.co/900x1080/00685f/FFFFFF?text=Lumina'), linear-gradient(135deg,#00685f 0%,#003d38 100%)",
+              "url('https://placehold.co/900x1080/00685f/FFFFFF?text=MRKT'), linear-gradient(135deg,#00685f 0%,#003d38 100%)",
           }}
         />
         {/* Gradient overlay */}
@@ -76,7 +76,7 @@ export default function SignupPage() {
             }}
           >
             <h1 className="text-[28px] leading-[34px] font-bold tracking-tight mb-4">
-              Welcome to Lumina
+              Welcome to MRKT
             </h1>
             <p className="text-[16px] leading-relaxed opacity-90">
               Experience the next generation of premium tech solutions and
@@ -99,7 +99,7 @@ export default function SignupPage() {
         {/* Floating logo */}
         <div className="absolute top-12 left-12">
           <span className="text-[28px] font-extrabold tracking-tight text-white drop-shadow-md">
-            Lumina
+            MRKT
           </span>
         </div>
       </section>
@@ -113,17 +113,17 @@ export default function SignupPage() {
           {/* Mobile branding */}
           <div className="md:hidden flex justify-center mb-8">
             <span className="text-[28px] font-extrabold tracking-tight text-primary">
-              Lumina
+              MRKT
             </span>
           </div>
 
           {/* Form header */}
           <div className="text-center mb-8">
             <h2 className="text-[22px] leading-[28px] font-bold tracking-tight text-[#0b1c30]">
-              Create your Lumina Account
+              Create your MRKT Account
             </h2>
             <p className="text-[14px] leading-[20px] text-[#3d4947] mt-2">
-              Join the Lumina community today
+              Join the MRKT community today
             </p>
           </div>
 
